@@ -1,0 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<style>
+#content .jumbotron, #content .navbar{
+	display:none;
+}
+</style>    
+    
+    
+    </div>	<!-- .container end -->
+    <!-- footer -->
+    <div class="jumbotron jumbotron-fluid text-center" style="margin-bottom: 0;">
+        <footer>
+	        <h5>&copy;Copyright|CaDuk|010-0000-0000|서울 강남구</h5>
+        </footer>
+    </div>
+</body>
+</html>
