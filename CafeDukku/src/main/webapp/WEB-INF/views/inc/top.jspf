@@ -26,7 +26,11 @@
     display: none;
 }
 </style>
-
+<script>
+const goScan=function(){
+    location.href="evaluation.html";
+}
+</script>
 </head>
 <body>
     <div class="container-fluid">
@@ -35,6 +39,50 @@
         
             <h1>카페 덕후(Cafe Dukku)</h1>
         </div>
+        <nav class="navbar navbar-expand-sm bg-light navbar-light">
+    <!-- Brand -->
+    <div class="col-xs-2">
+        <a class="navbar-brand" href="#">Logo</a>
+
     </div>
+
+    <!-- Search -->
+    <form class="form-inline" action="/">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-success" type="submit">Search</button>
+    </form>
+    <!-- Scan -->
+    <div class="col-xs-3">
+        <button class="btn btn-warning" type="button" onclick="goScan()">Scan</button>
+    </div>
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <!-- Dropdown -->
+
+        <li class="nav-item dropdown"><a
+            class="nav-link dropdown-toggle" href="#" id="navbardrop2"
+            data-toggle="dropdown">${loginUser.name} 님 로그인 중.. </a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="${myctx}/myPage">MyPage</a>
+            </div>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="${myctx}/myPage">MyShop</a>
+            </div>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="${myctx}/myPage">LogOut</a>
+            </div>
+        </li>
+           <!-- 로그인 하지 않은 경우  -->
+        <li class="nav-item"><a class="nav-link" href="/signUp">SignUp</a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="${myctx}/login">SignIn</a>
+        </li>
+            
+    </ul>
+</nav>
+    </div>
+    
+    
+    
 <div class="container mt-3" id="content">
     

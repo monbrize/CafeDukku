@@ -10,4 +10,9 @@ public class HomeController {
 	public String goHome() {
 		return "home";
 	}
+	
+	@GetMapping("/signUp")
+	public String goSignUp() {
+		return "signUp";
+	}
 }
