@@ -8,7 +8,9 @@ public interface MemberService {
 
 	int newMember(MemberVO vo);
 	int updateMember(MemberVO vo);
-	MemberVO getMember(int idx);
+	boolean idCheck(String email);
+	boolean pwdCheck(String email, String pwd);
+	MemberVO getMember(String email);
 	List<MemberVO> listMember();
 	
 }

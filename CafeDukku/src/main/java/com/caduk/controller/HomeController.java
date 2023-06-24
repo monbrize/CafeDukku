@@ -15,4 +15,20 @@ public class HomeController {
 	public String goSignUp() {
 		return "signUp";
 	}
+	@GetMapping("/signIn")
+	public String goSignIn() {
+		return "signIn";
+	}
+	@GetMapping("/eval")
+	public String goEval() {
+		return "evaluation";
+	}
+	@GetMapping("/viewCafe")
+	public String goViewCafe() {
+		return "viewCafe";
+	}
+	@GetMapping("/newCafe")
+	public String goNewCafe() {
+		return "newCafe";
+	}
 }

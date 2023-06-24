@@ -11,6 +11,7 @@ public interface MemberMapper {
 
 	int newMember(MemberVO vo);
 	int updateMember(MemberVO vo);
-	MemberVO getMember(int idx);
+	int idCheck(String email);
+	MemberVO getMember(String email);
 	List<MemberVO> listMember();
 }

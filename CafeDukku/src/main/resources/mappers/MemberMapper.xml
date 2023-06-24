@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caduk.mapper.MemberMapper">
+	<insert id="newMember" parameterType="MemberVO">
+		INSERT INTO MEMBER(IDX, EMAIL, PWD, NAME, PHONE, STATUS, ROLL) 
+		VALUES (IDX_SEQ.NEXTVAL, #{email}, #{pwd}, #{name:VARCHAR}, #{phone:VARCHAR}, 'O', 'GENERAL') 
+	</insert>
+	
+	<select id="getMember" parameterType="String" resultType="MemberVO">
+		SELECT * FROM MEMBER WHERE EMAIL=#{VAL}
+	</select>
+</mapper>
