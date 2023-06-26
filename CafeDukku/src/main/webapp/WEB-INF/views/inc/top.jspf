@@ -74,7 +74,7 @@ const goScan=function(){
             </div>
         </li>
             <li class="nav-item">
-                <a class="dropdown-item" href="${myctx}/myPage">LogOut</a>
+                <a class="dropdown-item" href="${myctx}/signOut">SignOut</a>
             </li>
 	</c:if>
 	<c:if test="${loginUser eq null }">

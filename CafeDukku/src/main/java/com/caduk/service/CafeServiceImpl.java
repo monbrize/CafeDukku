@@ -1,5 +1,7 @@
 package com.caduk.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +33,8 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public CafeVO viewCafe(int cafeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public CafeVO viewCafe(int idx) {
+		return this.cafeMapper.viewCafe(idx);
 	}
 
 	@Override
@@ -45,6 +46,40 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public int updateOwner(int idx) {
 		return this.cafeMapper.updateOwner(idx);
+	}
+
+	@Override
+	public int addImg(int cafeid, String img_type, String img_name) {
+		return this.cafeMapper.addImg(cafeid, img_type, img_name);
+	}
+
+	@Override
+	public int removeImg(int cafeid, String img_type, String img_name) {
+		// TODO Auto-generated method stub
+		return this.cafeMapper.removeImg(cafeid, img_type, img_name);
+	}
+
+	@Override
+	public int removeAllImg(int cafeid, String img_type) {
+		// TODO Auto-generated method stub
+		return this.cafeMapper.removeAllImg(cafeid, img_type);
+	}
+
+	@Override
+	public String logoImg(int cafeid) {
+		// TODO Auto-generated method stub
+		return this.cafeMapper.logoImg(cafeid);
+	}
+
+	@Override
+	public List<String> menuImg(int cafeid) {
+		return this.cafeMapper.menuImg(cafeid);
+	}
+
+	@Override
+	public List<String> cafeImg(int cafeid) {
+		// TODO Auto-generated method stub
+		return this.cafeMapper.cafeImg(cafeid);
 	}
 
 }

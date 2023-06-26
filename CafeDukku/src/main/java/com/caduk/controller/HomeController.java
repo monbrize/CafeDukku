@@ -31,4 +31,5 @@ public class HomeController {
 	public String goNewCafe() {
 		return "newCafe";
 	}
+
 }

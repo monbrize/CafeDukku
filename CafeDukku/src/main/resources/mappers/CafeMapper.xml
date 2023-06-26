@@ -10,4 +10,24 @@
 	<update id="updateOwner" parameterType="int">
 		update member set roll='OWNER' where idx=#{val}
 	</update>
+	<select id="viewCafe" parameterType="int" resultType="CafeVO">
+		select * from cafe where idx=#{val}
+	</select>
+	
+	<!-- 이미지 -->
+	<insert id="addImg">
+		insert into cafe_img values(#{cafeid}, #{img_type}, #{img_name})
+	</insert>
+	<delete id="removeImg">
+		delete from cafe_img where cafeid=#{cafeid} and img_type=#{img_type} and img_name=#{img_name}
+	</delete>
+	<select id="logoImg" parameterType="int" resultType="String">
+		select img_name from cafe_img where cafeid=#{cafeid} and img_type='LOGO'
+	</select>
+	<select id="menuImg" parameterType="String" resultType="List">
+		select img_name from cafe_img where cafeid=#{cafeid} and img_type='MENU'
+	</select>
+	<select id="cafeImg" parameterType="String" resultType="List">
+		select img_name from cafe_img where cafeid=#{cafeid} and img_type='CAFE'
+	</select>
 </mapper>
