@@ -31,7 +31,7 @@ public class MemberController {
 		String loc=(n>0)?"home":"javascript:history.back()";
 		m.addAttribute("msg", str);
 		m.addAttribute("loc", loc);
-		return "message";
+		return "common/message";
 		
 	}
 	@PostMapping("/login")
