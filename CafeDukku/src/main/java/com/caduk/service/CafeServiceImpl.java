@@ -82,4 +82,14 @@ public class CafeServiceImpl implements CafeService {
 		return this.cafeMapper.cafeImg(cafeid);
 	}
 
+	@Override
+	public int addTag(CafeVO vo) {
+		return this.cafeMapper.addTag(vo);
+	}
+
+	@Override
+	public int removeTag(CafeVO vo) {
+		return this.cafeMapper.removeTag(vo);
+	}
+
 }

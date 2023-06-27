@@ -14,7 +14,15 @@
 		select * from cafe where idx=#{val}
 	</select>
 	
-	<!-- 이미지 -->
+	<!-- 태그  -->
+	<insert id="addTag" parameterType="CafeVO">
+		insert into cafe_tag(cafeid, tag_type, tag_name) values(#{cafeid}, #{tag_type}, #{tag_name})
+	</insert>
+	<delete id="removeTag" parameterType="CafeVO">
+		delete from cafe_tag where cafeid=#{cafeid} and tag_type=#{tag_type} and tag_name=#{tag_name}
+	</delete>
+	<!-- 	
+	이미지
 	<insert id="addImg">
 		insert into cafe_img values(#{cafeid}, #{img_type}, #{img_name})
 	</insert>
@@ -30,4 +38,5 @@
 	<select id="cafeImg" parameterType="String" resultType="List">
 		select img_name from cafe_img where cafeid=#{cafeid} and img_type='CAFE'
 	</select>
+	 -->
 </mapper>

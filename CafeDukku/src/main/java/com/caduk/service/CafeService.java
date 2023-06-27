@@ -20,5 +20,7 @@ public interface CafeService {
 	String logoImg(int cafeid);
 	List<String> menuImg(int cafeid);
 	List<String> cafeImg(int cafeid);
-	//int addTag(CafeVO vo);
+	
+	int addTag(CafeVO vo);
+	int removeTag(CafeVO vo);
 }

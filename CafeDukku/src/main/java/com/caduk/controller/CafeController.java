@@ -5,11 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +23,7 @@ import com.caduk.service.CafeService;
 import lombok.extern.log4j.Log4j2;
 
 
-@RestController
+@Controller
 @Log4j2
 public class CafeController {
 	
@@ -38,6 +41,7 @@ public class CafeController {
 		return "common/message";
 	}
 	@GetMapping("/editCafe")
+	@ResponseBody
 	public ModelAndView goEditCafe(HttpSession session) {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
@@ -48,4 +52,35 @@ public class CafeController {
 		mv.setViewName("updateCafe");
 		return mv;
 	}
+	
+	@GetMapping(value="/addTag", produces="application/json")
+	@ResponseBody
+	public ModelMap addtoTag(int cafeid, String tag_type,String tag_name
+			) {
+		System.out.println("------------");
+		CafeVO vo=new CafeVO();
+		vo.setCafeid(cafeid);
+		vo.setTag_type(tag_type);
+		vo.setTag_name(tag_name);
+		System.out.println(vo.toString());
+		int n=this.cafeService.addTag(vo);
+		String res=(n>0)?"success":"failed";
+		System.out.println("n::::"+n+"/res:::::"+res);
+		ModelMap map=new ModelMap("result",res);
+		return map;
+	}
+	@GetMapping(value="/deleteTag")
+	@ResponseBody
+	public String removeTag(@RequestParam String tag_type, @RequestParam String tag_name, @RequestParam int cafeid) {
+		CafeVO vo=new CafeVO();
+		vo.setCafeid(cafeid);
+		vo.setTag_type(tag_type);
+		vo.setTag_name(tag_name);
+		System.out.println(vo.toString());
+		int n=this.cafeService.removeTag(vo);
+		String res=(n>0)?"success":"failed";
+		return res;
+	}
+	
+	
 }
