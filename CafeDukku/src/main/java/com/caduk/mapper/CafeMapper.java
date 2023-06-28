@@ -19,9 +19,9 @@ public interface CafeMapper {
 	int addTag(CafeVO vo);
 	int removeTag(CafeVO vo);
 	
-	int addImg(int cafeid, String img_type, String img_name);
-	int removeImg(int cafeid, String img_type, String img_name);
-	int removeAllImg(int cafeid, String img_type);
+	int addImg(CafeVO vo);
+	int removeImg(CafeVO vo);
+	int removeAllImg(CafeVO vo);
 	String logoImg(int cafeid);
 	List<String> menuImg(int cafeid);
 	List<String> cafeImg(int cafeid);

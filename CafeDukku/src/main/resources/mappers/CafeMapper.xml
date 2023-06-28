@@ -14,6 +14,12 @@
 		select * from cafe where idx=#{val}
 	</select>
 	
+	<update id="updateCafe" parameterType="CafeVO" >
+		update cafe set cafename=#{cafename}, cafename2=#{cafename2:VARCHAR}, inform=#{inform:VARCHAR}, notice=#{notice:VARCHAR},
+			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
+			where cafeid=#{cafeid}
+	</update>
+	
 	<!-- 태그  -->
 	<insert id="addTag" parameterType="CafeVO">
 		insert into cafe_tag(cafeid, tag_type, tag_name) values(#{cafeid}, #{tag_type}, #{tag_name})
@@ -21,9 +27,8 @@
 	<delete id="removeTag" parameterType="CafeVO">
 		delete from cafe_tag where cafeid=#{cafeid} and tag_type=#{tag_type} and tag_name=#{tag_name}
 	</delete>
-	<!-- 	
-	이미지
-	<insert id="addImg">
+	<!-- 이미지-->
+	<insert id="addImg" parameterType="CafeVO">
 		insert into cafe_img values(#{cafeid}, #{img_type}, #{img_name})
 	</insert>
 	<delete id="removeImg">
@@ -38,5 +43,4 @@
 	<select id="cafeImg" parameterType="String" resultType="List">
 		select img_name from cafe_img where cafeid=#{cafeid} and img_type='CAFE'
 	</select>
-	 -->
 </mapper>

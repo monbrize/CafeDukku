@@ -14,9 +14,9 @@ public interface CafeService {
 	int updateOwner(int idx);
 	
 	//cafeid, tag_type, tag_name
-	int addImg(int cafeid, String img_type, String img_name);
-	int removeImg(int cafeid, String img_type, String img_name);
-	int removeAllImg(int cafeid, String img_type);	//타입별 전체삭제
+	int addImg(CafeVO vo);
+	int removeImg(CafeVO vo);
+	int removeAllImg(CafeVO vo);	//타입별 전체삭제
 	String logoImg(int cafeid);
 	List<String> menuImg(int cafeid);
 	List<String> cafeImg(int cafeid);

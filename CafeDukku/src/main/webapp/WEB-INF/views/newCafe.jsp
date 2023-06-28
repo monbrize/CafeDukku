@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- ckEditor 4 CDN ----------------------------------------------------------- -->
+<script src="https://cdn.ckeditor.com/4.17.2/standard/ckeditor.js"></script>
+<!-- -------------------------------------------------------------------------- -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+$(function(){
+	CKEDITOR.replace('infoForm');
+})
 
 $(document).ready(function () {
 
@@ -26,7 +33,16 @@ $(document).ready(function () {
     });
    
 });
-
+const findAddr=function(){
+    //카카오 지도 발생
+    new daum.Postcode({
+        oncomplete: function(data) { //선택시 입력값 세팅
+            document.getElementById("postcode").value = data.zonecode;
+            document.getElementById("loc1").value = data.address; // 주소 넣기
+            document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
+        }
+    }).open();
+};
 
 </script>
         <h1>매장 등록</h1>
@@ -71,7 +87,7 @@ $(document).ready(function () {
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 소개 </label></td><td>
-                       <input type="text" name="inform" class="form-control"> 
+                       <input type="text" name="inform" id="infoForm" class="form-control"> 
                     </td>
                 </tr>
                 <tr scope="row">
@@ -89,13 +105,14 @@ $(document).ready(function () {
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 우편번호 </label></td><td>
-                       <input type="text" name="postcode" class="form-control"> 
+                       <input type="text" name="postcode" id="postcode"  class="form-control"> 
+                       <input type="button" class="btn btn-warning" onclick="findAddr()" value="찾기">
                     </td>
                 </tr>
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 주소 1 </label></td><td>
-                       <input type="text" name="loc1" class="form-control"> 
+                       <input type="text" name="loc1" id="loc1" class="form-control"> 
                     </td>
                 </tr>
                 <tr scope="row">

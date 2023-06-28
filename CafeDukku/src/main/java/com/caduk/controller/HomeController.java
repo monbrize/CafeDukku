@@ -23,10 +23,7 @@ public class HomeController {
 	public String goEval() {
 		return "evaluation";
 	}
-	@GetMapping("/viewCafe")
-	public String goViewCafe() {
-		return "viewCafe";
-	}
+
 	@GetMapping("/newCafe")
 	public String goNewCafe() {
 		return "newCafe";

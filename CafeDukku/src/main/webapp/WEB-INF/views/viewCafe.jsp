@@ -1,8 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a"></script>
 <script>
+//let kakao_rest_key='9bc0d569fd0b0a9b1073210142036684';
+
 $(document).ready(function () {
-    $('.starRev span').click(function(){
+	let coords;
+	let Xx, Yy;
+	let geocoder = new kakao.maps.services.Geocoder();
+	let container = document.getElementById('locMap'); //지도를 담을 영역의 DOM 레퍼런스
+	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+			/* 카카오맵 출력 */
+			let options = { //지도를 생성할 때 필요한 기본 옵션
+				center: new kakao.maps.LatLng(result[0].y, result[0].x),
+				level: 3 //지도의 레벨(확대, 축소 정도)
+			}; 
+			let marker = new kakao.maps.Marker({
+				position:options.center
+			});
+			let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+			marker.setMap(map);
+	    }
+	});
+
+	
+	$('.starRev span').click(function(){
         $(this).parent().children('span').removeClass('on');
         $(this).addClass('on').prevAll('span').addClass('on');
         //alert($(this).attr("value"));
@@ -37,7 +61,6 @@ img {
 #locMap {
 	width: 300px;
 	height: 300px;
-	background-color: antiquewhite;
 	float: left;
 	margin-right: 10px;
 }
@@ -50,10 +73,10 @@ img {
 	<div id="topInfo" class="row">
 		<!-- 로고/상호명/평균스코어 -->
 		<div class="col-1"></div>
-		<img src="logo-01.jpeg" alt="logo" width="50px" height="50px">
-		<div class="col-7">
-			<h3 class="display-3">Moon Child</h3>
-			<h5>문차일드</h5>
+		<img src="../../logo_img/${cafe.cafeid}_shop_01.jpeg" alt="logo" width="50px" height="50px">
+		<div class="col-7">	
+			<h4 class="display-4">${cafe.cafename }</h4>
+			<h5>${cafe.cafename2 }</h5>
 		</div>
 		<div class="col-2">
 			<h4 class="display-4">⭐️4.1</h4>
@@ -66,14 +89,12 @@ img {
 	</div>
 	<div id="midInfo" class="row">
 		<!-- 지도, 공지, 정보, 소개 -->
-		<div id="locMap" class="col-3"></div>
+		<div id="locMap" class="col-3">
+		<input type="hidden" id="mapLoc" value="${cafe.loc1 }">
+		</div>
 		<div id="notice" class="col-7">
-			notice : 오늘은 쉽니다 ...
-			<div id="infoText">국내에 첫 에스프레소 붐을 일으킨 곳으로 2018년 약수역 부근에 스탠딩커피
-				바를 열며 사람들에게 입소문을 타다 지난 2월에는 청담동에 테이블 자리까지 갖춘 공간을 열며 더욱 큰 사랑을 받고 있다.
-				당시 입문자용으로 ‘카페 피에노’를 추천 받았고, 카카오 토핑이 더해진 쫀득한 크림과 진한 에스프레소를 함께 마시니 참으로
-				황홀했던 기억이다. 이후 에스프레소에 생크림이 들어간 카페 콘판나와 기본 에스프레소 두 잔을 그 자리에서 또 주문해 바로
-				비워냈다.</div>
+			notice : ${cafe.notice }
+			<div id="infoText">${cafe.inform }</div>
 		</div>
 	</div>
 	<div id="rankInfo" class="row">
@@ -103,19 +124,19 @@ img {
 		<div id="menuImg">
 			MENU
 			<ul>
-				<li><img src="menu01.jpeg"
+				<li><img src="../../image_home/menu01.jpeg"
 					onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')"
 					alt="" loading="lazy"></li>
-				<li><img src="menu02.jpeg" alt=""></li>
+				<li><img src="../../image_home/menu03.jpeg" alt=""></li>
 			</ul>
 		</div>
 		<div id="shopImg">
 			SHOP PHOTOS
 			<ul>
-				<li><img src="shopImg-01.jpeg" alt=""></li>
-				<li><img src="shopImg-02.jpeg" alt=""></li>
-				<li><img src="shopImg-03.jpeg" alt=""></li>
-				<li><img src="shopImg-04.jpeg" alt=""></li>
+				<li><img src="../../image_home/shopImg-01.jpeg" alt=""></li>
+				<li><img src="../../image_home/shopImg-02.jpeg" alt=""></li>
+				<li><img src="../../image_home/shopImg-03.jpeg" alt=""></li>
+				<li><img src="../../image_home/shopImg-04.jpeg" alt=""></li>
 			</ul>
 
 		</div>

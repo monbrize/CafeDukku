@@ -22,8 +22,7 @@ public class CafeServiceImpl implements CafeService {
 
 	@Override
 	public int updateCafe(CafeVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.cafeMapper.updateCafe(vo);
 	}
 
 	@Override
@@ -49,20 +48,18 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public int addImg(int cafeid, String img_type, String img_name) {
-		return this.cafeMapper.addImg(cafeid, img_type, img_name);
+	public int addImg(CafeVO vo) {
+		return this.cafeMapper.addImg(vo);
 	}
 
 	@Override
-	public int removeImg(int cafeid, String img_type, String img_name) {
-		// TODO Auto-generated method stub
-		return this.cafeMapper.removeImg(cafeid, img_type, img_name);
+	public int removeImg(CafeVO vo) {
+		return this.cafeMapper.removeImg(vo);
 	}
 
 	@Override
-	public int removeAllImg(int cafeid, String img_type) {
-		// TODO Auto-generated method stub
-		return this.cafeMapper.removeAllImg(cafeid, img_type);
+	public int removeAllImg(CafeVO vo) {
+		return this.cafeMapper.removeAllImg(vo);
 	}
 
 	@Override
