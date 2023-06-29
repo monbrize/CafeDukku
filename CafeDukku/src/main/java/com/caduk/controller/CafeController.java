@@ -51,6 +51,7 @@ public class CafeController {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
+		System.out.println(member.toString());
 		int idx=member.getIdx();
 		cafe=cafeService.viewCafe(idx);
 		mv.addObject("cafe", cafe);
@@ -79,6 +80,7 @@ public class CafeController {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
+		System.out.println(member.toString());
 		int idx=member.getIdx();
 		cafe=cafeService.viewCafe(idx);
 		mv.addObject("cafe", cafe);
