@@ -19,7 +19,7 @@
 			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
 			where cafeid=#{cafeid}
 	</update>
-	
+	 
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="List">
 		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}

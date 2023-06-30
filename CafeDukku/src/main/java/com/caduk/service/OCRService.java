@@ -43,7 +43,7 @@ public class OCRService {
 			images.put(image);
 			json.put("images", images);
 			String postParams = json.toString();
-
+ 
 			con.connect();
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 			long start = System.currentTimeMillis();

@@ -175,7 +175,7 @@ $(function(){
 					<!-- 사진 없을 때 기본 사진 설정 -->
 				<img src="../../menu_img/menu_init.jpg" alt="menu">
 				</c:if>
-			</div>
+			</div> 
 		</div>
 		<div id="shopImg" class="col-7 ml-3">
 			<button id="left-shop-btn" class="shop-btn btn btn-outline-dark"><</button>

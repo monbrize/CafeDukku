@@ -200,7 +200,7 @@ const delTag=function(e, str){
 				<td><label class="form-label"> 메뉴 </label>
 					<button type="button" class="btn btn-dark" id="addMenuImg">추가</button>
 				</td>
-				<td>
+				<td> 
 					<div id="menuArea">
 					<c:if test="${(imgs.img_type eq 'menu') ne null}" >
 						<!-- 사진이 있다면 -->

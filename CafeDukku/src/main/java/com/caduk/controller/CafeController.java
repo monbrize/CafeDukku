@@ -100,7 +100,7 @@ public class CafeController {
 				}
 			}
 		}
-	}
+	} 
 	@PostMapping("/updateCafe")
 	public String updateCafe(Model m, @ModelAttribute CafeVO vo, HttpServletRequest req) {
 		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/logo_img";		
