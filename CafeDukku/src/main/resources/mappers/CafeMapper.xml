@@ -21,6 +21,9 @@
 	</update>
 	
 	<!-- 태그  -->
+	<select id="cafeTag" resultType="List">
+		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}
+	</select>
 	<insert id="addTag" parameterType="CafeVO">
 		insert into cafe_tag(cafeid, tag_type, tag_name) values(#{cafeid}, #{tag_type}, #{tag_name})
 	</insert>
@@ -29,18 +32,15 @@
 	</delete>
 	<!-- 이미지-->
 	<insert id="addImg" parameterType="CafeVO">
-		insert into cafe_img values(#{cafeid}, #{img_type}, #{img_name})
+		insert into cafe_img values(imgid.nextval, #{cafeid}, #{img_type}, #{img_name}, #{img_name_origin})
 	</insert>
+	<select id="cafeImg" resultType="List">
+		select imgid, img_type, img_name, img_name_origin from cafe_img where cafeid=#{cafeid}
+	</select>
+	<select id="cafeImgbyId" resultType="CafeVO">
+		select imgid, img_type, img_name, img_name_origin from cafe_img where imgid=#{val}
+	</select>
 	<delete id="removeImg">
-		delete from cafe_img where cafeid=#{cafeid} and img_type=#{img_type} and img_name=#{img_name}
+		delete from cafe_img where imgid=#{val}
 	</delete>
-	<select id="logoImg" parameterType="int" resultType="String">
-		select img_name from cafe_img where cafeid=#{cafeid} and img_type='LOGO'
-	</select>
-	<select id="menuImg" parameterType="String" resultType="List">
-		select img_name from cafe_img where cafeid=#{cafeid} and img_type='MENU'
-	</select>
-	<select id="cafeImg" parameterType="String" resultType="List">
-		select img_name from cafe_img where cafeid=#{cafeid} and img_type='CAFE'
-	</select>
 </mapper>

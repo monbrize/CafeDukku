@@ -15,12 +15,11 @@ public interface CafeService {
 	
 	//cafeid, tag_type, tag_name
 	int addImg(CafeVO vo);
-	int removeImg(CafeVO vo);
-	int removeAllImg(CafeVO vo);	//타입별 전체삭제
-	String logoImg(int cafeid);
-	List<String> menuImg(int cafeid);
-	List<String> cafeImg(int cafeid);
-	
+	List<CafeVO> cafeImg(int cafeid);
+	int removeImg(int imgid);
+
 	int addTag(CafeVO vo);
+	List<CafeVO> cafeTag(int cafeid);
 	int removeTag(CafeVO vo);
+	CafeVO cafeImgbyId(int imgid);
 }

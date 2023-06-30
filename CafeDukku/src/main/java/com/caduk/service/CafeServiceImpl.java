@@ -53,28 +53,12 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public int removeImg(CafeVO vo) {
-		return this.cafeMapper.removeImg(vo);
+	public int removeImg(int imgid) {
+		return this.cafeMapper.removeImg(imgid);
 	}
 
 	@Override
-	public int removeAllImg(CafeVO vo) {
-		return this.cafeMapper.removeAllImg(vo);
-	}
-
-	@Override
-	public String logoImg(int cafeid) {
-		// TODO Auto-generated method stub
-		return this.cafeMapper.logoImg(cafeid);
-	}
-
-	@Override
-	public List<String> menuImg(int cafeid) {
-		return this.cafeMapper.menuImg(cafeid);
-	}
-
-	@Override
-	public List<String> cafeImg(int cafeid) {
+	public List<CafeVO> cafeImg(int cafeid) {
 		// TODO Auto-generated method stub
 		return this.cafeMapper.cafeImg(cafeid);
 	}
@@ -87,6 +71,16 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public int removeTag(CafeVO vo) {
 		return this.cafeMapper.removeTag(vo);
+	}
+
+	@Override
+	public List<CafeVO> cafeTag(int cafeid) {
+		return this.cafeMapper.cafeTag(cafeid);
+	}
+
+	@Override
+	public CafeVO cafeImgbyId(int imgid) {
+		return this.cafeMapper.cafeImgbyId(imgid);
 	}
 
 }

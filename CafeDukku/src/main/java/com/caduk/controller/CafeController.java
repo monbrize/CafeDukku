@@ -3,6 +3,12 @@ package com.caduk.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.caduk.domain.CafeVO;
@@ -54,7 +61,12 @@ public class CafeController {
 		System.out.println(member.toString());
 		int idx=member.getIdx();
 		cafe=cafeService.viewCafe(idx);
+		List<CafeVO> imgs= cafeService.cafeImg(idx);
+		//List<CafeVO> menu =cafeService.menuImg(idx);
 		mv.addObject("cafe", cafe);
+		mv.addObject("imgs", imgs);
+		//mv.addObject("menu" ,menu);
+		
 		mv.setViewName("updateCafe");
 		return mv;
 	}
@@ -64,8 +76,50 @@ public class CafeController {
 		int cafeid=cafe.getCafeid();
 		return cafeid;
 	}
+	
+	public void fileUpload(List<MultipartFile> files, String type, int cafeid) {
+		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/"+type+"_img";
+		CafeVO vo=new CafeVO();
+		vo.setCafeid(cafeid);
+		vo.setImg_type(type);
+		if(files!=null) {
+			for(int i=0; i<files.size(); i++) {
+				MultipartFile mf=files.get(i);
+				//랜덤한 문자열_파일명 
+				UUID uid=UUID.randomUUID();
+				String uidStr=uid.toString();
+				String realname=mf.getOriginalFilename();
+				String fname=uidStr+realname;
+				vo.setImg_name(fname);
+				vo.setImg_name_origin(realname);
+				try {
+					mf.transferTo(new File(upDir,fname));
+					this.cafeService.addImg(vo);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	@PostMapping("/updateCafe")
-	public String updateCafe(Model m, @ModelAttribute CafeVO vo) {
+	public String updateCafe(Model m, @ModelAttribute CafeVO vo, HttpServletRequest req) {
+		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/logo_img";		
+
+		//파일 업로드
+		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		List<MultipartFile> menu_img_list=mr.getFiles("menu_img");
+		if(menu_img_list!=null) {
+			fileUpload(menu_img_list, "menu", vo.getCafeid());
+		}
+		List<MultipartFile> cafe_img_list=mr.getFiles("shop_img");
+		if(cafe_img_list!=null) {
+			fileUpload(cafe_img_list, "cafe", vo.getCafeid());
+		}
+		List<MultipartFile> logo_img_list=mr.getFiles("logo_img");
+		if(logo_img_list!=null) {
+			fileUpload(logo_img_list, "logo", vo.getCafeid());
+		}
+		
 		int n=cafeService.updateCafe(vo);
 		System.out.println("inform::::"+vo.getInform());
 		String str=(n>0)?"수정이 완료되었습니다.":"요청이 실패하였습니다. 다시 시도해주세요.";
@@ -80,10 +134,11 @@ public class CafeController {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
-		System.out.println(member.toString());
 		int idx=member.getIdx();
 		cafe=cafeService.viewCafe(idx);
+		List<CafeVO> imgs= cafeService.cafeImg(idx);
 		mv.addObject("cafe", cafe);
+		mv.addObject("imgs", imgs);
 		mv.setViewName("viewCafe");
 		
 		
@@ -101,7 +156,6 @@ public class CafeController {
 		System.out.println(vo.toString());
 		int n=this.cafeService.addTag(vo);
 		String res=(n>0)?"success":"failed";
-		System.out.println("n::::"+n+"/res:::::"+res);
 		ModelMap map=new ModelMap("result",res);
 		return map;
 	}
@@ -117,31 +171,44 @@ public class CafeController {
 		String res=(n>0)?"success":"failed";
 		return res;
 	}
-	
-	@PostMapping("/addLogoImg")
-	public String addLogoImg(@RequestParam(value="logoFile",required = false) MultipartFile multi, HttpServletRequest req, HttpSession session) {
-		System.out.println("add Logo Img controller===========");
-		MemberVO vo = (MemberVO)session.getAttribute("loginUser");
-		int cafeid=getCafeid(vo);
+	@PostMapping("/delImg")
+	public void delImg(@RequestParam int imgid) {
 		CafeVO cafe=new CafeVO();
-		cafe.setCafeid(cafeid);
-		cafe.setImg_type("logo");
-		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/logo_img";		
-		int n=0;
-		if(!multi.isEmpty()) { //첨부했다면 
-			String filename=multi.getOriginalFilename(); //파일명 
-			System.out.println("filename::"+filename);
-			cafe.setImg_name(cafeid+"_"+filename);
-			try {
-				multi.transferTo(new File(upDir, cafe.getImg_name()));
-				n=this.cafeService.addImg(cafe);
-				System.out.println("n :::::"+n);
-			}catch(IOException e) {
-				log.info("업로드 실패 : "+e);
-			}
+		cafe=this.cafeService.cafeImgbyId(imgid);
+		Path file=Paths.get("/Users/youreru/git/repository/CafeDukku/src/main/webapp/"+cafe.getImg_type()
+				+"_img/"+cafe.getImg_name_origin());
+		try {
+			Files.deleteIfExists(file);
+			this.cafeService.removeImg(imgid);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return (n>0)?"success":"failed";
-		
 	}
+	
+//	@PostMapping("/addLogoImg")
+//	public String addLogoImg(@RequestParam(value="logoFile",required = false) MultipartFile multi, HttpServletRequest req, HttpSession session) {
+//		MemberVO vo = (MemberVO)session.getAttribute("loginUser");
+//		int cafeid=getCafeid(vo);
+//		CafeVO cafe=new CafeVO();
+//		cafe.setCafeid(cafeid);
+//		cafe.setImg_type("logo");
+//		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/logo_img";		
+//		int n=0;
+//		if(!multi.isEmpty()) { //첨부했다면 
+//			String filename=multi.getOriginalFilename(); //파일명 
+//			System.out.println("filename::"+filename);
+//			cafe.setImg_name_origin(filename);
+//			cafe.setImg_name(cafeid+"_"+filename);
+//			try {
+//				multi.transferTo(new File(upDir, cafe.getImg_name()));
+//				n=this.cafeService.addImg(cafe);
+//				System.out.println("n :::::"+n);
+//			}catch(IOException e) {
+//				log.info("업로드 실패 : "+e);
+//			}
+//		}
+//		return (n>0)?"success":"failed";
+//		
+//	}
 	
 }

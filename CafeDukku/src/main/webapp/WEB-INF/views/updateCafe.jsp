@@ -54,7 +54,8 @@ $(document).ready(function () {
 			cache:false,
 			success:function(res){
 				if(url=='addTag'){
-					tag_type.append('<span class="'+tag_type.attr('id')+'List">'+tag_name+'<button type="button" class="removeTag">X</button></span>');
+					tag_type.append('<span>'+tag_name+'<button type="button" class="removeTag">X</button></span>');
+					tag_type.append('<input type="hidden" name="tag_name" value="str">');
 				} else if(url=='deleteTag'){
 					$(e.target).parent('span').remove();
 				}
@@ -93,15 +94,38 @@ $(document).ready(function () {
 	})
 });
 const findAddr=function(){
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("postcode").value = data.zonecode;
-                document.getElementById("loc1").value = data.address; // 주소 넣기
-                document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
-            }
-        }).open();
-    };
+	//카카오 지도 발생
+	new daum.Postcode({
+	    oncomplete: function(data) { //선택시 입력값 세팅
+	        document.getElementById("postcode").value = data.zonecode;
+	        document.getElementById("loc1").value = data.address; // 주소 넣기
+	        document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
+	    }
+	}).open();
+};
+
+/* 이미지 삭제 */
+const delImg=function(e, imgid){
+	$.ajax({
+		type:'post',
+		url:'delImg',
+		data:{imgid=imgid},
+		cache:false,
+		success:function(res){
+			consol.log(res+"success!!!");
+			$(e).parent('span').remove();
+		},error:function(jqXHR){
+			console.log(jqXHR.responseText);
+		}
+	});
+//	let obj=$(e).parent('span').remove();
+	
+}
+/* 태그 삭제 */
+const delTag=function(e, str){
+	let obj=$(e).siblings('span').remove();
+}
+ 
 </script>
 <h1>카페 정보 업데이트</h1>
 <div class="container col-10">
@@ -159,16 +183,38 @@ const findAddr=function(){
 			<tr>
 				<td rowspan="3"><label class="form-label"> 이미지 첨부 </label></td>
 				<td><label class="form-label"> 로고이미지 </label></td>
-				<td><input type="file" name="logo_img" id="logo_img" class="form-control">
+				<td>
+				<c:if test="${(imgs.img_type eq 'logo') ne null}" >
+					<!-- 사진이 있다면 -->
+					<span>
+					<img class="img img-thumbnail" src="../../logo_img/<c:out value="${shop.img_name}"/>" style="width:80px">
+					<c:out value="${imgs.img_name_origin}" /><input type="button" onclick="delImg(this, <c:out value='${imgs.imgid}'/>)" class="btn btn-outline-info" value="X">
+					</span>
+				</c:if>
+				<c:if test="${(imgs.img_type eq 'logo') eq null }">
+					<input type="file" name="logo_img" class="form-control">
+				</c:if>
 				</td>
 			</tr>
 			<tr>
-				<td><label class="form-label"> 메뉴판 </label>
+				<td><label class="form-label"> 메뉴 </label>
 					<button type="button" class="btn btn-dark" id="addMenuImg">추가</button>
 				</td>
 				<td>
 					<div id="menuArea">
+					<c:if test="${(imgs.img_type eq 'menu') ne null}" >
+						<!-- 사진이 있다면 -->
+						<c:forEach var="menu" items="${imgs.img_name}" varStatus="s">
+						<span>
+							<img class="img img-thumbnail" src="../../menu_img/<c:out value="${menu}"/>" style="width:80px">
+							<c:out value="${imgs[s.index].img_name_origin}" />
+							<input type="button" onclick="delImg(this, <c:out value='${imgs[s.index].imgid}'/>)" class="btn btn-outline-info" value="X">
+						</span>
+						</c:forEach>
+					</c:if>
+					<c:if test="${(imgs.img_type eq 'menu') eq null }">
 						<input type="file" name="menu_img" class="form-control"> 
+					</c:if>
 					</div>
 				</td>
 			</tr>
@@ -178,7 +224,19 @@ const findAddr=function(){
 				</td>
 				<td>
 					<div id="cafeArea">
+					<c:if test="${(imgs.img_type eq 'cafe') ne null}" >
+						<!-- 사진이 있다면 -->
+						<c:forEach var="cafe" items="${imgs.img_name}" varStatus="s">
+						<span>
+							<img class="img img-thumbnail" src="../../cafe_img/<c:out value="${cafe}"/>" style="width:80px">
+							<c:out value="${imgs[s.index].img_name_origin}" />
+							<input type="button" onclick="delImg(this, <c:out value='${imgs[s.index].imgid}'/>)" class="btn btn-outline-info" value="X">
+						</span>
+						</c:forEach>
+					</c:if>
+					<c:if test="${(imgs.img_type eq 'cafe') eq null }">
 						<input type="file" name="cafe_img" class="form-control"> 
+					</c:if>
 					</div>
 				</td>
 			</tr>
@@ -195,7 +253,14 @@ const findAddr=function(){
 						<option value="enthic">enthic</option>
 				    </select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
 					<div id="mood">
-					<span class="moodList">lovely<button type="button" class="removeTag">X</button></span>
+					<!--  -->
+					<c:if test="${tags.tag_type eq 'mood'}" >
+						<!-- 태그명 반복문 -->
+						<c:forEach var="tag" items="${tags.tag_name}">
+							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
+						</c:forEach>
+					</c:if>
+					<!--  -->
 					</div>
                 </td>
 			</tr>
@@ -211,7 +276,16 @@ const findAddr=function(){
 						<option>tea</option>
 						<option>brunch</option>
 				</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                <div id="classify"></div>
+                <div id="classify">
+                <!--  -->
+					<c:if test="${tags.tag_type eq 'classify'}" >
+						<!-- 태그명 반복문 -->
+						<c:forEach var="tag" items="${tags.tag_name}">
+							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
+						</c:forEach>
+					</c:if>
+				<!--  -->
+                </div>
             	</td>
 			<tr>
 			<td> PRIDE </td>
@@ -224,7 +298,16 @@ const findAddr=function(){
 					<option>photo zone</option>
 					<option>outdoor seats</option>
 				</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                <div id="pride"></div>
+                <div id="pride">
+                	<!--  -->
+					<c:if test="${tags.tag_type eq 'pride'}" >
+						<!-- 태그명 반복문 -->
+						<c:forEach var="tag" items="${tags.tag_name}">
+							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
+						</c:forEach>
+					</c:if>
+				<!--  -->
+                </div>
             </td>
 			</tr>
 			<tr>
@@ -236,7 +319,17 @@ const findAddr=function(){
 						<option>samsung pay</option>
 						<option>account transfer</option>
 					</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                	<div id="payment"></div>
+                	<div id="payment">
+                	<!--  -->
+					<c:if test="${tags.tag_type eq 'payment'}" >
+						<!-- 태그명 반복문 -->
+						<c:forEach var="tag" items="${tags.tag_name}">
+							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
+							<!-- <input type="button" onclick="delTag(this, 'payment')" class="btn btn-outline-info" value="X"> -->
+						</c:forEach>
+					</c:if>
+					<!--  -->
+                	</div>
                 </td>
 			</tr>
 		</table>

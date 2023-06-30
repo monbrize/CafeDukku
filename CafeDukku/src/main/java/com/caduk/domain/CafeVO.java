@@ -21,6 +21,9 @@ public class CafeVO {
 	
 	private String tag_type;
 	private String tag_name;
+	
+	private int imgid;
 	private String img_type;
 	private String img_name;
+	private String img_name_origin;
 }

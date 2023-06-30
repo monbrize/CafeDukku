@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+*{ 
+    padding: 0;             
+    box-sizing: border-box;
+
+}
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#menuImg {
+	float: left;
+	width: 20%;
+	height: 200px;
+	overflow: hidden;
+	/*position: relative;*/
+}
+#bottomInfo img {
+	width: 100px;
+	height: auto;
+}
+#bottomInfo ul {
+	position: absolute;
+}
+#bottomInfo ul li {
+	display: inline-block;
+}
+#shopImg {
+	float: right;
+	width: 60%;
+	height: 200px;
+	overflow: hidden;
+}
+#locMap {
+	width: 100%;
+	height: 300px;
+	float: left;
+	margin-right: 10px;
+}
+
+#rankInfo {
+	height: 200px;
+}
+#tagInfo>div>span, .tBtn{
+    border-radius: 20px;
+    padding: 10px 15px 10px 15px;
+    clear:both;
+    vertical-align:middle;
+    text-align: center;
+    margin: 5px;
+}
+#tagInfo >div> .tag_type {
+    font-weight: bolder;
+    color: white;
+    width: 120px;
+}
+#moodArea > .tag_type{
+    background-color: #8294C4;
+}
+#moodArea > .tag_name{
+    background-color: #DBDFEA;
+}
+#classifyArea > .tag_type{
+    background-color: #A0C49D;
+}
+#classifyArea > .tag_name{
+    background-color: #E1ECC8;
+}
+#prideArea > .tag_type{
+    background-color: #FF9EAA;
+}
+#prideArea > .tag_name{
+    background-color: #FFD0D0;
+}
+#paymentArea > .tag_type{
+    background-color: #0A6EBD;
+}
+#paymentArea > .tag_name{
+    background-color: #A1C2F1;
+}
+#cafename1{
+    /* width: 100%; */
+    font-size:xx-large;
+    text-size-adjust: auto;
+    height: 50px;
+    white-space : nowrap;
+    font-weight: bolder;
+}
+#cafename2{
+    font-size:medium;
+}
+#menuImg, #shopImg{
+    width: 100%;
+    height: 300px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    transition: transform 0.5s;
+}
+#menuSlide, #shopSlide{
+    overflow: hidden;
+    text-align: center;
+    
+}
+#menuSlide img{
+    width: 70%;
+    height: 300px;
+}
+#bottomInfo button{
+    top:120px;
+    z-index: 1;
+    display: none;
+    position: absolute;
+}
+#left-menu-btn {
+    float:left;
+    left:25px;
+}
+#right-menu-btn{
+    float:right;
+    right:25px;
+}
+#shopSlide img{
+    width: 40%;
+    height: 300px;
+}
+#left-shop-btn {
+    float:left;
+    left:25px;
+}
+#right-shop-btn{
+    float:right;
+    right:25px;
+}
+.tBtn{
+	font-weight: bolder;
+    color: white;
+	background-color:#EBD8B2;
+}
+#logoImg{
+	position:relative;
+}
+#logoImg img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(50, 50);
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+    margin: auto;
+}
