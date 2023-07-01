@@ -10,9 +10,10 @@
     
     </div>	<!-- .container end -->
     <!-- footer -->
-    <div class="jumbotron jumbotron-fluid text-center" style="bottom: 0;">
+    <div class="jumbotron jumbotron-fluid pt-3 pb-3 text-center text-white" style="margin-bottom: 0; background-color:#967259;">
         <footer>
-	        <h5>&copy;Copyright|CaDuk|010-0000-0000|서울 강남구</h5>
+	        <h5>&copy;Copyright | CaDuk | 010-2849-2020 | 서울 강남구</h5>
+	        <span class="display-5">admin@caduk.com</span>
         </footer>
     </div>
 </body>

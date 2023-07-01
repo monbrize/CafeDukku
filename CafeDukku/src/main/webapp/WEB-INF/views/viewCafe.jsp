@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="./css/viewCafe.css">
 <script>
 $(document).ready(function () {
-	let coords;
-	let Xx, Yy;
 	let geocoder = new kakao.maps.services.Geocoder();
 	let container = document.getElementById('locMap'); //지도를 담을 영역의 DOM 레퍼런스
 	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
@@ -51,45 +49,46 @@ $(function(){
 </script>
 <div class="container">
 	<div class="row mb-3">
+	<div id="topInfo" class="row mt-3 mb-3 ml-3">
 		<!-- 로고/상호명/평균스코어 -->
-		<div id="logoImg" class="col-2">
-			<c:if test="${not empty imgs and imgs.img_type eq 'logo'}">
-				<img src="../../logo_img/<c:out value="${img_name_origin}"/>"
+		<div id="logoImg" class="col-2 mr-3">
+			<c:forEach var="i" items="${imgs }">
+				<c:if test="${not empty i and i.img_type eq 'logo'}">
+				<img src="../../logo_img/<c:out value="${i.img_name}"/>"
 					onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="logo">
-			</c:if>
-			<c:if test="${empty imgs or imgs.img_type ne 'logo'}">
-				<img src="../../logo_img/logo_init.jpg" alt="logo">
-				<!-- 사진 없을 때 기본 사진 설정 -->
-			</c:if>
-		</div>
-		<div class="col-8">
+				</c:if>
+			</c:forEach>
+		</div><!-- logoImg -->
+		
+		<div class="row col-10">
 			<div class="alert alert-warning col-12">
-				<!-- 상호명 한글 12자 -->
+				<!-- 상호명 -->
 				<span id="cafename1">${cafe.cafename }</span>- <span id="cafename2">${cafe.cafename2 }</span>
 			</div>
-			<div class="row col-12">
-				<span class="alert alert-danger col-2 mr-3"> ⭐️4.1 </span> <span
-					class="alert alert-success col-5 mr-3"> <span class="title">☎️</span><span>${cafe.call }</span>
-				</span> <span class="alert alert-primary col-4"> <a
-					href="https://instagram.com/<c:out value='${cafe.sns_url }'/>"
-					target="_blank">👻@<c:out value="${cafe.sns_url }" /></a>
+			<div class="col-12">
+				<span class="alert alert-danger mr-3"> ⭐️4.1 </span> 
+				<span class="alert alert-success mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
+				<span class="alert alert-primary "> 
+					<a href="https://instagram.com/<c:out value='${cafe.sns_url }'/>" target="_blank">👻@<c:out value="${cafe.sns_url }" /></a>
 				</span>
 			</div>
 		</div>
-		<div id="midInfo" class="row col-12 mt-3 mb-3">
+		</div><!-- topInfo -->
+		<div id="midInfo" class="row mt-2 mb-2 ml-1">
 			<!-- 지도, 공지, 정보, 소개 -->
-			<div class="col-5">
-				<div class="alert alert-light col-12">
+			<div class="col-4">
+				<div class="alert alert-light">
 					<span class="title">📍</span> <span>${cafe.loc1 }</span> <input
 						type="hidden" id="mapLoc" value="${cafe.loc1}">
 				</div>
-				<div id="locMap" class="col-12"></div>
 			</div>
-			<div class="row col-7">
-				<div id="notice" class="alert alert-secondary col-12">notice :
-					${cafe.notice }</div>
-				<div id="infoText" class="col-12">${cafe.inform }</div>
-			</div>
+				<div class="col-7">
+					<div id="notice" class="alert alert-secondary" width="100%">
+					📣 ${cafe.notice }</div>
+				</div>
+				<div id="locMap" class="col-4"></div>
+				<div id="infoText" class="col-7 ml-1">${cafe.inform }</div>
+			<div class="col-1"></div>
 		</div>
 		<!-- midInfo -->
 		<div id="midInfo2" class="row">
@@ -110,45 +109,45 @@ $(function(){
 				<div id="moodArea" class="row">
 					<span class="tag_type">MOOD</span>
 					<!--  -->
-					<c:if test="${tags.tag_type eq 'mood'}">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${t.tag_type eq 'mood'}">
 						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span class="tag_name">${tag }</span>
-						</c:forEach>
-					</c:if>
+							<span class="tag_name">${t.tag_name }</span>
+						</c:if>
+					</c:forEach>
 					<!--  -->
 				</div>
 				<div id="classifyArea" class="row">
 					<span class="tag_type">CLASSIFY</span>
 					<!--  -->
-					<c:if test="${tags.tag_type eq 'classify'}">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${t.tag_type eq 'classify'}">
 						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span class="tag_name">${tag }</span>
-						</c:forEach>
-					</c:if>
+							<span class="tag_name">${t.tag_name }</span>
+						</c:if>
+					</c:forEach>
 					<!--  -->
 				</div>
 				<div id="prideArea" class="row">
 					<span class="tag_type">PRIDE</span>
 					<!--  -->
-					<c:if test="${tags.tag_type eq 'pride'}">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${t.tag_type eq 'pride'}">
 						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span class="tag_name">${tag }</span>
-						</c:forEach>
-					</c:if>
+							<span class="tag_name">${t.tag_name }</span>
+						</c:if>
+					</c:forEach>
 					<!--  -->
 				</div>
 				<div id="paymentArea" class="row">
 					<span class="tag_type">PAYMENT</span>
 					<!--  -->
-					<c:if test="${tags.tag_type eq 'payment'}">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${t.tag_type eq 'payment'}">
 						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span class="tag_name">${tag }</span>
-						</c:forEach>
-					</c:if>
+							<span class="tag_name">${t.tag_name }</span>
+						</c:if>
+					</c:forEach>
 					<!--  -->
 				</div>
 			</div>
@@ -165,33 +164,24 @@ $(function(){
 			<button id="left-menu-btn" class="menu-btn btn btn-outline-dark"><</button>
 			<button id="right-menu-btn" class="menu-btn btn btn-outline-dark">></button>
 			<div id="menuSlide">
-				<c:if test="${not empty imgs and imgs.img_type eq 'menu'}">
-					<c:forEach var="menu" items="${imgs.img_name}">
-						<img src="../../menu_img/<c:out value="${menu}"/>"
-							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="menu" loading="lazy">
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty imgs or imgs.img_type ne 'menu'}">
-					<!-- 사진 없을 때 기본 사진 설정 -->
-				<img src="../../menu_img/menu_init.jpg" alt="menu">
-				</c:if>
+				<c:forEach var="i" items="${imgs }">
+					<c:if test="${not empty i and i.img_type eq 'menu'}">
+							<img src="../../menu_img/<c:out value="${i.img_name}"/>"
+								onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="menu" loading="lazy">
+					</c:if>
+				</c:forEach>
 			</div> 
 		</div>
 		<div id="shopImg" class="col-7 ml-3">
 			<button id="left-shop-btn" class="shop-btn btn btn-outline-dark"><</button>
 			<button id="right-shop-btn" class="shop-btn btn btn-outline-dark">></button>
 			<div id="shopSlide">
-				<c:if test="${not empty imgs and imgs.img_type eq 'cafe'}">
-					<c:forEach var="cafe" items="${imgs.img_name}">
-						<img src="../../cafe_img/<c:out value="${cafe}"/>"
+				<c:forEach var="i" items="${imgs }">
+					<c:if test="${not empty i and i.img_type eq 'cafe'}">
+						<img src="../../cafe_img/<c:out value="${i.img_name}"/>"
 							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="cafe" loading="lazy">
+					</c:if>
 					</c:forEach>
-				</c:if>
-				<c:if test="${empty imgs or imgs.img_type ne 'cafe'}">
-				<!-- 사진 없을 때 기본 사진 설정 -->
-				<img src="../../cafe_img/cafe_init-01.jpg" alt="cafe">
-				<img src="../../cafe_img/cafe_init-02.jpg" alt="cafe">
-				</c:if>
 			</div>
 		</div>
 	</div>

@@ -151,8 +151,8 @@ const delImg=function(e, imgid, img_type){
 			</tr>
 			<tr scope="row">
 				<td><label class="form-label"> 우편번호 </label></td>
-				<td><input type="text" name="postcode" id="postcode" class="form-control" readonly required value="${cafe.postcode}">
-				<input type="button" class="btn btn-warning" onclick="findAddr()" value="찾기">
+				<td  style="display:flex;"><input type="text" name="postcode" id="postcode" class="form-control col-3" readonly required value="${cafe.postcode}"">
+				<input type="button" class="btn btn-outline-primary  ml-1" onclick="findAddr()" style="display:relative;" value="찾기">
 				</td>
 			</tr>
 			<tr scope="row">
@@ -227,7 +227,7 @@ const delImg=function(e, imgid, img_type){
 								class="btn btn-outline-info btn-sm ml-1" value="x">
 							</span>
 						</c:if>
-					</c:forEach>	
+					</c:forEach>
 							<input type="file" name="cafe_img" class="form-control col-9 mb-2"> 
 							<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2 mb-2" value="취소">
 					</div>
@@ -248,9 +248,9 @@ const delImg=function(e, imgid, img_type){
 				    <span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 				    <span class="col-3 mb-2"></span>
 					<div id="mood">
-					<c:forEach var="Tag" items="${tags}">
-						<c:if test="${not empty Tag and Tag.tag_type eq 'mood'}" >
-							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${not empty t and t.tag_type eq 'mood'}" >
+							<span>${t.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
 						</c:if>
 					</c:forEach>
 					</div>
@@ -272,9 +272,9 @@ const delImg=function(e, imgid, img_type){
 					<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 					<span class="col-3 mb-2"></span>
                 	<div id="classify">
-					<c:forEach var="Tag" items="${tags}">
-						<c:if test="${not empty Tag and Tag.tag_type eq 'classify'}" >
-							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${not empty t and t.tag_type eq 'classify'}" >
+							<span>${t.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
 						</c:if>
 					</c:forEach>
                 </div>
@@ -294,9 +294,9 @@ const delImg=function(e, imgid, img_type){
 				<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 				<span class="col-3 mb-2"></span>
                 <div id="pride">
-                	<c:forEach var="Tag" items="${tags}">
-						<c:if test="${not empty Tag and Tag.tag_type eq 'pride'}" >
-							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+                	<c:forEach var="t" items="${tags}">
+						<c:if test="${not empty t and t.tag_type eq 'pride'}" >
+							<span>${t.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
 						</c:if>
 					</c:forEach>
 				<!--  -->
@@ -317,9 +317,9 @@ const delImg=function(e, imgid, img_type){
 					<span class="col-3 mb-2"></span>
                 	<div id="payment">
                 	<!--  -->
-					<c:forEach var="Tag" items="${tags}">
-						<c:if test="${not empty Tag and Tag.tag_type eq 'payment'}" >
-							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+					<c:forEach var="t" items="${tags}">
+						<c:if test="${not empty t and t.tag_type eq 'payment'}" >
+							<span>${t.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
 						</c:if>
 					</c:forEach>
 					<!--  -->

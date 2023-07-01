@@ -34,16 +34,15 @@ const goScan=function(){
 </script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="jumbotron text-center" style="margin-bottom: 0;">
-        
-        
+    <div class="container-fluid ">
+        <div class="jumbotron pt-5 pb-5 text-center text-white" style="margin-bottom: 0;
+        background-color:#634832;">
             <h1>카페 덕후(Cafe Dukku)</h1>
         </div>
-        <nav class="navbar navbar-expand-sm bg-light navbar-light">
+        <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#ece0d1">
     <!-- Brand -->
     <div class="col-xs-2">
-        <a class="navbar-brand" href="/home">Logo</a>
+        <a class="navbar-brand" href="/home"><img src="../../logo_img/logo_init.jpg" alt="logo" width="50px"></a>
 
     </div>
 
