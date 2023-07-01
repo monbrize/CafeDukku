@@ -9,18 +9,27 @@ $(function(){
 	CKEDITOR.replace('infoForm');
 })
 
-
 const cafeUpdate=function(){
 	$('form').submit();
 }
 $(document).ready(function () {
     //이미지 추가 버튼 
     $('#addMenuImg').click(function () {
-        $('#menuArea').append('<input type="file" name="menu_img" class="form-control"> ');
+        $('#menuArea').append('<input type="file" name="menu_img" class="form-control col-9 mb-2"> ')
+        	.append('<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2 mb-2" value="취소">');
     });
     $('#addCafeImg').click(function () {
-        $('#cafeArea').append('<input type="file" name="cafe_img" class="form-control"> ');
+        $('#cafeArea').append('<input type="file" name="cafe_img" class="form-control col-9 mb-2"> ')
+        	.append('<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2 mb-2" value="취소">');
     });
+    if($('#logoArea').html().length<20){
+    	$('#logoArea').append('<input type="file" name="logo_img" class="form-control col-9"> ')
+    	.append('<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2" value="취소">');
+    }
+    //파일 업로드 취소 
+    $(document).on('click','.delFile',function(e){
+		$(e.target).prev('input').val('');
+	})
     let cafeid=$('input[name=cafeid]').val();
     //태그 추가 이벤트
     $('option').dblclick(function(){
@@ -30,36 +39,37 @@ $(document).ready(function () {
     })
     $('#imgTag input:text').on('keyup', function(key){
         let tag_name=$(this).val();
-        let tag_type=$(this).next();
+        let tag_type=$(this).nextAll('div');
         if(key.keyCode==13){
         	tagCtrl('addTag', tag_name, tag_type);
             $(this).val('');
         }
     })
+
     $(document).on("click",".removeTag",function(e){
     	let tag_type=$(e.target).parents('div');
-		let tag_name=$(e.target).parent('span').html().split('<')[0];
+		let tag_name=$(e.target).prev('span').html();
 		console.log(tag_type+'//////'+tag_name);
-    	tagCtrl('deleteTag', tag_name, tag_type);
+    	tagCtrl('deleteTag', tag_name, tag_type, e);
         
     });
     
-    const tagCtrl=function(url, tag_name, tag_type){
+    const tagCtrl=function(url, tag_name, tag_type, e){
     	let urlStr=url+'?tag_type='+tag_type.attr('id')+'&tag_name='+tag_name+'&cafeid='+cafeid;
     	console.log('url : '+urlStr);
-    	$.ajax({
-			type:'get',
+    	let type=(url==='deleteTag')?'delete':'put';
+		$.ajax({
+			type:type,
 			url: urlStr,
-			dataType:'json',
+			//dataType:'json',
 			cache:false,
 			success:function(res){
-				if(url=='addTag'){
-					tag_type.append('<span>'+tag_name+'<button type="button" class="removeTag">X</button></span>');
-					tag_type.append('<input type="hidden" name="tag_name" value="str">');
-				} else if(url=='deleteTag'){
-					$(e.target).parent('span').remove();
+				if(type==='put'){
+					tag_type.append('<span>'+tag_name+'</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2" value="x">');
+				} else if(type ==='delete'){
+					$(e.target).prev().remove();
+			        $(e.target).remove();
 				}
-
 			},
 			error:function(err){
 				alert('error : '+err.status);
@@ -67,31 +77,7 @@ $(document).ready(function () {
 		})
     	
     }
-    $('input[name=logo_img]').on('change',function(){
-		let ff=this.files[0];
-		console.log(ff.name);
-		
-		let formData=new FormData();
-		console.log(formData);
-		formData.append("logoFile",ff);
-		
-		$.ajax({
-			type:'post',
-			url:'addLogoImg',
-			data : formData,
-			contentType:false,
-			processData:false,
-			success:function(res){
-				console.log(res);
-				alert("로고이미지가 등록되었습니다.");
-			},error:function(jqXHR){
-				console.log(jqXHR.responseText);
-			}
-			
-			
-		})
-
-	})
+    
 });
 const findAddr=function(){
 	//카카오 지도 발생
@@ -105,15 +91,19 @@ const findAddr=function(){
 };
 
 /* 이미지 삭제 */
-const delImg=function(e, imgid){
+const delImg=function(e, imgid, img_type){
 	$.ajax({
-		type:'post',
+		type:'delete',
 		url:'delImg',
-		data:{imgid=imgid},
+		data:{imgid:imgid},
 		cache:false,
 		success:function(res){
-			consol.log(res+"success!!!");
+			console.log(res+"success!!!");
 			$(e).parent('span').remove();
+			if(img_type==='logo'){
+				$('#logoArea').append('<input type="file" name="logo_img" class="form-control col-9">')
+				.append('<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2" value="취소">');
+			}
 		},error:function(jqXHR){
 			console.log(jqXHR.responseText);
 		}
@@ -121,11 +111,7 @@ const delImg=function(e, imgid){
 //	let obj=$(e).parent('span').remove();
 	
 }
-/* 태그 삭제 */
-const delTag=function(e, str){
-	let obj=$(e).siblings('span').remove();
-}
- 
+
 </script>
 <h1>카페 정보 업데이트</h1>
 <div class="container col-10">
@@ -178,96 +164,102 @@ const delTag=function(e, str){
 				<td><input type="text" name="loc2" id="loc2" class="form-control" value="${cafe.loc2}"></td>
 			</tr>
 		</table>
-		</form>
+
 		<table class="table" id="imgTag">
+			<colgroup>
+				<col width=10%>
+				<col width=10%>
+				<col width=50%>
+			</colgroup>
 			<tr>
 				<td rowspan="3"><label class="form-label"> 이미지 첨부 </label></td>
 				<td><label class="form-label"> 로고이미지 </label></td>
 				<td>
-				<c:if test="${(imgs.img_type eq 'logo') ne null}" >
-					<!-- 사진이 있다면 -->
-					<span>
-					<img class="img img-thumbnail" src="../../logo_img/<c:out value="${shop.img_name}"/>" style="width:80px">
-					<c:out value="${imgs.img_name_origin}" /><input type="button" onclick="delImg(this, <c:out value='${imgs.imgid}'/>)" class="btn btn-outline-info" value="X">
-					</span>
+				<div id="logoArea" class="row">
+				
+				<c:forEach var="i" items="${imgs }">
+					<c:if test="${not empty i and i.img_type eq 'logo'}">
+						<span class="col-10">
+							<img class="img img-thumbnail" src="../../logo_img/<c:out value="${i.img_name}"/>" style="height:30px">
+							<c:out value="${i.img_name_origin}" />
+							<input type="button" 
+							onclick="delImg(this, <c:out value='${i.imgid}'/>, '<c:out value="${i.img_type}"/>')" 
+							class="btn btn-outline-info btn-sm ml-1" value="삭제">
+						</span>
 				</c:if>
-				<c:if test="${(imgs.img_type eq 'logo') eq null }">
-					<input type="file" name="logo_img" class="form-control">
-				</c:if>
+				</c:forEach>
+				</div>
 				</td>
 			</tr>
 			<tr>
 				<td><label class="form-label"> 메뉴 </label>
-					<button type="button" class="btn btn-dark" id="addMenuImg">추가</button>
+					<button type="button" class="btn btn-dark btn-sm" id="addMenuImg">+</button>
 				</td>
 				<td> 
-					<div id="menuArea">
-					<c:if test="${(imgs.img_type eq 'menu') ne null}" >
-						<!-- 사진이 있다면 -->
-						<c:forEach var="menu" items="${imgs.img_name}" varStatus="s">
-						<span>
-							<img class="img img-thumbnail" src="../../menu_img/<c:out value="${menu}"/>" style="width:80px">
-							<c:out value="${imgs[s.index].img_name_origin}" />
-							<input type="button" onclick="delImg(this, <c:out value='${imgs[s.index].imgid}'/>)" class="btn btn-outline-info" value="X">
-						</span>
-						</c:forEach>
-					</c:if>
-					<c:if test="${(imgs.img_type eq 'menu') eq null }">
-						<input type="file" name="menu_img" class="form-control"> 
-					</c:if>
+					<div id="menuArea" class="row">
+					<c:forEach var="i" items="${imgs }">
+	 					<c:if test="${not empty i and i.img_type eq 'menu'}" >
+								<span class="col-10 mb-2">
+									<img class="img img-thumbnail" src="../../menu_img/<c:out value="${i.img_name}"/>" style="height:30px">
+									<c:out value="${i.img_name_origin}" />
+									<input type="button" onclick="delImg(this, <c:out value='${i.imgid}'/>, '<c:out value="${i.img_type}"/>')" 
+									class="btn btn-outline-info btn-sm ml-1" value="삭제">
+								</span>
+							</c:if>
+					</c:forEach>
+					<input type="file" name="menu_img" class="form-control col-9 mb-2"> 
+					<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2 mb-2" value="취소">
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td><label class="form-label"> 이미지 </label>
-					<button type="button" class="btn btn-dark" id="addCafeImg">추가</button>
+				<td><label class="form-label"> 카페 </label>
+					<button type="button" class="btn btn-dark btn-sm" id="addCafeImg">+</button>
 				</td>
 				<td>
-					<div id="cafeArea">
-					<c:if test="${(imgs.img_type eq 'cafe') ne null}" >
-						<!-- 사진이 있다면 -->
-						<c:forEach var="cafe" items="${imgs.img_name}" varStatus="s">
-						<span>
-							<img class="img img-thumbnail" src="../../cafe_img/<c:out value="${cafe}"/>" style="width:80px">
-							<c:out value="${imgs[s.index].img_name_origin}" />
-							<input type="button" onclick="delImg(this, <c:out value='${imgs[s.index].imgid}'/>)" class="btn btn-outline-info" value="X">
-						</span>
-						</c:forEach>
-					</c:if>
-					<c:if test="${(imgs.img_type eq 'cafe') eq null }">
-						<input type="file" name="cafe_img" class="form-control"> 
-					</c:if>
+					<div id="cafeArea" class="row">
+					<c:forEach var="i" items="${imgs }">
+						<c:if test="${not empty i and i.img_type eq 'cafe'}" >
+							<span class="col-10 mb-2">
+								<img class="img img-thumbnail" src="../../cafe_img/<c:out value="${i.img_name}"/>" style="height:30px">
+								<c:out value="${i.img_name_origin}" />
+								<input type="button" onclick="delImg(this, <c:out value='${i.imgid}'/>, '<c:out value="${i.img_type}"/>')" 
+								class="btn btn-outline-info btn-sm ml-1" value="x">
+							</span>
+						</c:if>
+					</c:forEach>	
+							<input type="file" name="cafe_img" class="form-control col-9 mb-2"> 
+							<input type="button" class="delFile btn btn-outline-danger btn-sm col-1 ml-2 mb-2" value="취소">
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td rowspan="4"><label class="form-label"> 태그 </label></td>
-				<td>MOOD
-				</td>
-				<td>
-                    <select multiple="" class="form-control">
-						<option value="minimal">minimal</option>
-						<option value="cozy">cozy</option>
-						<option value="modern">modern</option>
-						<option value="lovely">lovely</option>
-						<option value="enthic">enthic</option>
-				    </select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
+				<td>MOOD </td>
+				<td class="row">
+                    <select multiple="" class="form-control col-9 mb-2">
+						<option>minimal</option>
+						<option>cozy</option>
+						<option>modern</option>
+						<option>lovely</option>
+						<option>enthic</option>
+				    </select> 
+				    <span class="col-3"></span>
+				    <span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+				    <span class="col-3 mb-2"></span>
 					<div id="mood">
-					<!--  -->
-					<c:if test="${tags.tag_type eq 'mood'}" >
-						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
-						</c:forEach>
-					</c:if>
-					<!--  -->
+					<c:forEach var="Tag" items="${tags}">
+						<c:if test="${not empty Tag and Tag.tag_type eq 'mood'}" >
+							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+						</c:if>
+					</c:forEach>
 					</div>
                 </td>
 			</tr>
-			<tr>
-				<td>CLASSIFY
-				</td>
-				<td><select multiple="" class="form-control">
+ 			<tr>
+				<td>CLASSIFY </td>
+				<td class="row">
+					<select multiple="" class="form-control col-9 mb-2">
 						<option>espressobar</option>
 						<option>bakery</option>
 						<option>roastery</option>
@@ -275,21 +267,21 @@ const delTag=function(e, str){
 						<option>alcohol</option>
 						<option>tea</option>
 						<option>brunch</option>
-				</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                <div id="classify">
-                <!--  -->
-					<c:if test="${tags.tag_type eq 'classify'}" >
-						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
-						</c:forEach>
-					</c:if>
-				<!--  -->
+					</select>
+					<span class="col-3"></span>
+					<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+					<span class="col-3 mb-2"></span>
+                	<div id="classify">
+					<c:forEach var="Tag" items="${tags}">
+						<c:if test="${not empty Tag and Tag.tag_type eq 'classify'}" >
+							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+						</c:if>
+					</c:forEach>
                 </div>
             	</td>
 			<tr>
 			<td> PRIDE </td>
-			<td><select multiple="" class="form-control">
+			<td class="row"><select multiple="" class="form-control col-9 mb-2">
 					<option>comfortable seats</option>
 					<option>roof top</option>
 					<option>plate</option>
@@ -297,45 +289,47 @@ const delTag=function(e, str){
 					<option>sunshine</option>
 					<option>photo zone</option>
 					<option>outdoor seats</option>
-				</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
+				</select>
+				<span class="col-3"></span>
+				<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+				<span class="col-3 mb-2"></span>
                 <div id="pride">
-                	<!--  -->
-					<c:if test="${tags.tag_type eq 'pride'}" >
-						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
-						</c:forEach>
-					</c:if>
+                	<c:forEach var="Tag" items="${tags}">
+						<c:if test="${not empty Tag and Tag.tag_type eq 'pride'}" >
+							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+						</c:if>
+					</c:forEach>
 				<!--  -->
                 </div>
             </td>
 			</tr>
 			<tr>
 				<td>PAYMENT</td>
-				<td><select multiple="" class="form-control">
+				<td class="row"><select multiple="" class="form-control col-9 mb-2">
 						<option>cash</option>
 						<option>credit/debit card</option>
 						<option>apply pay</option>
 						<option>samsung pay</option>
 						<option>account transfer</option>
-					</select> 직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
+					</select>
+					<span class="col-3"></span>
+					<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+					<span class="col-3 mb-2"></span>
                 	<div id="payment">
                 	<!--  -->
-					<c:if test="${tags.tag_type eq 'payment'}" >
-						<!-- 태그명 반복문 -->
-						<c:forEach var="tag" items="${tags.tag_name}">
-							<span>${tag }</span><input type="button" class="removeTag btn btn-outline-info" value="X">
-							<!-- <input type="button" onclick="delTag(this, 'payment')" class="btn btn-outline-info" value="X"> -->
-						</c:forEach>
-					</c:if>
+					<c:forEach var="Tag" items="${tags}">
+						<c:if test="${not empty Tag and Tag.tag_type eq 'payment'}" >
+							<span>${Tag.tag_name }</span><input type="button" class="removeTag btn btn-outline-info btn-sm ml-2 mr-2"  value="x">
+						</c:if>
+					</c:forEach>
 					<!--  -->
                 	</div>
                 </td>
 			</tr>
 		</table>
+				</form>
 		<div style="text-align: center;" class="mb-5"> 
 			<button type="button" class="btn btn-primary" onclick="cafeUpdate()">done</button>
 			<button type="reset" class="btn btn-warning">reset</button>
 		</div>
-	
 </div>

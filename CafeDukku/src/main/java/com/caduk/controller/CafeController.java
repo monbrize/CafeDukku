@@ -15,12 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,15 +62,14 @@ public class CafeController {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
-		System.out.println(member.toString());
 		int idx=member.getIdx();
 		cafe=cafeService.viewCafe(idx);
-		List<CafeVO> imgs= cafeService.cafeImg(idx);
+		List<CafeVO> imgs= this.cafeService.cafeImg(cafe.getCafeid());
+		List<CafeVO> tags=this.cafeService.cafeTag(cafe.getCafeid());
 		//List<CafeVO> menu =cafeService.menuImg(idx);
 		mv.addObject("cafe", cafe);
 		mv.addObject("imgs", imgs);
-		//mv.addObject("menu" ,menu);
-		
+		mv.addObject("tags", tags);
 		mv.setViewName("updateCafe");
 		return mv;
 	}
@@ -111,7 +114,7 @@ public class CafeController {
 		if(menu_img_list!=null) {
 			fileUpload(menu_img_list, "menu", vo.getCafeid());
 		}
-		List<MultipartFile> cafe_img_list=mr.getFiles("shop_img");
+		List<MultipartFile> cafe_img_list=mr.getFiles("cafe_img");
 		if(cafe_img_list!=null) {
 			fileUpload(cafe_img_list, "cafe", vo.getCafeid());
 		}
@@ -121,7 +124,6 @@ public class CafeController {
 		}
 		
 		int n=cafeService.updateCafe(vo);
-		System.out.println("inform::::"+vo.getInform());
 		String str=(n>0)?"수정이 완료되었습니다.":"요청이 실패하였습니다. 다시 시도해주세요.";
 		String loc=(n>0)?"home":"javascript:history.back()";
 		m.addAttribute("msg", str);
@@ -141,74 +143,45 @@ public class CafeController {
 		mv.addObject("imgs", imgs);
 		mv.setViewName("viewCafe");
 		
-		
 		return mv;
 	}
 	
 	
-	@GetMapping(value="/addTag", produces="application/json")
-	@ResponseBody
-	public ModelMap addtoTag(int cafeid, String tag_type,String tag_name ) {
+	@PutMapping("/addTag")
+	public  ResponseEntity<String> addtoTag(int cafeid, String tag_type,String tag_name ) {
 		CafeVO vo=new CafeVO();
 		vo.setCafeid(cafeid);
 		vo.setTag_type(tag_type);
 		vo.setTag_name(tag_name);
-		System.out.println(vo.toString());
 		int n=this.cafeService.addTag(vo);
-		String res=(n>0)?"success":"failed";
-		ModelMap map=new ModelMap("result",res);
-		return map;
+		return (n>0)?new ResponseEntity<>("success", HttpStatus.OK):new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	@GetMapping(value="/deleteTag")
-	@ResponseBody
-	public String removeTag(@RequestParam String tag_type, @RequestParam String tag_name, @RequestParam int cafeid) {
+	@DeleteMapping(value="/deleteTag")
+	public ResponseEntity<String> delTag(@RequestParam String tag_type, @RequestParam String tag_name, @RequestParam int cafeid) {
 		CafeVO vo=new CafeVO();
 		vo.setCafeid(cafeid);
 		vo.setTag_type(tag_type);
 		vo.setTag_name(tag_name);
-		System.out.println(vo.toString());
 		int n=this.cafeService.removeTag(vo);
-		String res=(n>0)?"success":"failed";
-		return res;
+		
+		return (n>0)?new ResponseEntity<>("success", HttpStatus.OK):new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
 	}
-	@PostMapping("/delImg")
-	public void delImg(@RequestParam int imgid) {
+	@DeleteMapping("/delImg")
+	public ResponseEntity<String> delImg(@RequestParam int imgid) {
+		int res=0;
 		CafeVO cafe=new CafeVO();
 		cafe=this.cafeService.cafeImgbyId(imgid);
 		Path file=Paths.get("/Users/youreru/git/repository/CafeDukku/src/main/webapp/"+cafe.getImg_type()
-				+"_img/"+cafe.getImg_name_origin());
+				+"_img/"+cafe.getImg_name());
 		try {
 			Files.deleteIfExists(file);
-			this.cafeService.removeImg(imgid);
+			res=this.cafeService.removeImg(imgid);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return (res>0)?new ResponseEntity<>("success", HttpStatus.OK):new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-//	@PostMapping("/addLogoImg")
-//	public String addLogoImg(@RequestParam(value="logoFile",required = false) MultipartFile multi, HttpServletRequest req, HttpSession session) {
-//		MemberVO vo = (MemberVO)session.getAttribute("loginUser");
-//		int cafeid=getCafeid(vo);
-//		CafeVO cafe=new CafeVO();
-//		cafe.setCafeid(cafeid);
-//		cafe.setImg_type("logo");
-//		String upDir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/logo_img";		
-//		int n=0;
-//		if(!multi.isEmpty()) { //첨부했다면 
-//			String filename=multi.getOriginalFilename(); //파일명 
-//			System.out.println("filename::"+filename);
-//			cafe.setImg_name_origin(filename);
-//			cafe.setImg_name(cafeid+"_"+filename);
-//			try {
-//				multi.transferTo(new File(upDir, cafe.getImg_name()));
-//				n=this.cafeService.addImg(cafe);
-//				System.out.println("n :::::"+n);
-//			}catch(IOException e) {
-//				log.info("업로드 실패 : "+e);
-//			}
-//		}
-//		return (n>0)?"success":"failed";
-//		
-//	}
 	
 }

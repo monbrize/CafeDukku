@@ -53,11 +53,11 @@ $(function(){
 	<div class="row mb-3">
 		<!-- 로고/상호명/평균스코어 -->
 		<div id="logoImg" class="col-2">
-			<c:if test="${(imgs.img_type eq 'logo') ne null}">
+			<c:if test="${not empty imgs and imgs.img_type eq 'logo'}">
 				<img src="../../logo_img/<c:out value="${img_name_origin}"/>"
 					onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="logo">
 			</c:if>
-			<c:if test="${(imgs.img_type eq 'logo') eq null }">
+			<c:if test="${empty imgs or imgs.img_type ne 'logo'}">
 				<img src="../../logo_img/logo_init.jpg" alt="logo">
 				<!-- 사진 없을 때 기본 사진 설정 -->
 			</c:if>
@@ -165,13 +165,13 @@ $(function(){
 			<button id="left-menu-btn" class="menu-btn btn btn-outline-dark"><</button>
 			<button id="right-menu-btn" class="menu-btn btn btn-outline-dark">></button>
 			<div id="menuSlide">
-				<c:if test="${(imgs.img_type eq 'menu') ne null}">
+				<c:if test="${not empty imgs and imgs.img_type eq 'menu'}">
 					<c:forEach var="menu" items="${imgs.img_name}">
 						<img src="../../menu_img/<c:out value="${menu}"/>"
 							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="menu" loading="lazy">
 					</c:forEach>
 				</c:if>
-				<c:if test="${(imgs.img_type eq 'menu') eq null }">
+				<c:if test="${empty imgs or imgs.img_type ne 'menu'}">
 					<!-- 사진 없을 때 기본 사진 설정 -->
 				<img src="../../menu_img/menu_init.jpg" alt="menu">
 				</c:if>
@@ -181,13 +181,13 @@ $(function(){
 			<button id="left-shop-btn" class="shop-btn btn btn-outline-dark"><</button>
 			<button id="right-shop-btn" class="shop-btn btn btn-outline-dark">></button>
 			<div id="shopSlide">
-				<c:if test="${(imgs.img_type eq 'cafe') ne null}">
+				<c:if test="${not empty imgs and imgs.img_type eq 'cafe'}">
 					<c:forEach var="cafe" items="${imgs.img_name}">
 						<img src="../../cafe_img/<c:out value="${cafe}"/>"
 							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="cafe" loading="lazy">
 					</c:forEach>
 				</c:if>
-				<c:if test="${(imgs.img_type eq 'cafe') eq null }">
+				<c:if test="${empty imgs or imgs.img_type ne 'cafe'}">
 				<!-- 사진 없을 때 기본 사진 설정 -->
 				<img src="../../cafe_img/cafe_init-01.jpg" alt="cafe">
 				<img src="../../cafe_img/cafe_init-02.jpg" alt="cafe">

@@ -1,5 +1,6 @@
 package com.caduk.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,10 @@ public class CafeServiceImpl implements CafeService {
 
 	@Override
 	public List<CafeVO> cafeImg(int cafeid) {
-		// TODO Auto-generated method stub
-		return this.cafeMapper.cafeImg(cafeid);
+		List<CafeVO> res =this.cafeMapper.cafeImg(cafeid);
+		System.out.println("service.toString():::"+res.toString());
+		System.out.println("cafeid :::"+cafeid);
+		return res;
 	}
 
 	@Override

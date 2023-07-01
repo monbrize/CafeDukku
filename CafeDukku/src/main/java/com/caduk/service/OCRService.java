@@ -15,10 +15,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class OCRService {
-	public static void main(String[] args) {
-		String apiURL = "https://7qilrqd9un.apigw.ntruss.com/custom/v1/23444/ede4e38f159657df585c0930cb651542867e4836806574138335e98f0a4eac14/general";
-		String secretKey = "bGtpVGRFcGdjSnZHamZhZERxRExraWlYak94dmFkc2g=";
-		String imageFile = "/Users/youreru/test_receipt/cafe_01.jpeg";
+	static String apiURL = "https://7qilrqd9un.apigw.ntruss.com/custom/v1/23444/ede4e38f159657df585c0930cb651542867e4836806574138335e98f0a4eac14/general";
+	static String secretKey = "bGtpVGRFcGdjSnZHamZhZERxRExraWlYak94dmFkc2g=";
+	static String imageFile = "/Users/youreru/test_receipt/cafe_01.jpeg";
+	public void executeOCR(){
 
 		try {
 			URL url = new URL(apiURL);

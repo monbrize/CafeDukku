@@ -21,7 +21,7 @@
 	</update>
 	 
 	<!-- 태그  -->
-	<select id="cafeTag" resultType="List">
+	<select id="cafeTag" resultType="CafeVO">
 		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}
 	</select>
 	<insert id="addTag" parameterType="CafeVO">
@@ -32,9 +32,9 @@
 	</delete>
 	<!-- 이미지-->
 	<insert id="addImg" parameterType="CafeVO">
-		insert into cafe_img values(imgid.nextval, #{cafeid}, #{img_type}, #{img_name}, #{img_name_origin})
+		insert into cafe_img values(imgid_seq.nextval, #{cafeid}, #{img_type}, #{img_name}, #{img_name_origin})
 	</insert>
-	<select id="cafeImg" resultType="List">
+	<select id="cafeImg" resultType="CafeVO">
 		select imgid, img_type, img_name, img_name_origin from cafe_img where cafeid=#{cafeid}
 	</select>
 	<select id="cafeImgbyId" resultType="CafeVO">
