@@ -23,6 +23,8 @@ $(document).ready(function () {
 	});	
 });
 $(function(){
+	let idx=$('#idx').val();
+	let cafeid=$('#cafeid').val();
     $('#menuImg').hover(function(){
         $('.menu-btn').css('display','block');
     },function(){
@@ -45,9 +47,47 @@ $(function(){
     $('#left-shop-btn').click(()=>{
         $('#shopSlide').prepend($('#shopSlide>img:last'));
     });
+    
+    $('#favEmpty').click(()=>{
+   		$.ajax({
+    		type:'put',
+    		url:'addfav',
+    		data:{cafeid:cafeid, idx:idx},
+    		cache:false,
+    		success:function(res){
+		    	$('#favEmpty').css('display','none');
+		    	$('#favFull').css('display', 'inline-block');
+		    	let cnt= Number($('#favCnt').html());
+		    	$('#favCnt').html(cnt+1);
+    		},error:function(err){
+    			
+    		}
+    		
+    	});
+    });
+    $('#favFull').click(()=>{
+    	$.ajax({
+    		type:'delete',
+    		url:'cancelfav',
+    		data:{cafeid:cafeid, idx:idx},
+    		cache:false,
+    		success:function(res){
+		    	 $('#favFull').css('display','none');
+		    	 $('#favEmpty').css('display', 'inline-block');
+		    	 let cnt= Number($('#favCnt').html());
+		     	$('#favCnt').html(cnt-1);
+    		},error:function(err){
+    			
+    		}
+    		
+    	});
+    });
 })
 </script>
 <div class="container">
+<input type="hidden" id="idx" value="${loginUser.idx }">
+<input type="hidden" id="cafeid" value="${cafe.cafeid }">
+
 	<div class="row mb-3">
 	<div id="topInfo" class="row mt-3 mb-3 ml-3">
 		<!-- 로고/상호명/평균스코어 -->
@@ -61,14 +101,33 @@ $(function(){
 		</div><!-- logoImg -->
 		
 		<div class="row col-10">
-			<div class="alert alert-warning col-12">
+			<div class="alert col-10">
 				<!-- 상호명 -->
 				<span id="cafename1">${cafe.cafename }</span>- <span id="cafename2">${cafe.cafename2 }</span>
 			</div>
+			<div id="fav" class="col-2">
+			<c:if test="${cafe.myFav eq true}">
+				<span id="favEmpty" style="display:none;">
+					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
+				</span>
+				<span id="favFull">
+					<i class="fa-solid fa-heart fa-2xl mt-4" style="color: #e32400;"></i>
+				</span>
+			</c:if>
+			<c:if test="${cafe.myFav eq false}">
+				<span id="favEmpty">
+					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
+				</span>
+				<span id="favFull" style="display:none;">
+					<i class="fa-solid fa-heart fa-2xl mt-4" style="color: #e32400;"></i>
+				</span>
+			</c:if>
+			<span id="favCnt"> <c:out value="${cafe.favTotalCnt }"/> </span>
+			</div>
 			<div class="col-12">
-				<span class="alert alert-danger mr-3"> ⭐️4.1 </span> 
-				<span class="alert alert-success mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
-				<span class="alert alert-primary "> 
+				<span class="alert mr-3"> ⭐️4.1 </span> 
+				<span class="alert  mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
+				<span class="alert "> 
 					<a href="https://instagram.com/<c:out value='${cafe.sns_url }'/>" target="_blank">👻@<c:out value="${cafe.sns_url }" /></a>
 				</span>
 			</div>

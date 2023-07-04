@@ -11,9 +11,12 @@ public interface CafeMapper {
 
 	int createCafe(CafeVO vo);
 	int updateCafe(CafeVO vo);
-	int deleteCafe(int cafeId);
-	CafeVO viewCafe(int idx);
-	CafeVO searchCafe(String key);
+	int deleteCafe(int cafeid);
+	CafeVO viewCafe(int cafeid);
+	CafeVO viewMyCafe(int idx);
+	List<CafeVO> getSearchCafe(String key);
+	List<CafeVO> getAllCafe();
+	List<CafeVO> getCafebyTag(String tag);
 	int updateOwner(int idx);
 	
 	int addImg(CafeVO vo);

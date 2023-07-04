@@ -41,7 +41,7 @@ body{
 #rankInfo {
 	height: 200px;
 }
-#tagInfo>div>span, .tBtn{
+#tagInfo > div > span, .tBtn{
     border-radius: 20px;
     padding: 10px 15px 10px 15px;
     clear:both;
@@ -49,7 +49,7 @@ body{
     text-align: center;
     margin: 5px;
 }
-#tagInfo >div> .tag_type {
+#tagInfo > div > .tag_type {
     font-weight: bolder;
     color: white;
     width: 120px;

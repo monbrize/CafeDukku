@@ -13,4 +13,11 @@ public interface MemberService {
 	MemberVO getMember(String email);
 	List<MemberVO> listMember();
 	
+	int addFav(MemberVO vo);
+	int cancelFav(MemberVO vo);
+	int getFavCnt(int cafeid);
+	boolean myFav(MemberVO vo);
+	
+	List<MemberVO> getMyFavList(int idx);
+	
 }

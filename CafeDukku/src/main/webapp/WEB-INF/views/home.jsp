@@ -84,11 +84,11 @@ a{
 					<!--  -->
 					<div class="row col-10">
 
-						<span class="tag_name"><a href="/searchbyTag?type=minimal">minimal</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">cozy</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">modern</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">lovely</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">antique</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=minimal">minimal</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=cozy">cozy</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=modern">modern</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=lovely">lovely</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=antique">antique</a></span>
 					</div>
 					<!--  -->
 				</div>
@@ -96,13 +96,13 @@ a{
 					<span class="tag_type col-2">CLASSIFY</span>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchbyTag?type=">espressobar</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">bakery</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">roastery</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">desert</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">alcohol</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">tea</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">brunch</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=espressobar">espressobar</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=bakery">bakery</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=roastery">roastery</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=desert">desert</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=alcohol">alcohol</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=tea">tea</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=brunch">brunch</a></span>
 					</div>
 					<!--  -->
 				</div>
@@ -110,13 +110,13 @@ a{
 					<div class="tag_type text-center col-2">PRIDE</div>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchbyTag?type=">comfortable
-								seats</a></span> <span class="tag_name"><a href="/searchbyTag?type=">roof
-								top</a></span> <span class="tag_name"><a href="/searchbyTag?type=">nice
-								view</a></span> <span class="tag_name"><a href="/searchbyTag?type=">photo
-								zone</a></span> <span class="tag_name"><a href="/searchbyTag?type=">outdoor
-								seats</a></span> <span class="tag_name"><a href="/searchbyTag?type=">plate</a></span>
-						<span class="tag_name"><a href="/searchbyTag?type=">sunshine</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=comfortable seats">comfortable
+								seats</a></span> <span class="tag_name"><a href="/searchCafe?tag=rooftop">roof
+								top</a></span> <span class="tag_name"><a href="/searchCafe?tag=niceview">nice
+								view</a></span> <span class="tag_name"><a href="/searchCafe?tag=photozone">photo
+								zone</a></span> <span class="tag_name"><a href="/searchCafe?tag=outdoorseats">outdoor
+								seats</a></span> <span class="tag_name"><a href="/searchCafe?tag=plate">plate</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=sunshine">sunshine</a></span>
 						<!--  -->
 					</div>
 				</div>
@@ -124,12 +124,12 @@ a{
 					<span class="tag_type col-2">PAYMENT</span>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchbyTag?type=">credit/debit
-								card</a></span> <span class="tag_name"><a href="/searchbyTag?type=">samsung
-								pay</a></span> <span class="tag_name"><a href="/searchbyTag?type=">apply
-								pay</a></span> <span class="tag_name"><a href="/searchbyTag?type=">account
+						<span class="tag_name"><a href="/searchCafe?tag=credit/debitcard">credit/debit
+								card</a></span> <span class="tag_name"><a href="/searchCafe?tag=samsungpay">samsung
+								pay</a></span> <span class="tag_name"><a href="/searchCafe?tag=applepay">apple
+								pay</a></span> <span class="tag_name"><a href="/searchCafe?tag=accounttransfer">account
 								transfer</a></span> <span class="tag_name"><a
-							href="/searchbyTag?type=">cash</a></span>
+							href="/searchCafe?tag=case">cash</a></span>
 					</div>
 					<!--  -->
 				</div>

@@ -19,6 +19,9 @@ public class CafeVO {
 	private String mapcode2;
 	private String status;
 	
+	private int favTotalCnt;
+	private boolean myFav;
+	
 	private String tag_type;
 	private String tag_name;
 	

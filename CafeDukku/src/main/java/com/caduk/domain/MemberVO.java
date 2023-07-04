@@ -14,4 +14,9 @@ public class MemberVO {
 	private String roll;
 	private int cafeid;
 	private String memo;
+	
+	private String img_name;
+	private String cafename;
+	private String cafename2;
+	private int eachFavTotal;
 }

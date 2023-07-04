@@ -54,4 +54,29 @@ public class MemberServiceImpl implements MemberService {
 		return passwordEncoder.matches(pwd, this.memberMapper.getMember(email).getPwd());
 	}
 
+	@Override
+	public int addFav(MemberVO vo) {
+		return this.memberMapper.addFav(vo);
+	}
+
+	@Override
+	public int cancelFav(MemberVO vo) {
+		return this.memberMapper.cancelFav(vo);
+	}
+
+	@Override
+	public int getFavCnt(int cafeid) {
+		return this.memberMapper.getFavCnt(cafeid);
+	}
+
+	@Override
+	public boolean myFav(MemberVO vo) {
+		return this.memberMapper.myFav(vo);
+	}
+
+	@Override
+	public List<MemberVO> getMyFavList(int idx) {
+		return this.memberMapper.getMyFavList(idx);
+	}
+
 }

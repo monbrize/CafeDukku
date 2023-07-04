@@ -11,6 +11,9 @@
 		update member set roll='OWNER' where idx=#{val}
 	</update>
 	<select id="viewCafe" parameterType="int" resultType="CafeVO">
+		select * from cafe where cafeid=#{val}
+	</select>
+	<select id="viewMyCafe" parameterType="int" resultType="CafeVO">
 		select * from cafe where idx=#{val}
 	</select>
 	
@@ -19,6 +22,19 @@
 			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
 			where cafeid=#{cafeid}
 	</update>
+	<select id="getSearchCafe"  parameterType="String" resultType="CafeVO">
+		select c.cafeid, c.cafename, c.cafename2, i.img_name from cafe c join cafe_img i on c.cafeid=i.cafeid
+		where (c.cafename like '%'||#{val}||'%' or c.cafename2 like '%'||#{val}||'%') and i.img_type='logo'
+	</select>
+	<select id="getAllCafe" resultType="CafeVO">
+		select c.cafeid, c.cafename, c.cafename2, i.img_name 
+		from cafe c join cafe_img i on c.cafeid=i.cafeid
+		where i.img_type='logo'
+	</select>
+	<select id="getCafebyTag" parameterType="String" resultType="CafeVO">
+	select c.cafeid cafeid, c.cafename cafename, c.cafename2 cafename2, i.img_name img_name from cafe c join cafe_img i on c.cafeid=i.cafeid
+		where i.img_type='logo' and c.cafeid in (select cafeid from cafe_tag where tag_name=#{val})
+	</select>
 	 
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="CafeVO">

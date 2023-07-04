@@ -35,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.caduk.domain.CafeVO;
 import com.caduk.domain.MemberVO;
 import com.caduk.service.CafeService;
+import com.caduk.service.MemberService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -45,6 +46,9 @@ public class CafeController {
 	
 	@Autowired
 	private CafeService cafeService;
+	
+	@Autowired
+	private MemberService memberService;
 
 
 	@PostMapping("/createCafe")
@@ -66,7 +70,6 @@ public class CafeController {
 		cafe=cafeService.viewCafe(idx);
 		List<CafeVO> imgs= this.cafeService.cafeImg(cafe.getCafeid());
 		List<CafeVO> tags=this.cafeService.cafeTag(cafe.getCafeid());
-		//List<CafeVO> menu =cafeService.menuImg(idx);
 		mv.addObject("cafe", cafe);
 		mv.addObject("imgs", imgs);
 		mv.addObject("tags", tags);
@@ -132,20 +135,60 @@ public class CafeController {
 	}
 	@GetMapping("/viewCafe")
 	@ResponseBody
-	public ModelAndView viewCafe(HttpSession session) {
+	public ModelAndView viewCafe(HttpSession session, @RequestParam(defaultValue="0") int cafeid) {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
-		MemberVO member=(MemberVO) session.getAttribute("loginUser");
-		int idx=member.getIdx();
-		cafe=cafeService.viewCafe(idx);
-		List<CafeVO> imgs= cafeService.cafeImg(idx);
+		List<CafeVO> imgs = new ArrayList<>();
+		List<CafeVO> tags = new ArrayList<>();
+		
+		MemberVO member=(MemberVO) session.getAttribute("loginUser");	//로그인 한 유저 
+		if(cafeid==0) {	//카페 아이디가 없을 때 내 카페 
+			cafe=cafeService.viewMyCafe(member.getIdx());
+			int mycafeid=cafe.getCafeid();
+			cafe.setFavTotalCnt(this.memberService.getFavCnt(mycafeid));
+			imgs= this.cafeService.cafeImg(mycafeid);
+			tags=this.cafeService.cafeTag(mycafeid);
+			member.setCafeid(mycafeid);
+			
+		} else { //기본 
+			cafe=cafeService.viewCafe(cafeid);
+			cafe.setFavTotalCnt(this.memberService.getFavCnt(cafeid));
+			imgs= this.cafeService.cafeImg(cafeid);
+			tags=this.cafeService.cafeTag(cafeid);
+			//member.setCafeid(cafeid);
+		}
+		if(member !=null) {	//로그인 했을 때
+			cafe.setMyFav(this.memberService.myFav(member));	//해당 유저가 즐겨찾기 했는지 			
+		} 
 		mv.addObject("cafe", cafe);
 		mv.addObject("imgs", imgs);
+		mv.addObject("tags", tags);
 		mv.setViewName("viewCafe");
 		
 		return mv;
 	}
 	
+	@GetMapping(value="/searchCafe", produces="application/json")
+	public ModelAndView cafeList(@RequestParam(defaultValue="") String key, @RequestParam(defaultValue="") String tag){
+		ModelAndView mv=new ModelAndView();
+		List<CafeVO> arr=null;
+		String text="";
+		if(!tag.isEmpty()) {	//태그로 가져오기
+			
+			arr=this.cafeService.getCafebyTag(tag);
+			text=tag;
+		}
+		if(key.isEmpty()) {	//key가 없다면 모든 카페 정보 가져오기 
+			arr=this.cafeService.getAllCafe();
+		}else {	//key 값으로 가져오기 
+			arr=this.cafeService.getSearchCafe(key);
+			text=key;
+		}
+		mv.addObject("cafe", arr);
+		mv.addObject("text", text);
+		mv.setViewName("searchResult");
+		return mv;
+	}
 	
 	@PutMapping("/addTag")
 	public  ResponseEntity<String> addtoTag(int cafeid, String tag_type,String tag_name ) {

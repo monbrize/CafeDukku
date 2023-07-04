@@ -10,4 +10,25 @@
 	<select id="getMember" parameterType="String" resultType="MemberVO">
 		SELECT * FROM MEMBER WHERE EMAIL=#{VAL}
 	</select>
+	
+	<insert id="addFav" parameterType="MemberVO">
+		insert into fav_cafe values(#{idx}, #{cafeid}, '')
+	</insert>
+	
+	<delete id="cancelFav" parameterType="MemberVO">
+		delete from fav_cafe where idx=#{idx} and cafeid=#{cafeid}
+	</delete>
+	<select id="getFavCnt" parameterType="int" resultType="int">
+		select count(*) from fav_cafe where cafeid=#{cafeid}
+	</select>
+	<select id="myFav" parameterType="MemberVO" resultType="boolean">
+		select count(*) from fav_cafe where cafeid=#{cafeid} and idx=#{idx}
+	</select>
+	
+	<select id="getMyFavList" parameterType="int" resultType="MemberVO">
+	select c.cafeid cafeid, c.cafename cafename, c.cafename2 cafename2, i.img_name img_name, 
+		(select count(*) from fav_cafe where cafeid=c.cafeid) eachFavTotal
+	from cafe c join cafe_img i on c.cafeid=i.cafeid
+	where c.cafeid in (select cafeid from fav_cafe where idx=#{val}) and i.img_type='logo'
+	</select>
 </mapper>

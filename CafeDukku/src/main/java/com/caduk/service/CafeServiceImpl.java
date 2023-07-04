@@ -27,20 +27,33 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public int deleteCafe(int cafeId) {
+	public int deleteCafe(int cafeid) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public CafeVO viewCafe(int idx) {
-		return this.cafeMapper.viewCafe(idx);
+	public CafeVO viewCafe(int cafeid) {
+		return this.cafeMapper.viewCafe(cafeid);
+	}
+	@Override
+	public CafeVO viewMyCafe(int idx) {
+		return this.cafeMapper.viewMyCafe(idx);
 	}
 
 	@Override
-	public CafeVO searchCafe(String key) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CafeVO> getSearchCafe(String key) {
+		return this.cafeMapper.getSearchCafe(key);
+	}
+
+	@Override
+	public List<CafeVO> getAllCafe() {
+		return this.cafeMapper.getAllCafe();
+	}
+
+	@Override
+	public List<CafeVO> getCafebyTag(String tag) {
+		return this.cafeMapper.getCafebyTag(tag);
 	}
 
 	@Override
@@ -85,5 +98,8 @@ public class CafeServiceImpl implements CafeService {
 	public CafeVO cafeImgbyId(int imgid) {
 		return this.cafeMapper.cafeImgbyId(imgid);
 	}
+
+
+
 
 }
