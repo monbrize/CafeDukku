@@ -3,6 +3,7 @@ package com.caduk.service;
 import java.util.List;
 
 import com.caduk.domain.CafeVO;
+import com.caduk.domain.EvaluationVO;
 
 public interface CafeService {
 
@@ -25,5 +26,8 @@ public interface CafeService {
 	List<CafeVO> cafeTag(int cafeid);
 	int removeTag(CafeVO vo);
 	CafeVO cafeImgbyId(int imgid);
+	
+	//eval
+	int evalCafe(EvaluationVO vo);
 	
 }

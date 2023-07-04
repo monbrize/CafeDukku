@@ -19,10 +19,6 @@ public class HomeController {
 	public String goSignIn() {
 		return "signIn";
 	}
-	@GetMapping("/eval")
-	public String goEval() {
-		return "evaluation";
-	}
 
 	@GetMapping("/newCafe")
 	public String goNewCafe() {

@@ -36,6 +36,13 @@
 		where i.img_type='logo' and c.cafeid in (select cafeid from cafe_tag where tag_name=#{val})
 	</select>
 	 
+	<!-- eval -->
+	<insert id="evalCafe" parameterType="EvaluationVO">
+		insert into eval_cafe(rateid, cafeid, ordertime, idx, kindness, clean, mood, price, comfort, restroom)
+		values(rateid_seq.nextval, #{cafeid}, sysdate, #{idx}, #{kindness}, #{clean}, #{mood},
+		#{price}, #{comfort},#{restroom})
+		
+	</insert>
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="CafeVO">
 		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}

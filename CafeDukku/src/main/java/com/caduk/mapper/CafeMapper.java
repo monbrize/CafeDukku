@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.caduk.domain.CafeVO;
+import com.caduk.domain.EvaluationVO;
 
 @Mapper
 public interface CafeMapper {
@@ -27,4 +28,8 @@ public interface CafeMapper {
 	List<CafeVO> cafeTag(int cafeid);
 	int removeTag(CafeVO vo);
 	CafeVO cafeImgbyId(int imgid);
+	
+	
+	//eval
+	int evalCafe(EvaluationVO vo);
 }

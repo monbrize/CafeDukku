@@ -20,6 +20,14 @@
     <!-- font awesome CDN -->
     <script src="https://kit.fontawesome.com/679b88eefa.js" crossorigin="anonymous"></script>
 <style>
+*{ 
+    padding: 0;             
+    box-sizing: border-box;
+
+}
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 #content {
 	overflow-y: scroll;
 	-ms-overflow-style: none;
@@ -42,11 +50,8 @@ $(function(){
 		cache:false
 		}).done((res)=>{
 			//alert(JSON.stringify(res));
-			showBooks(res);
-			if(res.length>0)
-				showBookInfo(res[0]);
-			else
-				clearBookInfo();
+			/* if(res.length>0)
+			else */
 		}).fail((err)=>{
 			alert(err.status);
 	})

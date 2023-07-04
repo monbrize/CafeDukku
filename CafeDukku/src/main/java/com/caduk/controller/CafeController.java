@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.caduk.domain.CafeVO;
+import com.caduk.domain.EvaluationVO;
 import com.caduk.domain.MemberVO;
 import com.caduk.service.CafeService;
 import com.caduk.service.MemberService;
@@ -188,6 +189,21 @@ public class CafeController {
 		mv.addObject("text", text);
 		mv.setViewName("searchResult");
 		return mv;
+	}
+	@GetMapping("/eval")
+	public String evalForm(@RequestParam int cafeid, Model m) {
+		
+		m.addAttribute("cafeid", cafeid);
+		return "eval";
+	}
+	@PostMapping("/evalCafe")
+	public String evalCafe(@RequestParam EvaluationVO vo, Model m) {
+		int n=this.cafeService.evalCafe(vo);
+		String str=(n>0)?"평가 완료 ":"실패, 다시 시도해주세요.";
+		String loc=(n>0)?"home":"javascript:window.close()";
+		m.addAttribute("msg", str);
+		m.addAttribute("loc", loc);
+		return "common/message";
 	}
 	
 	@PutMapping("/addTag")

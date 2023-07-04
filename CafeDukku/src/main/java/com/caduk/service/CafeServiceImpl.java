@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caduk.domain.CafeVO;
+import com.caduk.domain.EvaluationVO;
 import com.caduk.mapper.CafeMapper;
 
 @Service("CafeService")
@@ -97,6 +98,11 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public CafeVO cafeImgbyId(int imgid) {
 		return this.cafeMapper.cafeImgbyId(imgid);
+	}
+
+	@Override
+	public int evalCafe(EvaluationVO vo) {
+		return this.cafeMapper.evalCafe(vo);
 	}
 
 

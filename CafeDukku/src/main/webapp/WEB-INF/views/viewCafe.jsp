@@ -82,6 +82,22 @@ $(function(){
     		
     	});
     });
+    $('#openEval').click(()=>{
+    	let cafeid=$('#cafeid').val();
+    	$.ajax({
+    		url:"/eval",
+    		method:"get",
+    		data:{cafeid:cafeid, idx:idx},
+    		dataType:'json',
+    		success:function(res){
+    			window.open("eval.jsp","_blank");
+    		},
+    		error:function(err){
+    			alert(err.status);
+    		}
+    	});
+    	
+    });
 })
 </script>
 <div class="container">
@@ -151,7 +167,7 @@ $(function(){
 		</div>
 		<!-- midInfo -->
 		<div id="midInfo2" class="row">
-			<div class="tBtn col-2">SHOP Rank</div>
+			<div class="tBtn col-2">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-2xl" style="color: #004d65;"></i></span></div>
 			<div class="tBtn col-2">MENU Rank</div>
 			<div class="tBtn col-7">TAGGING</div>
 			<div id="rankMenu" class="col-2">
