@@ -31,24 +31,48 @@ $(document).ready(function () {
     $(document).on("click",".removeMood",function(e){
         let aaa=$(e.target).parent('span').remove();
     });
+
    
 });
-const findAddr=function(){
-    //카카오 지도 발생
-    new daum.Postcode({
-        oncomplete: function(data) { //선택시 입력값 세팅
-            document.getElementById("postcode").value = data.zonecode;
-            document.getElementById("loc1").value = data.address; // 주소 넣기
-            document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
-        }
-    }).open();
-};
 
+let res=false;
+const findAddr=function(){
+	openAddr();
+	inputmap();
+}
+const openAddr=function(){	
+	//카카오 지도 발생
+	new daum.Postcode({
+	    oncomplete: function(data) { //선택시 입력값 세팅
+	        document.getElementById("postcode").value = data.zonecode;
+	        document.getElementById("loc1").value = data.address; // 주소 넣기
+	        document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
+	        inputmap();
+	    }
+	}).open();
+}
+
+//submit 
+const newCafe=function(){
+	$('form').submit();
+}
+const inputmap=function(){
+	//주소 좌표 얻기
+    let geocoder = new kakao.maps.services.Geocoder();
+	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+	    	$('input[name=mapcode1]').val(result[0].y);
+	    	$('input[name=mapcode2]').val(result[0].x);
+	    }
+	});
+}
 </script>
         <h1>매장 등록</h1>
         <div class="container col-10">
         <form name="initForm" action="createCafe" method="post" enctype="multipart/form-data">
         <input type="hidden" name="idx" value="${loginUser.idx}">
+        <input type="hidden" name="mapcode1" value="">
+        <input type="hidden" name="mapcode2" value="">
             <table class="table table-striped " width="">
                 <colgroup>
                     <col width=20%>
@@ -210,7 +234,7 @@ const findAddr=function(){
             </table>
             <div style="text-align: center;">
 
-                <button type="submit" class="btn btn-primary" >done</button>
+                <button type="button" onclick="newCafe()" class="btn btn-primary" >done</button>
                 <button type="reset" class="btn btn-warning">reset</button>
             </div>
         </form>

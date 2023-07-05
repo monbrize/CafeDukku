@@ -1,26 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a&libraries=services"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a"></script>
+
 <link rel="stylesheet" type="text/css" href="./css/viewCafe.css">
 <script>
 $(document).ready(function () {
-	let geocoder = new kakao.maps.services.Geocoder();
 	let container = document.getElementById('locMap'); //지도를 담을 영역의 DOM 레퍼런스
-	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
-	    if (status === kakao.maps.services.Status.OK) {
-			/* 카카오맵 출력 */
-			let options = { //지도를 생성할 때 필요한 기본 옵션
-				center: new kakao.maps.LatLng(result[0].y, result[0].x),
-				level: 4 //지도의 레벨(확대, 축소 정도)
-			}; 
-			let marker = new kakao.maps.Marker({
-				position:options.center
-			});
-			let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-			marker.setMap(map);
-	    }
-	});	
+		/* 카카오맵 출력 */
+		let options = { //지도를 생성할 때 필요한 기본 옵션
+			center: new kakao.maps.LatLng($('#mapcode1').val(), $('#mapcode2').val()),
+			level: 4 //지도의 레벨(확대, 축소 정도)
+		}; 
+		let marker = new kakao.maps.Marker({
+			position:options.center
+		});
+		let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		marker.setMap(map);
+	
 });
 $(function(){
 	let idx=$('#idx').val();
@@ -83,19 +78,14 @@ $(function(){
     	});
     });
     $('#openEval').click(()=>{
-    	let cafeid=$('#cafeid').val();
-    	$.ajax({
-    		url:"/eval",
-    		method:"get",
-    		data:{cafeid:cafeid, idx:idx},
-    		dataType:'json',
-    		success:function(res){
-    			window.open("eval.jsp","_blank");
-    		},
-    		error:function(err){
-    			alert(err.status);
-    		}
-    	});
+    	if(!idx){
+    		alert('로그인 후 평가할 수 있습니다.');
+    		return false;
+    	}
+    	$('#evalDiv').css('display','block');
+    	var offset = $('#evalDiv').offset(); //선택한 태그의 위치를 반환
+        //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
+    	$('html').animate({scrollTop : offset.top}, 400);
     	
     });
 })
@@ -103,6 +93,8 @@ $(function(){
 <div class="container">
 <input type="hidden" id="idx" value="${loginUser.idx }">
 <input type="hidden" id="cafeid" value="${cafe.cafeid }">
+<input type="hidden" id="mapcode1" value="${cafe.mapcode1 }">
+<input type="hidden" id="mapcode2" value="${cafe.mapcode2 }">
 
 	<div class="row mb-3">
 	<div id="topInfo" class="row mt-3 mb-3 ml-3">
@@ -167,7 +159,7 @@ $(function(){
 		</div>
 		<!-- midInfo -->
 		<div id="midInfo2" class="row">
-			<div class="tBtn col-2">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-2xl" style="color: #004d65;"></i></span></div>
+			<div class="tBtn col-2">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-lg" style="color: #004d65;"></i></span></div>
 			<div class="tBtn col-2">MENU Rank</div>
 			<div class="tBtn col-7">TAGGING</div>
 			<div id="rankMenu" class="col-2">
@@ -241,8 +233,8 @@ $(function(){
 			<div id="menuSlide">
 				<c:forEach var="i" items="${imgs }">
 					<c:if test="${not empty i and i.img_type eq 'menu'}">
-							<img src="../../menu_img/<c:out value="${i.img_name}"/>"
-								onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="menu" loading="lazy">
+						<img src="../../menu_img/<c:out value="${i.img_name}"/>"
+							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="menu" loading="lazy">
 					</c:if>
 				</c:forEach>
 			</div> 
@@ -256,8 +248,116 @@ $(function(){
 						<img src="../../cafe_img/<c:out value="${i.img_name}"/>"
 							onclick="window.open(this.src, this.alt, '_parent', 'location=no, status=no')" alt="cafe" loading="lazy">
 					</c:if>
-					</c:forEach>
+				</c:forEach>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<script>
+    $(document).ready(function (){
+        $('.starDiv span').click(function(){
+            $(this).children().removeClass('fa-regular').addClass('fa-solid');   //ok
+            $(this).prevAll().children().removeClass('fa-regular').addClass('fa-solid');    //선택이전까지 
+            $(this).nextAll().children().removeClass('fa-solid').addClass('fa-regular');
+            let str=$(this).parent().prev().text().toLowerCase();
+            let score=$(this).children('.fa-solid:last').parent().attr('value');
+            $('input[name='+str+']').val(score);
+            return false;
+        })
+        
+    });
+</script>
+<style>
+.star {
+	color:#fecb3e;
+}
+#evalDiv{
+    background-color:#EBD8B2;
+    padding:20px;
+    display:none;
+}
+</style>
+<div id="evalDiv" style="">
+<h2>Evaluations ...</h2>
+<form id="evalF" action="/evalCafe" method="post">
+	<div id="favList" class="mb-3">
+	<input type="hidden" name="cafeid" value="${cafe.cafeid }">
+	<input type="hidden" name="idx" value="${loginUser.idx }">
+	<input type="hidden" name="kindness" value="1"> 
+	<input type="hidden" name="clean" value="1"> 
+	<input type="hidden" name="mood" value="1"> 
+	<input type="hidden" name="price" value="1"> 
+	<input type="hidden" name="comfort" value="1"> 
+	<input type="hidden" name="restroom" value="1"> 
+		<ul class="list-group">
+			<li class="list-group-item row">
+				<span class="evalType col-2">KINDNESS</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid   fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                </span>
+			</li>
+			<li class="list-group-item row">
+				<span class="evalType col-2">CLEANING</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                </span>
+			</li>
+			<li class="list-group-item row">
+				<span class="evalType col-2">MOOD</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                </span>
+			</li>
+			<li class="list-group-item row">
+				<span class="evalType col-2">PRICE</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"   ></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2" ></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2" ></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2" ></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2" ></i></span>
+                </span>
+			</li>
+			<li class="list-group-item row">
+				<span class="evalType col-2">COMFORT</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                </span>
+			</li>
+			<li class="list-group-item row">
+				<span class="evalType col-2">RESTROOM</span>
+				<span class="starDiv col-6">
+                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
+                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
+                </span>
+			</li>
+			
+		</ul>
+	</div>
+	<div class="text-center">
+	<button type="submit" class="btn btn-primary" >완료</button>
+	</div>
+</form>
+
+</div> 

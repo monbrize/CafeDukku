@@ -8,7 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaFe DukKu</title>
-    
+    <!-- kakao map -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a"></script>
     <!-- jQuery library -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
     <!-- Latest compiled and minified CSS -->
@@ -100,7 +102,7 @@ $(function(){
             </div>
         </li>
             <li class="nav-item">
-                <a class="dropdown-item" href="${myctx}/signOut">SignOut</a>
+                <a class="nav-link" href="${myctx}/signOut">SignOut</a>
             </li>
 	</c:if>
 	<c:if test="${loginUser eq null }">

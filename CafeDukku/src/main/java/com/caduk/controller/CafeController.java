@@ -13,6 +13,8 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.validation.constraints.Null;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,12 +70,13 @@ public class CafeController {
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
 		int idx=member.getIdx();
-		cafe=cafeService.viewCafe(idx);
-		List<CafeVO> imgs= this.cafeService.cafeImg(cafe.getCafeid());
+		cafe=cafeService.viewMyCafe(idx);
+		List<CafeVO> imgs=this.cafeService.cafeImg(cafe.getCafeid());
 		List<CafeVO> tags=this.cafeService.cafeTag(cafe.getCafeid());
-		mv.addObject("cafe", cafe);
+		
 		mv.addObject("imgs", imgs);
 		mv.addObject("tags", tags);
+		mv.addObject("cafe", cafe);
 		mv.setViewName("updateCafe");
 		return mv;
 	}
@@ -114,19 +117,22 @@ public class CafeController {
 
 		//파일 업로드
 		MultipartHttpServletRequest mr=(MultipartHttpServletRequest)req;
+		if(mr!=null) {
 		List<MultipartFile> menu_img_list=mr.getFiles("menu_img");
-		if(menu_img_list!=null) {
+		if(menu_img_list.size()>0 && !menu_img_list.get(0).getOriginalFilename().equals("")) {
+			System.out.println("menu_img_list::"+menu_img_list.size());
 			fileUpload(menu_img_list, "menu", vo.getCafeid());
 		}
 		List<MultipartFile> cafe_img_list=mr.getFiles("cafe_img");
-		if(cafe_img_list!=null) {
+		if(cafe_img_list.size()>0 && !cafe_img_list.get(0).getOriginalFilename().equals("")) {
 			fileUpload(cafe_img_list, "cafe", vo.getCafeid());
 		}
 		List<MultipartFile> logo_img_list=mr.getFiles("logo_img");
-		if(logo_img_list!=null) {
+		if(logo_img_list.size()>0 && !logo_img_list.get(0).getOriginalFilename().equals("")) {
+			System.out.println("logo_img_list::"+logo_img_list.size());
 			fileUpload(logo_img_list, "logo", vo.getCafeid());
 		}
-		
+		}
 		int n=cafeService.updateCafe(vo);
 		String str=(n>0)?"수정이 완료되었습니다.":"요청이 실패하였습니다. 다시 시도해주세요.";
 		String loc=(n>0)?"home":"javascript:history.back()";
@@ -197,10 +203,10 @@ public class CafeController {
 		return "eval";
 	}
 	@PostMapping("/evalCafe")
-	public String evalCafe(@RequestParam EvaluationVO vo, Model m) {
+	public String evalCafe(@ModelAttribute EvaluationVO vo, Model m) {
 		int n=this.cafeService.evalCafe(vo);
 		String str=(n>0)?"평가 완료 ":"실패, 다시 시도해주세요.";
-		String loc=(n>0)?"home":"javascript:window.close()";
+		String loc=(n>0)?"/viewCafe":"javascript:history.back()";
 		m.addAttribute("msg", str);
 		m.addAttribute("loc", loc);
 		return "common/message";

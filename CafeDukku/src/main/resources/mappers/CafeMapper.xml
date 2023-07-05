@@ -3,9 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.caduk.mapper.CafeMapper">
 	<insert id="createCafe" parameterType="CafeVO">
-		insert into cafe(cafeid, idx, cafename, cafename2, inform, notice, sns_url, call, postcode, loc1, loc2, status)
+		insert into cafe(cafeid, idx, cafename, cafename2, inform, notice, sns_url, call, 
+			postcode, loc1, loc2, , mapcode1, mapcode2, status)
 		values(cafeid_seq.nextval, #{idx}, #{cafename}, #{cafename2:VARCHAR},#{inform:VARCHAR}, #{notice:VARCHAR},
-		 #{sns_url:VARCHAR}, #{call:VARCHAR},#{postcode:VARCHAR}, #{loc1:VARCHAR}, #{loc2:VARCHAR}, 'O')  
+		 	#{sns_url:VARCHAR}, #{call:VARCHAR},#{postcode:VARCHAR}, #{loc1:VARCHAR}, #{loc2:VARCHAR},
+		 	#{mapcode1:VARCHAR}, #{mapcode2:VARCHAR}, 'O')  
 	</insert>
 	<update id="updateOwner" parameterType="int">
 		update member set roll='OWNER' where idx=#{val}
@@ -20,6 +22,7 @@
 	<update id="updateCafe" parameterType="CafeVO" >
 		update cafe set cafename=#{cafename}, cafename2=#{cafename2:VARCHAR}, inform=#{inform:VARCHAR}, notice=#{notice:VARCHAR},
 			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
+			, mapcode1=#{mapcode1:VARCHAR}, mapcode2=#{mapcode2:VARCHAR}
 			where cafeid=#{cafeid}
 	</update>
 	<select id="getSearchCafe"  parameterType="String" resultType="CafeVO">

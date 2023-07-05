@@ -5,13 +5,13 @@
 <!-- -------------------------------------------------------------------------- -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
 $(function(){
 	CKEDITOR.replace('infoForm');
 })
 
-const cafeUpdate=function(){
-	$('form').submit();
-}
+
+
 $(document).ready(function () {
     //이미지 추가 버튼 
     $('#addMenuImg').click(function () {
@@ -78,18 +78,39 @@ $(document).ready(function () {
     	
     }
     
+	
+    
 });
 const findAddr=function(){
+	openAddr();
+	inputmap();
+}
+const openAddr=function(){	
 	//카카오 지도 발생
 	new daum.Postcode({
 	    oncomplete: function(data) { //선택시 입력값 세팅
 	        document.getElementById("postcode").value = data.zonecode;
-	        document.getElementById("loc1").value = data.address; // 주소 넣기
+	        document.getElementById("mapLoc").value = data.address; // 주소 넣기
 	        document.querySelector("input[name=loc2]").focus(); //상세입력 포커싱
+	        inputmap();
 	    }
 	}).open();
-};
+}
 
+//submit 
+const cafeUpdate=function(){
+	$('form').submit();
+}
+const inputmap=function(){
+	//주소 좌표 얻기
+    let geocoder = new kakao.maps.services.Geocoder();
+	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+	    	$('input[name=mapcode1]').val(result[0].y);
+	    	$('input[name=mapcode2]').val(result[0].x);
+	    }
+	});
+}
 /* 이미지 삭제 */
 const delImg=function(e, imgid, img_type){
 	$.ajax({
@@ -118,6 +139,8 @@ const delImg=function(e, imgid, img_type){
 	<form name="updateForm" action="updateCafe" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="cafeid" value="${cafe.cafeid}">
+        <input type="hidden" id="mapcode1" name="mapcode1" value="">
+        <input type="hidden" id="mapcode2" name="mapcode2" value="">
 		<table class="table table-striped " width="">
 			<colgroup>
 				<col width=20%>
@@ -157,11 +180,11 @@ const delImg=function(e, imgid, img_type){
 			</tr>
 			<tr scope="row">
 				<td><label class="form-label"> 주소 1 </label></td>
-				<td><input type="text" name="loc1" id="loc1" class="form-control" readonly required value="${cafe.loc1}"></td>
+				<td><input type="text" name="loc1" id="mapLoc" class="form-control" readonly required value="${cafe.loc1}"></td>
 			</tr>
 			<tr scope="row">
 				<td><label class="form-label"> 주소 2 </label></td>
-				<td><input type="text" name="loc2" id="loc2" class="form-control" value="${cafe.loc2}"></td>
+				<td><input type="text" name="loc2" class="form-control" value="${cafe.loc2}"></td>
 			</tr>
 		</table>
 
