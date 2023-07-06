@@ -30,5 +30,8 @@ public interface CafeService {
 	
 	//eval
 	int evalCafe(EvaluationVO vo);
+	double getMyTotalEval(int cafeid);	//searchList
+	CafeVO getMyEval(int cafeid);	//mycafe
+	List<CafeVO> getTopEval();	//home
 	
 }

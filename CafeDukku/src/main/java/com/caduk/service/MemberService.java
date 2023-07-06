@@ -2,6 +2,7 @@ package com.caduk.service;
 
 import java.util.List;
 
+import com.caduk.domain.CafeVO;
 import com.caduk.domain.MemberVO;
 
 public interface MemberService {
@@ -18,6 +19,6 @@ public interface MemberService {
 	int getFavCnt(int cafeid);
 	boolean myFav(MemberVO vo);
 	
-	List<MemberVO> getMyFavList(int idx);
+	List<CafeVO> getMyFavList(int idx);
 	
 }

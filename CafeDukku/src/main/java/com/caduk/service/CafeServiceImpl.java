@@ -75,8 +75,6 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public List<CafeVO> cafeImg(int cafeid) {
 		List<CafeVO> res =this.cafeMapper.cafeImg(cafeid);
-		System.out.println("service.toString():::"+res.toString());
-		System.out.println("cafeid :::"+cafeid);
 		return res;
 	}
 
@@ -108,6 +106,37 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public List<CafeVO> getOpenCafe() {
 		return this.cafeMapper.getOpenCafe();
+	}
+
+	@Override
+	public double getMyTotalEval(int cafeid) {
+		return this.cafeMapper.getMyTotalEval(cafeid);
+	}
+
+	@Override
+	public CafeVO getMyEval(int cafeid) {
+		return this.cafeMapper.getMyEval(cafeid);
+	}
+
+	@Override
+	public List<CafeVO> getTopEval() {
+		List<CafeVO> list=new ArrayList<>();
+		CafeVO kind=this.cafeMapper.getTopKind();
+		kind.setScoreType("kind");
+		list.add(kind);
+		CafeVO clean=this.cafeMapper.getTopClean();
+		clean.setScoreType("clean");
+		list.add(clean);
+		CafeVO mood=this.cafeMapper.getTopMood();
+		mood.setScoreType("mood");
+		list.add(mood);
+		CafeVO price=this.cafeMapper.getTopPrice();
+		price.setScoreType("price");
+		list.add(price);
+		CafeVO comfort=this.cafeMapper.getTopComfort();
+		comfort.setScoreType("comfort");
+		list.add(comfort);
+		return list;
 	}
 
 

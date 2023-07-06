@@ -23,6 +23,15 @@ public class CafeVO {
 	private String mapcode2;
 	private String status;
 	private int fav_cnt;
+	private double score;
+	private String scoreType;
+	
+	private double totalScore;
+	private double kindScore;
+	private double cleanScore;
+	private double moodScore;
+	private double priceScore;
+	private double comfortScore;
 	
 	private int favTotalCnt;
 	private boolean myFav;

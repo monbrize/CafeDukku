@@ -47,11 +47,12 @@ a{
 #paymentArea > div > .tag_name{
     background-color: #A1C2F1;
 }
-#openShopInfo a{
+#openShopInfo a, #rankInfo a{
  	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap; 
 }
+
 .subname{
 	font-size:0.9em;
 }
@@ -61,28 +62,93 @@ a{
 <div class="container">
 	<div id="homeInfo" class="row">
 		<div id="topInfo" class="row col-12 mb-3">
-			<span class="tBtn col-6">Top Ranking</span> <span class="tBtn col-5">New
-				Open</span>
-			<div id="rankInfo" class="col-6">
-				😊KINDNESS ⭐️5.0
-				<div></div>
-				<br> 🪑COMFORTABLE ⭐️3.2
-				<div></div>
-				<br> 💸PRICE ⭐️2.5
-				<div></div>
-				<br> 🧹CLEAN ⭐️4.2
-				<div></div>
-				<br> 🧚‍♀️MOOD ⭐️2.1
-				<div></div>
+			<div class="tBtn col-6">Top Ranking</div> 
+			<div class="tBtn col-5">NewOpen</div>
+			<div id="rankInfo" class="row col-6 ml-2 pr-4">
+			<c:forEach var="t" items="${topRank}">
+				<c:if test="${t.scoreType eq 'kind' }">
+					<div class="rankList row mt-3">
+						<span class="col-1">😊 </span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
+							<c:out value="${t.cafename}"/></a>
+							<span class="badge col-2">
+								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+							</span>
+						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+						<c:out value="${t.fav_cnt}"/></span>
+						</span>
+					</div>
+				</c:if>
+				<c:if test="${t.scoreType eq 'comfort' }">
+					<div class="rankList row mt-3">
+						<span class="col-1">🪑 </span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
+							<c:out value="${t.cafename}"/></a>
+							<span class="badge col-2">
+								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+							</span>
+						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+						<c:out value="${t.fav_cnt}"/></span>
+						</span>
+					</div>
+				</c:if>
+				<c:if test="${t.scoreType eq 'mood' }">
+					<div class="rankList row mt-3">
+						<span class="col-1"> 🧚‍♀️ </span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
+							<c:out value="${t.cafename}"/></a>
+							<span class="badge col-2">
+								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+							</span>
+						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+						<c:out value="${t.fav_cnt}"/></span>
+						</span>
+					</div>
+				</c:if>
+				<c:if test="${t.scoreType eq 'price' }">
+					<div class="rankList row mt-3">
+						<span class="col-1"> 💸 </span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
+							<c:out value="${t.cafename}"/></a>
+							<span class="badge col-2">
+								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+							</span>
+						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+						<c:out value="${t.fav_cnt}"/></span>
+						</span>
+					</div>
+				</c:if>
+				<c:if test="${t.scoreType eq 'clean' }">
+					<div class="rankList row mt-3">
+						<span class="col-1"> 🧹</span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
+							<c:out value="${t.cafename}"/></a>
+							<span class="badge col-2">
+								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+							</span>
+						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+						<c:out value="${t.fav_cnt}"/></span>
+						</span>
+					</div>
+				</c:if>
+			</c:forEach>
 			</div>
-			<div id="openShopInfo" class="col-5 ml-3">
+
+			<div id="openShopInfo" class="row col-5 ml-3">
 				<c:forEach var="n" items="${newCafe}">
 				<div class="openList row mt-3">
 					<img src="../../logo_img/<c:out value="${n.img_name }"/>" class="col-2" alt="logo">
-					<a href="/viewCafe?cafeid=${n.cafeid }" class="col-7">
-						<c:out value="${n.cafename}"/><c:if test="${not empty n.cafename2 }">
-						<span class="subname">&nbsp;-&nbsp;<c:out value="${n.cafename2}"/></span></c:if></a>
-					<span class="badge col-3"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+					<a href="/viewCafe?cafeid=${n.cafeid }" class="col-5">
+						<c:out value="${n.cafename}"/></a>
+						<span class="badge col-2">
+							<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${n.score }"/>
+						</span>
+					<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
 					<c:out value="${n.fav_cnt}"/></span>
 					</span>
 				</div>

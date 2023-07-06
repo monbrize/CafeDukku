@@ -31,7 +31,17 @@ public interface CafeMapper {
 	int removeTag(CafeVO vo);
 	CafeVO cafeImgbyId(int imgid);
 	
+	CafeVO getMySearchList(int cafeid);
 	
 	//eval
 	int evalCafe(EvaluationVO vo);
+	double getMyTotalEval(int cafeid);
+	CafeVO getMyEval(int cafeid);
+	//List<EvaluationVO> getTopEval();
+	CafeVO getTopKind();
+	CafeVO getTopClean();
+	CafeVO getTopMood();
+	CafeVO getTopPrice();
+	CafeVO getTopComfort();
+	
 }

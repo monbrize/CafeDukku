@@ -26,23 +26,20 @@
 			where cafeid=#{cafeid}
 	</update>
 	<select id="getOpenCafe" resultType="CafeVO">
-		select cafeid, cafename, cafename2, img_name, fav_cnt from (select * from cafe_list order by cafeid desc) 
+		select * from (select * from cafe_search_list order by cafeid desc) 
 		<![CDATA[
 			where rownum < 6
 		]]>
 	</select>
 	<select id="getSearchCafe"  parameterType="String" resultType="CafeVO">
-		select c.cafeid, c.cafename, c.cafename2, i.img_name from cafe c join cafe_img i on c.cafeid=i.cafeid
-		where (c.cafename like '%'||#{val}||'%' or c.cafename2 like '%'||#{val}||'%') and i.img_type='logo'
+		select * from cafe_search_list
+		where cafename like '%'||#{val}||'%' or cafename2 like '%'||#{val}||'%'
 	</select>
 	<select id="getAllCafe" resultType="CafeVO">
-		select c.cafeid, c.cafename, c.cafename2, i.img_name 
-		from cafe c join cafe_img i on c.cafeid=i.cafeid
-		where i.img_type='logo'
+		select * from cafe_search_list
 	</select>
 	<select id="getCafebyTag" parameterType="String" resultType="CafeVO">
-	select c.cafeid cafeid, c.cafename cafename, c.cafename2 cafename2, i.img_name img_name from cafe c join cafe_img i on c.cafeid=i.cafeid
-		where i.img_type='logo' and c.cafeid in (select cafeid from cafe_tag where tag_name=#{val})
+		select * from cafe_search_list where cafeid in (select cafeid from cafe_tag where tag_name=#{val})
 	</select>
 	 
 	<!-- eval -->
@@ -50,8 +47,66 @@
 		insert into eval_cafe(rateid, cafeid, ordertime, idx, kindness, clean, mood, price, comfort, restroom)
 		values(rateid_seq.nextval, #{cafeid}, sysdate, #{idx}, #{kindness}, #{clean}, #{mood},
 		#{price}, #{comfort},#{restroom})
-		
 	</insert>
+	<select id="getMySearchList" parameterType="int" resultType="CafeVO">
+		select * from cafe_list where cafeid=#{val}
+	</select>
+	<!-- 내 카페의 종합점수 -->
+	<select id="getMyTotalEval" parameterType="int" resultType="double">
+		select round((sum(kindness+clean+mood+price+comfort)/(count(*)*5)),2) totalScore
+		from eval_cafe where cafeid=#{val} group by cafeid
+	</select>
+	<!-- 내 카페의 다섯가지 항목의 점수 -->
+	<select id="getMyEval" parameterType="int" resultType="CafeVO">
+	select cafeid, round(avg(kindness),1) kindScore, round(avg(clean),1) cleanScore, 
+    	round(avg(mood),1) moodScore, round(avg(price),1) priceScore, round(avg(comfort),1) comfortScore
+		from eval_cafe where cafeid=#{val} group by cafeid 
+	</select>	
+	<select id="getTopKind" resultType="CafeVO">
+		select c.*, a.kindnessScore  from cafe_search_list c, (
+			select * 
+			from (select cafeid, avg(kindness) kindnessScore from eval_cafe group by cafeid order by 2 desc)	
+	<![CDATA[
+			where rownum < 2
+		]]>
+		) a where c.cafeid=a.cafeid
+	</select>
+	<select id="getTopClean" resultType="CafeVO">
+	select c.*, a.cleanScore  from cafe_search_list c, (
+		select * 
+		from (select cafeid, avg(clean) cleanScore from eval_cafe group by cafeid order by 2 desc)
+	<![CDATA[
+			where rownum < 2
+		]]>
+		) a where c.cafeid=a.cafeid
+	</select>
+	<select id="getTopMood" resultType="CafeVO">
+	select c.*, a.moodScore  from cafe_search_list c, (
+		select * 
+		from (select cafeid, avg(mood) moodScore from eval_cafe group by cafeid order by 2 desc)
+	<![CDATA[
+			where rownum < 2
+		]]>
+		) a where c.cafeid=a.cafeid
+	</select>
+	<select id="getTopPrice" resultType="CafeVO">
+		select c.*, a.priceScore  from cafe_search_list c, (
+			select * 
+			from (select cafeid, round(avg(price),1) priceScore from eval_cafe group by cafeid order by 2 desc)
+	<![CDATA[
+			where rownum < 2
+		]]>
+		) a where c.cafeid=a.cafeid
+	</select>
+	<select id="getTopComfort" resultType="CafeVO">
+		select c.*, a.comfortScore  from cafe_search_list c, (
+			select * 
+			from (select cafeid, avg(comfort) comfortScore from eval_cafe group by cafeid order by 2 desc)
+	<![CDATA[
+			where rownum < 2
+		]]>
+		) a where c.cafeid=a.cafeid
+	</select>
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="CafeVO">
 		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}

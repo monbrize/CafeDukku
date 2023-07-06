@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.caduk.domain.CafeVO;
 import com.caduk.domain.MemberVO;
 
 @Mapper
@@ -20,5 +21,5 @@ public interface MemberMapper {
 	int getFavCnt(int cafeid);
 	boolean myFav(MemberVO vo);
 	
-	List<MemberVO> getMyFavList(int idx);
+	List<CafeVO> getMyFavList(int idx);
 }

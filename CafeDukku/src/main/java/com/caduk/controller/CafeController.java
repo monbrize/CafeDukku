@@ -148,26 +148,25 @@ public class CafeController {
 		CafeVO cafe=new CafeVO();
 		List<CafeVO> imgs = new ArrayList<>();
 		List<CafeVO> tags = new ArrayList<>();
-		
-		MemberVO member=(MemberVO) session.getAttribute("loginUser");	//로그인 한 유저 
 		if(cafeid==0) {	//카페 아이디가 없을 때 내 카페 
-			cafe=cafeService.viewMyCafe(member.getIdx());
-			int mycafeid=cafe.getCafeid();
-			cafe.setFavTotalCnt(this.memberService.getFavCnt(mycafeid));
-			imgs= this.cafeService.cafeImg(mycafeid);
-			tags=this.cafeService.cafeTag(mycafeid);
-			member.setCafeid(mycafeid);
-			
-		} else { //기본 
-			cafe=cafeService.viewCafe(cafeid);
-			cafe.setFavTotalCnt(this.memberService.getFavCnt(cafeid));
-			imgs= this.cafeService.cafeImg(cafeid);
-			tags=this.cafeService.cafeTag(cafeid);
-			//member.setCafeid(cafeid);
+			MemberVO member=(MemberVO) session.getAttribute("loginUser");	//로그인 한 유저 -멤버 정보만 갖고있음. 
+			cafe=cafeService.viewMyCafe(member.getIdx());	//로그인한 유저가 가진 내 카페 정보 -이카페가 내카페인지!!
+			cafeid=cafe.getCafeid();	//idx로 카페 아이디 알아냄.
+			member.setCafeid(cafeid);	//멤버의 카페 아이디 셋?
+			cafe.setMyFav(this.memberService.myFav(member));	//해당 유저가 즐겨찾기 했는지 -cafeid와 idx로 즐겨찾기 여부 반환 	
 		}
-		if(member !=null) {	//로그인 했을 때
-			cafe.setMyFav(this.memberService.myFav(member));	//해당 유저가 즐겨찾기 했는지 			
-		} 
+		cafe = cafeService.viewCafe(cafeid);
+		cafe.setFavTotalCnt(this.memberService.getFavCnt(cafeid));
+		cafe.setMyFav(false);
+		//해당 카페의 다섯가지 평가 항목의 평균스코어를 가져옴
+		CafeVO evals=this.cafeService.getMyEval(cafeid);
+		
+		imgs = this.cafeService.cafeImg(cafeid);
+		tags = this.cafeService.cafeTag(cafeid);
+		double totalScore = this.cafeService.getMyTotalEval(cafeid);
+		this.cafeService.getMyEval(cafeid);
+		mv.addObject("totalScore", totalScore);
+		mv.addObject("evals", evals);
 		mv.addObject("cafe", cafe);
 		mv.addObject("imgs", imgs);
 		mv.addObject("tags", tags);
@@ -185,12 +184,11 @@ public class CafeController {
 			
 			arr=this.cafeService.getCafebyTag(tag);
 			text=tag;
-		}
-		if(key.isEmpty()) {	//key가 없다면 모든 카페 정보 가져오기 
-			arr=this.cafeService.getAllCafe();
-		}else {	//key 값으로 가져오기 
+		}else if(!key.isEmpty()) {	//key 값으로 가져오기 
 			arr=this.cafeService.getSearchCafe(key);
 			text=key;
+		}else {	//key가 없다면 모든 카페 정보 가져오기 
+			arr=this.cafeService.getAllCafe();
 		}
 		mv.addObject("cafe", arr);
 		mv.addObject("text", text);

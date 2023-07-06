@@ -73,7 +73,7 @@ public class MemberController {
 	@GetMapping("/myPage")
 	public String goMyPage(HttpSession session, Model m) {
 		MemberVO vo=(MemberVO) session.getAttribute("loginUser");
-		List<MemberVO> favList=this.memberService.getMyFavList(vo.getIdx());
+		List<CafeVO> favList=this.memberService.getMyFavList(vo.getIdx());
 		m.addAttribute("fav", favList);
 		return "myPage";
 	}

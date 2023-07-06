@@ -18,7 +18,9 @@ public class EvaluationVO {
 	private int mood;
 	private int price;
 	private int comfort;
-	private int restroom;
+	
+
+	
 	
 	private String menu;
 	private int rate;

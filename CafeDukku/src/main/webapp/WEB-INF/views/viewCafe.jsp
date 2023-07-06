@@ -114,7 +114,8 @@ $(function(){
 				<span id="cafename1"><c:out value="${cafe.cafename }"/></span>&nbsp;
 				<span id="cafename2"> <c:out value=" ${cafe.cafename2 }"/></span>
 			</div>
-			<div id="fav" class="col-2 mt-3"><!-- 하트버튼 -->
+			<!-- 하트버튼 -->
+			<div id="fav" class="col-2 mt-3">
 			<c:if test="${cafe.myFav eq true}">
 				<span id="favEmpty" style="display:none;">
 					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
@@ -133,8 +134,13 @@ $(function(){
 			</c:if>
 			<span id="favCnt"> <c:out value="${cafe.favTotalCnt }"/> </span>
 			</div><!-- 하트버튼 끝 -->
+			
 			<div class="col-12"><!-- 두번째 라인 -->
-				<span class="alert alert-danger mr-3"> ⭐️4.1 </span> 
+				<span class="alert alert-danger mr-3"> ⭐️<c:if test="${empty totalScore }">0</c:if>
+			<c:if test="${not empty totalScore }">
+				<fmt:formatNumber value="${totalScore }" pattern="0.00" var="score"/>
+				<c:out value="${score }"/>
+			</c:if></span> 
 				<span class="alert alert-info mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
 				<span class="alert alert-dark "> 
 					<a href="https://instagram.com/<c:out value='${cafe.sns_url }'/>" target="_blank">👻@<c:out value="${cafe.sns_url }" /></a>
@@ -160,19 +166,50 @@ $(function(){
 		</div>
 		<!-- midInfo -->
 		<div id="midInfo2" class="row">
-			<div class="tBtn col-2">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-lg" style="color: #004d65;"></i></span></div>
-			<div class="tBtn col-2">MENU Rank</div>
+			<div class="tBtn col-4">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-lg" style="color: #004d65;"></i></span></div>
+			<!-- <div class="tBtn col-2">MENU Rank</div> -->
 			<div class="tBtn col-7">TAGGING</div>
-			<div id="rankMenu" class="col-2">
-				😊KINDNESS ⭐️5.0 <br> 🪑COMFORTABLE ⭐️3.2<br> 💸PRICE
-				⭐️2.5<br> 🧹CLEAN ⭐️4.2<br> 🧚‍♀️MOOD ⭐️2.1 <br>
+			<div id="rankMenu" class="row col-4 ml-3">
+			<c:if test="${not empty evals }">
+			<span class="col-6">
+				 😊KINDNESS
+			</span>
+				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+				<c:out value="${evals.kindScore}"/>
+				</span>
+			<span class="col-6">
+				🪑COMFORTABLE
+			</span>
+				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+				<c:out value="${evals.comfortScore}"/>
+				</span>
+			<span class="col-6">
+				💸PRICE
+			</span>
+				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+				<c:out value="${evals.priceScore}"/>
+				</span>
+			<span class="col-6">
+				🧹CLEAN
+			</span>
+				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+				<c:out value="${evals.cleanScore}"/>
+				</span>
+			<span class="col-6">
+				🧚‍♀️MOOD 
+			</span>
+				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+				<c:out value="${evals.moodScore}"/>
+				</span>
+
+			</c:if>
 			</div>
-			<div id="evalShop" class="col-2">
+			<!-- div id="evalShop" class="col-2">
 				AMERICANO ⭐️5.0<br>ESSPRESSO ⭐️4.7<br>YUZU ADE ⭐️4.7<br>BAGEL
 				⭐️4.6<br>CHEESECAKE ⭐️4.0
-			</div>
+			</div> -->
 			<!-- cafeInfo -->
-			<div id="tagInfo" class="container-fluid col-7">
+			<div id="tagInfo" class="container-fluid col-7 pl-1">
 
 				<div id="moodArea" class="row">
 					<span class="tag_type">MOOD</span>

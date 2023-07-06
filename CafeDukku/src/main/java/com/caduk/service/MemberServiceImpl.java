@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.caduk.domain.CafeVO;
 import com.caduk.domain.MemberVO;
 import com.caduk.mapper.MemberMapper;
 
@@ -75,7 +76,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<MemberVO> getMyFavList(int idx) {
+	public List<CafeVO> getMyFavList(int idx) {
 		return this.memberMapper.getMyFavList(idx);
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.caduk.domain.CafeVO;
+import com.caduk.domain.EvaluationVO;
 import com.caduk.service.CafeService;
 
 @Controller
@@ -22,7 +23,10 @@ public class HomeController {
 	public ModelAndView goHome() {
 		ModelAndView mv = new ModelAndView();
 		List<CafeVO> newCafe = this.cService.getOpenCafe();
+		List<CafeVO> topRank=this.cService.getTopEval();
+		
 		mv.addObject("newCafe", newCafe);
+		mv.addObject("topRank", topRank);
 		
 		mv.setViewName("home");
 		return mv;
