@@ -37,11 +37,7 @@ public interface CafeMapper {
 	int evalCafe(EvaluationVO vo);
 	double getMyTotalEval(int cafeid);
 	CafeVO getMyEval(int cafeid);
-	//List<EvaluationVO> getTopEval();
-	CafeVO getTopKind();
-	CafeVO getTopClean();
-	CafeVO getTopMood();
-	CafeVO getTopPrice();
-	CafeVO getTopComfort();
+	 List<CafeVO> getTopEval();
+
 	
 }

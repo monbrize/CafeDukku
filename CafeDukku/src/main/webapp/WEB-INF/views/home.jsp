@@ -64,78 +64,36 @@ a{
 		<div id="topInfo" class="row col-12 mb-3">
 			<div class="tBtn col-6">Top Ranking</div> 
 			<div class="tBtn col-5">NewOpen</div>
-			<div id="rankInfo" class="row col-6 ml-2 pr-4">
+			<div id="rankInfo" class="row col-6 ml-2 mt-3 pr-1">
 			<c:forEach var="t" items="${topRank}">
+				<div class="rankList row col-12 mb-2">
+					<span class="col-2">
 				<c:if test="${t.scoreType eq 'kind' }">
-					<div class="rankList row mt-3">
-						<span class="col-1">😊 </span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
-						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
-							<c:out value="${t.cafename}"/></a>
-							<span class="badge col-2">
-								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
-							</span>
-						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
-						<c:out value="${t.fav_cnt}"/></span>
-						</span>
-					</div>
+				😊<br>친절도 
 				</c:if>
 				<c:if test="${t.scoreType eq 'comfort' }">
-					<div class="rankList row mt-3">
-						<span class="col-1">🪑 </span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
-						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
-							<c:out value="${t.cafename}"/></a>
-							<span class="badge col-2">
-								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
-							</span>
-						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
-						<c:out value="${t.fav_cnt}"/></span>
-						</span>
-					</div>
+				🪑<br>편안함
 				</c:if>
 				<c:if test="${t.scoreType eq 'mood' }">
-					<div class="rankList row mt-3">
-						<span class="col-1"> 🧚‍♀️ </span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
-						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
-							<c:out value="${t.cafename}"/></a>
-							<span class="badge col-2">
-								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
-							</span>
-						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
-						<c:out value="${t.fav_cnt}"/></span>
-						</span>
-					</div>
+				🧚<br>분위기
 				</c:if>
 				<c:if test="${t.scoreType eq 'price' }">
-					<div class="rankList row mt-3">
-						<span class="col-1"> 💸 </span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
-						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
-							<c:out value="${t.cafename}"/></a>
-							<span class="badge col-2">
-								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
-							</span>
-						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
-						<c:out value="${t.fav_cnt}"/></span>
-						</span>
-					</div>
+				 💸<br>가격
 				</c:if>
 				<c:if test="${t.scoreType eq 'clean' }">
-					<div class="rankList row mt-3">
-						<span class="col-1"> 🧹</span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
-						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-5">
-							<c:out value="${t.cafename}"/></a>
+				🧹<br>청결도
+				</c:if>
+				</span>
 							<span class="badge col-2">
 								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
 							</span>
+						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-4" width="100%">
+							<c:out value="${t.cafename}"/></a>
 						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
 						<c:out value="${t.fav_cnt}"/></span>
 						</span>
 					</div>
-				</c:if>
 			</c:forEach>
 			</div>
 

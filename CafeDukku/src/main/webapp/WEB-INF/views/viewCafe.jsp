@@ -169,7 +169,7 @@ $(function(){
 			<div class="tBtn col-4">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-lg" style="color: #004d65;"></i></span></div>
 			<!-- <div class="tBtn col-2">MENU Rank</div> -->
 			<div class="tBtn col-7">TAGGING</div>
-			<div id="rankMenu" class="row col-4 ml-3">
+			<div id="rankMenu" class="row col-4 ml-3 mt-3">
 			<c:if test="${not empty evals }">
 			<span class="col-6">
 				 😊KINDNESS
@@ -220,7 +220,6 @@ $(function(){
 							<span class="tag_name">${t.tag_name }</span>
 						</c:if>
 					</c:forEach>
-					<!--  -->
 				</div>
 				<div id="classifyArea" class="row">
 					<span class="tag_type">CLASSIFY</span>

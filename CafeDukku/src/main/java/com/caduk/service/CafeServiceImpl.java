@@ -120,23 +120,7 @@ public class CafeServiceImpl implements CafeService {
 
 	@Override
 	public List<CafeVO> getTopEval() {
-		List<CafeVO> list=new ArrayList<>();
-		CafeVO kind=this.cafeMapper.getTopKind();
-		kind.setScoreType("kind");
-		list.add(kind);
-		CafeVO clean=this.cafeMapper.getTopClean();
-		clean.setScoreType("clean");
-		list.add(clean);
-		CafeVO mood=this.cafeMapper.getTopMood();
-		mood.setScoreType("mood");
-		list.add(mood);
-		CafeVO price=this.cafeMapper.getTopPrice();
-		price.setScoreType("price");
-		list.add(price);
-		CafeVO comfort=this.cafeMapper.getTopComfort();
-		comfort.setScoreType("comfort");
-		list.add(comfort);
-		return list;
+		return this.cafeMapper.getTopEval();
 	}
 
 

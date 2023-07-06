@@ -62,50 +62,23 @@
     	round(avg(mood),1) moodScore, round(avg(price),1) priceScore, round(avg(comfort),1) comfortScore
 		from eval_cafe where cafeid=#{val} group by cafeid 
 	</select>	
-	<select id="getTopKind" resultType="CafeVO">
-		select c.*, a.kindnessScore  from cafe_search_list c, (
-			select * 
-			from (select cafeid, avg(kindness) kindnessScore from eval_cafe group by cafeid order by 2 desc)	
-	<![CDATA[
-			where rownum < 2
-		]]>
-		) a where c.cafeid=a.cafeid
-	</select>
-	<select id="getTopClean" resultType="CafeVO">
-	select c.*, a.cleanScore  from cafe_search_list c, (
-		select * 
-		from (select cafeid, avg(clean) cleanScore from eval_cafe group by cafeid order by 2 desc)
-	<![CDATA[
-			where rownum < 2
-		]]>
-		) a where c.cafeid=a.cafeid
-	</select>
-	<select id="getTopMood" resultType="CafeVO">
-	select c.*, a.moodScore  from cafe_search_list c, (
-		select * 
-		from (select cafeid, avg(mood) moodScore from eval_cafe group by cafeid order by 2 desc)
-	<![CDATA[
-			where rownum < 2
-		]]>
-		) a where c.cafeid=a.cafeid
-	</select>
-	<select id="getTopPrice" resultType="CafeVO">
-		select c.*, a.priceScore  from cafe_search_list c, (
-			select * 
-			from (select cafeid, round(avg(price),1) priceScore from eval_cafe group by cafeid order by 2 desc)
-	<![CDATA[
-			where rownum < 2
-		]]>
-		) a where c.cafeid=a.cafeid
-	</select>
-	<select id="getTopComfort" resultType="CafeVO">
-		select c.*, a.comfortScore  from cafe_search_list c, (
-			select * 
-			from (select cafeid, avg(comfort) comfortScore from eval_cafe group by cafeid order by 2 desc)
-	<![CDATA[
-			where rownum < 2
-		]]>
-		) a where c.cafeid=a.cafeid
+	<select id="getTopEval" resultType="CafeVO">
+	select i.cafeid, i.cafename, i.cafename2, i.img_name, i.fav_cnt, b.scoretype, b.score from cafe_search_list i join (
+		select (select 'kind' from dual) scoretype, a.* from (select cafeid, round(avg(kindness),1) score from eval_cafe group by cafeid order by 2 desc) a 
+		<![CDATA[ where rownum < 2 ]]>
+		union
+		select (select 'clean' from dual) scoretype, a.* from (select cafeid, round(avg(clean),1) score from eval_cafe group by cafeid order by 2 desc) a 
+		<![CDATA[ where rownum < 2 ]]>
+		union
+		select (select 'mood' from dual) scoretype, a.* from (select  cafeid, round(avg(mood),1) score from eval_cafe group by cafeid order by 2 desc) a 
+		<![CDATA[ where rownum < 2 ]]>
+		union
+		select (select 'price' from dual) scoretype, a.* from (select cafeid, round(avg(price),1) score from eval_cafe group by cafeid order by 2 desc) a 
+		<![CDATA[ where rownum < 2 ]]>
+		union
+		select (select 'comfort' from dual) scoretype, a.* from (select cafeid, round(avg(comfort),1) score from eval_cafe group by cafeid order by 2 desc) a 
+		<![CDATA[ where rownum < 2 ]]>
+		) b on i.cafeid=b.cafeid
 	</select>
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="CafeVO">
