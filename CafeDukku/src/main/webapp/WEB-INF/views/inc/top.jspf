@@ -94,9 +94,11 @@ $(function(){
             data-toggle="dropdown">${loginUser.name} 님 로그인 중.. </a>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="${myctx}/myPage">MyPage</a>
+            <c:if test="${loginUser.roll ne 'OWNER'}">
                 <a class="dropdown-item" href="${myctx}/newCafe">CreateCafe</a>
+            </c:if>
 			<c:if test="${loginUser.roll eq 'OWNER' }">
-                <a class="dropdown-item" href="${myctx}/viewCafe">ViewCafe</a>
+                <a class="dropdown-item" href="${myctx}/viewCafe">viewMyCafe</a>
                 <a class="dropdown-item" href="${myctx}/editCafe">editCafe</a>
             </c:if>
             </div>

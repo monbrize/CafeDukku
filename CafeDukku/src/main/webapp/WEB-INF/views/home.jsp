@@ -47,6 +47,14 @@ a{
 #paymentArea > div > .tag_name{
     background-color: #A1C2F1;
 }
+#openShopInfo a{
+ 	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+}
+.subname{
+	font-size:0.9em;
+}
 </style>
 <h1>Hello Caduk!</h1>
 
@@ -67,11 +75,18 @@ a{
 				<br> 🧚‍♀️MOOD ⭐️2.1
 				<div></div>
 			</div>
-			<div id="openShopInfo" class="col-5">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+			<div id="openShopInfo" class="col-5 ml-3">
+				<c:forEach var="n" items="${newCafe}">
+				<div class="openList row mt-3">
+					<img src="../../logo_img/<c:out value="${n.img_name }"/>" class="col-2" alt="logo">
+					<a href="/viewCafe?cafeid=${n.cafeid }" class="col-7">
+						<c:out value="${n.cafename}"/><c:if test="${not empty n.cafename2 }">
+						<span class="subname">&nbsp;-&nbsp;<c:out value="${n.cafename2}"/></span></c:if></a>
+					<span class="badge col-3"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+					<c:out value="${n.fav_cnt}"/></span>
+					</span>
+				</div>
+				</c:forEach>
 			</div>
 		</div>
 		<!-- topInfo -->
@@ -83,12 +98,16 @@ a{
 					<div class="tag_type col-2">MOOD</div>
 					<!--  -->
 					<div class="row col-10">
-
+						<span class="tag_name"><a href="/searchCafe?tag=classic">classic</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=contemporary">contemporary</a></span>
 						<span class="tag_name"><a href="/searchCafe?tag=minimal">minimal</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=cozy">cozy</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=modern">modern</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=lovely">lovely</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=unique">unique</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=fancy">fancy</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=vintage">vintage</a></span>
 						<span class="tag_name"><a href="/searchCafe?tag=antique">antique</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=planterior">planterior</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=lovely">lovely</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=cozy">cozy</a></span>
 					</div>
 					<!--  -->
 				</div>
@@ -96,13 +115,15 @@ a{
 					<span class="tag_type col-2">CLASSIFY</span>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchCafe?tag=espressobar">espressobar</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=handDrip">handDrip</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=specialTea">specialTea</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=espressoBar">espressoBar</a></span>
 						<span class="tag_name"><a href="/searchCafe?tag=bakery">bakery</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=roastery">roastery</a></span>
 						<span class="tag_name"><a href="/searchCafe?tag=desert">desert</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=alcohol">alcohol</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=tea">tea</a></span>
 						<span class="tag_name"><a href="/searchCafe?tag=brunch">brunch</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=tea">tea</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=milkTea">milkTea</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=bar">bar</a></span>
 					</div>
 					<!--  -->
 				</div>
@@ -110,13 +131,13 @@ a{
 					<div class="tag_type text-center col-2">PRIDE</div>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchCafe?tag=comfortable seats">comfortable
-								seats</a></span> <span class="tag_name"><a href="/searchCafe?tag=rooftop">roof
-								top</a></span> <span class="tag_name"><a href="/searchCafe?tag=niceview">nice
-								view</a></span> <span class="tag_name"><a href="/searchCafe?tag=photozone">photo
-								zone</a></span> <span class="tag_name"><a href="/searchCafe?tag=outdoorseats">outdoor
-								seats</a></span> <span class="tag_name"><a href="/searchCafe?tag=plate">plate</a></span>
-						<span class="tag_name"><a href="/searchCafe?tag=sunshine">sunshine</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=petFriendly">petFriendly</a></span> 
+						<span class="tag_name"><a href="/searchCafe?tag=parkingLot">parkingLot</a></span> 
+						<span class="tag_name"><a href="/searchCafe?tag=roofTop">roofTop</a></span> 
+						<span class="tag_name"><a href="/searchCafe?tag=outdoorSeats">outdoorSeats</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=garden">garden</a></span> 
+						<span class="tag_name"><a href="/searchCafe?tag=goods">goods</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=noKids">noKids</a></span>
 						<!--  -->
 					</div>
 				</div>
@@ -124,12 +145,12 @@ a{
 					<span class="tag_type col-2">PAYMENT</span>
 					<!--  -->
 					<div class="row col-10">
-						<span class="tag_name"><a href="/searchCafe?tag=credit/debitcard">credit/debit
-								card</a></span> <span class="tag_name"><a href="/searchCafe?tag=samsungpay">samsung
-								pay</a></span> <span class="tag_name"><a href="/searchCafe?tag=applepay">apple
-								pay</a></span> <span class="tag_name"><a href="/searchCafe?tag=accounttransfer">account
-								transfer</a></span> <span class="tag_name"><a
-							href="/searchCafe?tag=case">cash</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=cash">cash</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=card">card</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=samsungPay">samsungPay</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=applePay">applePay</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=zeroPay">zeroPay</a></span>
+						<span class="tag_name"><a href="/searchCafe?tag=accountTransfer">accountTransfer</a></span>
 					</div>
 					<!--  -->
 				</div>

@@ -35,7 +35,6 @@ $(document).ready(function () {
    
 });
 
-let res=false;
 const findAddr=function(){
 	openAddr();
 	inputmap();
@@ -54,12 +53,15 @@ const openAddr=function(){
 
 //submit 
 const newCafe=function(){
+	//let x=$('input[name=mapcode1]').val();
+	//let y=$('input[name=mapcode2]').val();
+	//console.log(x+"///"+y);
 	$('form').submit();
 }
 const inputmap=function(){
 	//주소 좌표 얻기
     let geocoder = new kakao.maps.services.Geocoder();
-	geocoder.addressSearch($('#mapLoc').val(), function(result, status) {
+	geocoder.addressSearch($('#loc').val(), function(result, status) {
 	    if (status === kakao.maps.services.Status.OK) {
 	    	$('input[name=mapcode1]').val(result[0].y);
 	    	$('input[name=mapcode2]').val(result[0].x);
@@ -90,18 +92,7 @@ const inputmap=function(){
                        <input type="text" name="cafename2" class="form-control"> 
                     </td>
                 </tr>
-                
-               <!--  <tr scope="row">
-                    <td>
-                        <div class="form-group">
-                            <label for="logoImg" class="form-label"> 로고이미지 </label></td><td>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" nam="logo_img" id="customFile">
-                                    <label class="custom-file-label" for="customFile">Choose file</label>
-                                  </div>
-                        </div>
-                    </td>
-                </tr> -->
+
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 공지사항 </label></td><td>
@@ -111,12 +102,12 @@ const inputmap=function(){
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 소개 </label></td><td>
-                       <input type="text" name="inform" id="infoForm" class="form-control"> 
+                       <textarea type="text" name="inform" id="infoForm" class="form-control"> </textarea>
                     </td>
                 </tr>
                 <tr scope="row">
                     <td>
-                       <label class="form-label"> 인스타URL </label></td><td>
+                       <label class="form-label"> 인스타그램 ID </label></td><td>
                        <input type="text" name="sns_url" class="form-control"> 
                     </td>
                 </tr>
@@ -128,15 +119,15 @@ const inputmap=function(){
                 </tr>
                 <tr scope="row">
                     <td>
-                       <label class="form-label"> 우편번호 </label></td><td>
-                       <input type="text" name="postcode" id="postcode"  class="form-control"> 
-                       <input type="button" class="btn btn-warning" onclick="findAddr()" value="찾기">
+                       <label class="form-label"> 우편번호 </label></td><td style="display:flex;">
+                       <input type="text" name="postcode" id="postcode" readonly class="form-control col-3"> 
+                       <input type="button" class="btn btn-outline-primary ml-1" onclick="findAddr()" style="display:relative;" value="찾기">
                     </td>
                 </tr>
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 주소 1 </label></td><td>
-                       <input type="text" name="loc1" id="loc1" class="form-control"> 
+                       <input type="text" name="loc1" id="loc1" readonly class="form-control"> 
                     </td>
                 </tr>
                 <tr scope="row">
@@ -145,92 +136,7 @@ const inputmap=function(){
                        <input type="text" name="loc2" class="form-control"> 
                     </td>
                 </tr>
-                <!-- <tr>
-                    <td>
-                        <label class="form-label"> 매장이미지 </label><br>
-                        <button type="button" class="btn btn-dark" id="addImg">추가</button>
-                    </td>
-                    <td>
-                        <div id="imgArea">
-                        <div class="row">
-                            <span class="col-10">
-                                <input type="file" name="img_name" class="form-control">
-                            </span>
-                            <span class="col-2">
-                                <input type="checkbox" name="imgChk" class="form-check-input" value="">메뉴
-                            </span>
-                        </div>
-                        <div class="row">
-                            <span class="col-10">
-                                <input type="file" name="img_name" class="form-control">
-                            </span>
-                            <span class="col-2">
-                                <input type="checkbox" name="imgChk" class="form-check-input" value="">메뉴
-                            </span>
-                        </div>
-                        <div class="row">
-                            <span class="col-10">
-                                <input type="file" name="img_name" class="form-control">
-                            </span>
-                            <span class="col-2">
-                                <input type="checkbox" name="imgChk" class="form-check-input" value="">메뉴
-                            </span>
-                        </div>
-                    </div>
-                        
-                    </td>
-                </tr>
-                <tr scope="row">
-                    <td>
-                        <label class="form-label"> 태그 </label>
-                    </td>
-                    <td>
-                        <label for="exampleSelect2" class="form-label mt-4">MOOD</label>
-                        <select multiple="" id="moodBox" class="form-control" id="exampleSelect2">
-                            <option value="minimal">minimal</option>
-                            <option value="cozy">cozy</option>
-                            <option value="modern">modern</option>
-                            <option value="lovely">lovely</option>
-                            <option value="enthic">enthic</option>
-                        </select>
-                        직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                        <div id="moodArea">
-                            <span class="moodList">lovely<button type="button" class="removeMood">X</button></span>
-                        </div>
-                        <label for="exampleSelect2" class="form-label mt-4">CLASSIFY</label>
-                        <select multiple="" class="form-control" id="exampleSelect2">
-                            <option>espresso bar</option>
-                            <option>bakery</option>
-                            <option>roastery</option>
-                            <option>desert</option>
-                            <option>alcohol</option>
-                            <option>tea</option>
-                            <option>brunch</option>
-                        </select>
-                        직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                        <label for="exampleSelect2" class="form-label mt-4">PRIDE</label>
-                        <select multiple="" class="form-control" id="exampleSelect2">
-                            <option>comfortable seats</option>
-                            <option>roof top</option>
-                            <option>plate</option>
-                            <option>nice view</option>
-                            <option>sunshine</option>
-                            <option>photo zone</option>
-                            <option>outdoor seats</option>
-                        </select>
-                        직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                        <label for="exampleSelect1" class="form-label mt-4">PAYMENT</label>
-                        <select multiple="" class="form-control" id="exampleSelect1">
-                            <option>cash</option>
-                            <option>credit/debit card</option>
-                            <option>apply pay</option>
-                            <option>samsung pay</option>
-                            <option>account transfer</option>
-                        </select>
-                        직접입력 : <input type="text" id="moodText" class="form-control" placeholder="입력 후 Enter...">
-                    </td>
-                </tr>
-      -->
+
             </table>
             <div style="text-align: center;">
 

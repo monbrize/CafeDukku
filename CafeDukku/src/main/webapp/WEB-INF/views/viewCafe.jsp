@@ -97,9 +97,9 @@ $(function(){
 <input type="hidden" id="mapcode2" value="${cafe.mapcode2 }">
 
 	<div class="row mb-3">
-	<div id="topInfo" class="row mt-3 mb-3 ml-3">
+	<div id="topInfo" class="row col-12 mt-3 mb-3">
 		<!-- 로고/상호명/평균스코어 -->
-		<div id="logoImg" class="col-2 mr-3">
+		<div id="logoImg" class="col-2 mr-2 " >
 			<c:forEach var="i" items="${imgs }">
 				<c:if test="${not empty i and i.img_type eq 'logo'}">
 				<img src="../../logo_img/<c:out value="${i.img_name}"/>"
@@ -108,12 +108,13 @@ $(function(){
 			</c:forEach>
 		</div><!-- logoImg -->
 		
-		<div class="row col-10">
-			<div class="alert col-10">
+		<div class="row col-9">
+			<div class="alert col-9"><!-- 첫번째 라인  -->
 				<!-- 상호명 -->
-				<span id="cafename1">${cafe.cafename }</span>- <span id="cafename2">${cafe.cafename2 }</span>
+				<span id="cafename1"><c:out value="${cafe.cafename }"/></span>&nbsp;
+				<span id="cafename2"> <c:out value=" ${cafe.cafename2 }"/></span>
 			</div>
-			<div id="fav" class="col-2">
+			<div id="fav" class="col-2 mt-3"><!-- 하트버튼 -->
 			<c:if test="${cafe.myFav eq true}">
 				<span id="favEmpty" style="display:none;">
 					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
@@ -131,16 +132,16 @@ $(function(){
 				</span>
 			</c:if>
 			<span id="favCnt"> <c:out value="${cafe.favTotalCnt }"/> </span>
-			</div>
-			<div class="col-12">
-				<span class="alert mr-3"> ⭐️4.1 </span> 
-				<span class="alert  mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
-				<span class="alert "> 
+			</div><!-- 하트버튼 끝 -->
+			<div class="col-12"><!-- 두번째 라인 -->
+				<span class="alert alert-danger mr-3"> ⭐️4.1 </span> 
+				<span class="alert alert-info mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
+				<span class="alert alert-dark "> 
 					<a href="https://instagram.com/<c:out value='${cafe.sns_url }'/>" target="_blank">👻@<c:out value="${cafe.sns_url }" /></a>
 				</span>
 			</div>
 		</div>
-		</div><!-- topInfo -->
+	</div><!-- topInfo -->
 		<div id="midInfo" class="row mt-2 mb-2 ml-1">
 			<!-- 지도, 공지, 정보, 소개 -->
 			<div class="col-4">

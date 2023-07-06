@@ -17,7 +17,7 @@
         
     });
 </script>
-<div class="container">
+<div id="evalDiv">
 <form id="evalF" action="/evalCafe" method="post">
 	<div id="favList" class="mb-3">
 	<input type="hidden" name="cafeid" value="${cafeid }">

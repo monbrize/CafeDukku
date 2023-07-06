@@ -4,7 +4,7 @@
 <mapper namespace="com.caduk.mapper.CafeMapper">
 	<insert id="createCafe" parameterType="CafeVO">
 		insert into cafe(cafeid, idx, cafename, cafename2, inform, notice, sns_url, call, 
-			postcode, loc1, loc2, , mapcode1, mapcode2, status)
+			postcode, loc1, loc2, mapcode1, mapcode2, status)
 		values(cafeid_seq.nextval, #{idx}, #{cafename}, #{cafename2:VARCHAR},#{inform:VARCHAR}, #{notice:VARCHAR},
 		 	#{sns_url:VARCHAR}, #{call:VARCHAR},#{postcode:VARCHAR}, #{loc1:VARCHAR}, #{loc2:VARCHAR},
 		 	#{mapcode1:VARCHAR}, #{mapcode2:VARCHAR}, 'O')  
@@ -25,6 +25,12 @@
 			, mapcode1=#{mapcode1:VARCHAR}, mapcode2=#{mapcode2:VARCHAR}
 			where cafeid=#{cafeid}
 	</update>
+	<select id="getOpenCafe" resultType="CafeVO">
+		select cafeid, cafename, cafename2, img_name, fav_cnt from (select * from cafe_list order by cafeid desc) 
+		<![CDATA[
+			where rownum < 6
+		]]>
+	</select>
 	<select id="getSearchCafe"  parameterType="String" resultType="CafeVO">
 		select c.cafeid, c.cafename, c.cafename2, i.img_name from cafe c join cafe_img i on c.cafeid=i.cafeid
 		where (c.cafename like '%'||#{val}||'%' or c.cafename2 like '%'||#{val}||'%') and i.img_type='logo'

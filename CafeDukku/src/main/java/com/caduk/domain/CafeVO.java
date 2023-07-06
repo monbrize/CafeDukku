@@ -22,6 +22,7 @@ public class CafeVO {
 	private String mapcode1;
 	private String mapcode2;
 	private String status;
+	private int fav_cnt;
 	
 	private int favTotalCnt;
 	private boolean myFav;

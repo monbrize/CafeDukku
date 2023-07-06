@@ -55,10 +55,11 @@ public class CafeController {
 
 
 	@PostMapping("/createCafe")
-	public String createCafe(Model m, @ModelAttribute CafeVO vo) {
+	public String createCafe(Model m, @ModelAttribute CafeVO vo, HttpSession session) {
 		int n=cafeService.createCafe(vo);
-		String str=(n>0)?"카페 등록이 완료되었습니다.":"요청이 실패하였습니다. 다시 시도해주세요.";
-		String loc=(n>0)?"home":"javascript:history.back()";
+
+		String str=(n>0)?"카페 등록이 완료되었습니다. 다시 로그인 해주세요.":"요청이 실패하였습니다. 다시 시도해주세요.";
+		String loc=(n>0)?"/signOut":"javascript:history.back()";
 		m.addAttribute("msg", str);
 		m.addAttribute("loc", loc);
 		return "common/message";

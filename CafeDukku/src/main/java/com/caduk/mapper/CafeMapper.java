@@ -20,6 +20,8 @@ public interface CafeMapper {
 	List<CafeVO> getCafebyTag(String tag);
 	int updateOwner(int idx);
 	
+	List<CafeVO> getOpenCafe();
+	
 	int addImg(CafeVO vo);
 	List<CafeVO> cafeImg(int cafeid);
 	int removeImg(int imgid);

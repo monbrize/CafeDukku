@@ -17,6 +17,7 @@ public interface CafeService {
 	List<CafeVO> getCafebyTag(String tag);
 	int updateOwner(int idx);
 	
+	List<CafeVO> getOpenCafe();
 	//cafeid, tag_type, tag_name
 	int addImg(CafeVO vo);
 	List<CafeVO> cafeImg(int cafeid);

@@ -105,6 +105,11 @@ public class CafeServiceImpl implements CafeService {
 		return this.cafeMapper.evalCafe(vo);
 	}
 
+	@Override
+	public List<CafeVO> getOpenCafe() {
+		return this.cafeMapper.getOpenCafe();
+	}
+
 
 
 

@@ -4,8 +4,10 @@
 <script src="https://cdn.ckeditor.com/4.17.2/standard/ckeditor.js"></script>
 <!-- -------------------------------------------------------------------------- -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<!-- kakao map -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a&libraries=services"></script>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=745bfc22d2b40309a36d71d661a78c0a"></script>
 <script>
-
 $(function(){
 	CKEDITOR.replace('infoForm');
 })
@@ -99,6 +101,9 @@ const openAddr=function(){
 
 //submit 
 const cafeUpdate=function(){
+	//let x=$('input[name=mapcode1]').val();
+	//let y=$('input[name=mapcode2]').val();
+	//alert(x+"////"+y);
 	$('form').submit();
 }
 const inputmap=function(){
@@ -139,8 +144,8 @@ const delImg=function(e, imgid, img_type){
 	<form name="updateForm" action="updateCafe" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="cafeid" value="${cafe.cafeid}">
-        <input type="hidden" id="mapcode1" name="mapcode1" value="">
-        <input type="hidden" id="mapcode2" name="mapcode2" value="">
+        <input type="hidden" id="mapcode1" name="mapcode1" value="${cafe.mapcode1 }">
+        <input type="hidden" id="mapcode2" name="mapcode2" value="${cafe.mapcode2 }">
 		<table class="table table-striped " width="">
 			<colgroup>
 				<col width=20%>
@@ -163,7 +168,7 @@ const delImg=function(e, imgid, img_type){
 				<td><textarea name="inform" class="form-control" id="infoForm" >${cafe.inform}</textarea></td>
 			</tr>
 			<tr scope="row">
-				<td><label class="form-label"> SNS URL </label></td>
+				<td><label class="form-label"> 인스타그램 ID </label></td>
 				<td><input type="text" name="sns_url" class="form-control"
 					value="${cafe.sns_url}"></td>
 			</tr>
@@ -261,14 +266,19 @@ const delImg=function(e, imgid, img_type){
 				<td>MOOD </td>
 				<td class="row">
                     <select multiple="" class="form-control col-9 mb-2">
+						<option>classic</option>
+						<option>contemporary</option>
 						<option>minimal</option>
-						<option>cozy</option>
-						<option>modern</option>
+						<option>unique</option>
+						<option>fancy</option>
+						<option>vintage</option>
+						<option>antique</option>
+						<option>planterior</option>
 						<option>lovely</option>
-						<option>enthic</option>
+						<option>cozy</option>
 				    </select> 
 				    <span class="col-3"></span>
-				    <span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+				    <span class="col-2 mb-2">입&nbsp;&nbsp;력 </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 				    <span class="col-3 mb-2"></span>
 					<div id="mood">
 					<c:forEach var="t" items="${tags}">
@@ -283,16 +293,19 @@ const delImg=function(e, imgid, img_type){
 				<td>CLASSIFY </td>
 				<td class="row">
 					<select multiple="" class="form-control col-9 mb-2">
-						<option>espressobar</option>
+						<option>handDrip</option>
+						<option>specialTea</option>
+						<option>espressoBar</option>
 						<option>bakery</option>
-						<option>roastery</option>
 						<option>desert</option>
-						<option>alcohol</option>
-						<option>tea</option>
 						<option>brunch</option>
+						<option>tea</option>
+						<option>milkTea</option>
+						<option>bar</option>
+						
 					</select>
 					<span class="col-3"></span>
-					<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+					<span class="col-2 mb-2">입&nbsp;&nbsp;력 </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 					<span class="col-3 mb-2"></span>
                 	<div id="classify">
 					<c:forEach var="t" items="${tags}">
@@ -304,17 +317,18 @@ const delImg=function(e, imgid, img_type){
             	</td>
 			<tr>
 			<td> PRIDE </td>
-			<td class="row"><select multiple="" class="form-control col-9 mb-2">
-					<option>comfortable seats</option>
-					<option>roof top</option>
-					<option>plate</option>
-					<option>nice view</option>
-					<option>sunshine</option>
-					<option>photo zone</option>
-					<option>outdoor seats</option>
+			<td class="row">
+				<select multiple="" class="form-control col-9 mb-2">
+					<option>petFriendly</option>
+					<option>parkingLot</option>
+					<option>roofTop</option>
+					<option>outdoorSeats</option>
+					<option>garden</option>
+					<option>goods</option>
+					<option>noKids</option>
 				</select>
 				<span class="col-3"></span>
-				<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+				<span class="col-2 mb-2">입&nbsp;&nbsp;력 </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 				<span class="col-3 mb-2"></span>
                 <div id="pride">
                 	<c:forEach var="t" items="${tags}">
@@ -328,15 +342,17 @@ const delImg=function(e, imgid, img_type){
 			</tr>
 			<tr>
 				<td>PAYMENT</td>
-				<td class="row"><select multiple="" class="form-control col-9 mb-2">
+				<td class="row">
+					<select multiple="" class="form-control col-9 mb-2">
 						<option>cash</option>
-						<option>credit/debit card</option>
-						<option>apply pay</option>
-						<option>samsung pay</option>
-						<option>account transfer</option>
+						<option>card</option>
+						<option>samsungPay</option>
+						<option>applePay</option>
+						<option>zeroPay</option>
+						<option>accountTransfer</option>
 					</select>
 					<span class="col-3"></span>
-					<span class="col-2 mb-2">입&nbsp; &nbsp; 력 : </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
+					<span class="col-2 mb-2">입&nbsp;&nbsp;력 </span> <input type="text" class="form-control col-7 mb-2" placeholder="Enter...">
 					<span class="col-3 mb-2"></span>
                 	<div id="payment">
                 	<!--  -->
