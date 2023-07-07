@@ -51,7 +51,7 @@
 		<c:forEach var="e" items="${eval}">
 			<li class="list-group-item">
 				<img src="../../logo_img/<c:out value="${e.img_name }"/>" class="rounded-circle mr-2" alt="logo" width="50px"> 
-				<a href="/viewCafe?cafeid=${f.cafeid }"><c:out value="${e.cafename}"/>
+				<a href="/viewCafe?cafeid=${e.cafeid }"><c:out value="${e.cafename}"/>
 				<c:if test="${not empty e.cafename2 }">
 				&nbsp;<span style="font-size:0.9em;"><c:out value="${e.cafename2}"/></span>
 				</c:if>

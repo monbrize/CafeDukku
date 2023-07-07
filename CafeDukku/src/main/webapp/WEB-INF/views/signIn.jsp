@@ -30,10 +30,10 @@ function isEmail(input){
 	<tr><td width="30%"></td><td width="70%"></td></tr>
 		<tr><td>이메일(ID)*
 		</td>
-		<td><input type="text" class="form-control" name="email" id="email" value="${uid}"  placeholder="abc@ca.duk" required="required"></td>
+		<td><input type="text" class="form-control" name="email" id="email" value="${uid}"  placeholder="아이디를 입력하세요" required></td>
 		</tr>
 		<tr><td>비밀번호</td>
-		<td><input type="password" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요" required="required"></td>
+		<td><input type="password" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요" required></td>
 		</tr>
 		<tr>
 		<td colspan="2"><input type="checkbox" name="saveId"<c:if test="${uid ne null and not empty uid}">checked</c:if>>아이디 저장 </td>

@@ -1,28 +1,25 @@
 package com.caduk.domain;
 
-import java.util.Date;
 
 import lombok.Data;
 
 @Data
 public class EvaluationVO {
 
-	private int rateid;
 	private int cafeid;
-	private Date ordertime; 
 	private int idx;
+	private double kindness;
+	private double clean;
+	private double mood;
+	private double price;
+	private double comfort;
+	
+	/*
+	private int rateid;
 	private String heretogo;
 	private String waiting;
-	private int kindness;
-	private int clean;
-	private int mood;
-	private int price;
-	private int comfort;
-	
-
-	
-	
+	private Date ordertime; 
 	private String menu;
 	private int rate;
-	
+	*/
 }

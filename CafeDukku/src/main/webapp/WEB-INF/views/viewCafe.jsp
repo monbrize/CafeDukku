@@ -141,9 +141,9 @@ $(function(){
 			</div><!-- 하트버튼 끝 -->
 			
 			<div class="col-12"><!-- 두번째 라인 -->
-				<span class="alert alert-danger mr-3"> ⭐️<c:if test="${empty totalScore }">0</c:if>
-			<c:if test="${not empty totalScore }">
-				<fmt:formatNumber value="${totalScore }" pattern="0.00" var="score"/>
+				<span class="alert alert-danger mr-3"> ⭐️<c:if test="${empty cafe.totalScore }">0</c:if>
+			<c:if test="${not empty cafe.totalScore }">
+				<fmt:formatNumber value="${cafe.totalScore }" pattern="0.00" var="score"/>
 				<c:out value="${score }"/>
 			</c:if></span> 
 				<span class="alert alert-info mr-3"> <span class="title">☎️</span><span>${cafe.call }</span></span> 
@@ -183,31 +183,31 @@ $(function(){
 				 😊KINDNESS
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
-				<c:out value="${evals.kindScore}"/>
+				<c:out value="${evals.kindness}"/>
 				</span>
 			<span class="col-6">
 				🪑COMFORTABLE
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
-				<c:out value="${evals.comfortScore}"/>
+				<c:out value="${evals.comfort}"/>
 				</span>
 			<span class="col-6">
 				💸PRICE
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
-				<c:out value="${evals.priceScore}"/>
+				<c:out value="${evals.price}"/>
 				</span>
 			<span class="col-6">
 				🧹CLEAN
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
-				<c:out value="${evals.cleanScore}"/>
+				<c:out value="${evals.clean}"/>
 				</span>
 			<span class="col-6">
 				🧚‍♀️MOOD 
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
-				<c:out value="${evals.moodScore}"/>
+				<c:out value="${evals.mood}"/>
 				</span>
 
 			</c:if>
@@ -335,7 +335,6 @@ $(function(){
 	<input type="hidden" name="mood" value="1"> 
 	<input type="hidden" name="price" value="1"> 
 	<input type="hidden" name="comfort" value="1"> 
-	<input type="hidden" name="restroom" value="1"> 
 		<ul class="list-group">
 			<li class="list-group-item row">
 				<span class="evalType col-2">KINDNESS</span>
@@ -348,7 +347,7 @@ $(function(){
                 </span>
 			</li>
 			<li class="list-group-item row">
-				<span class="evalType col-2">CLEANING</span>
+				<span class="evalType col-2">CLEAN</span>
 				<span class="starDiv col-6">
                     <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
                     <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
@@ -387,17 +386,7 @@ $(function(){
                     <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
                 </span>
 			</li>
-			<li class="list-group-item row">
-				<span class="evalType col-2">RESTROOM</span>
-				<span class="starDiv col-6">
-                    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2"  ></i></span>
-                    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
-                    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
-                    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
-                    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2"></i></span>
-                </span>
-			</li>
-			
+						
 		</ul>
 	</div>
 	<div class="text-center">

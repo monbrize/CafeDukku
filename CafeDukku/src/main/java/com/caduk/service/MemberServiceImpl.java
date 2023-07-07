@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.caduk.domain.CafeVO;
+import com.caduk.domain.ListVO;
 import com.caduk.domain.MemberVO;
 import com.caduk.mapper.MemberMapper;
 
@@ -23,21 +23,20 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int newMember(MemberVO vo) {
 		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
-		System.out.println("pwd encode ::::"+vo.getPwd());
 		return this.memberMapper.newMember(vo);
 	}
 
+	@Override
+	public MemberVO getMember(String email) {
+		return this.memberMapper.getMember(email);
+		
+	}
 	@Override
 	public int updateMember(MemberVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public MemberVO getMember(String email) {
-		return this.memberMapper.getMember(email);
-
-	}
 
 	@Override
 	public List<MemberVO> listMember() {
@@ -47,11 +46,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean idCheck(String email) {
-		String id=this.memberMapper.getMember(email).getEmail();
-		return (id!=null)?true:false;
+		int res=this.memberMapper.idCheck(email);
+		return (res==0)?false:true;
 	}
 	@Override
 	public boolean pwdCheck(String email, String pwd) {
+		int res=this.memberMapper.idCheck(email);
+		if(res==0) return false;
+		
 		return passwordEncoder.matches(pwd, this.memberMapper.getMember(email).getPwd());
 	}
 
@@ -66,11 +68,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getFavCnt(int cafeid) {
-		return this.memberMapper.getFavCnt(cafeid);
-	}
-
-	@Override
 	public boolean myFav(int idx, int cafeid) {
 		MemberVO vo=new MemberVO();
 		vo.setIdx(idx);
@@ -79,12 +76,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<CafeVO> getMyFavList(int idx) {
+	public List<ListVO> getMyFavList(int idx) {
 		return this.memberMapper.getMyFavList(idx);
 	}
 
 	@Override
-	public List<CafeVO> getMyEvalList(int idx) {
+	public List<ListVO> getMyEvalList(int idx) {
 		return this.memberMapper.getMyEvalList(idx);
 	}
 

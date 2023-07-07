@@ -12,6 +12,17 @@
 	<update id="updateOwner" parameterType="int">
 		update member set roll='OWNER' where idx=#{val}
 	</update>
+	<update id="updateCafe" parameterType="CafeVO" >
+		update cafe set cafename=#{cafename}, cafename2=#{cafename2:VARCHAR}, inform=#{inform:VARCHAR}, notice=#{notice:VARCHAR},
+			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
+			, mapcode1=#{mapcode1:VARCHAR}, mapcode2=#{mapcode2:VARCHAR}
+			where cafeid=#{cafeid}
+	</update>
+	
+	<!-- goCafe -->
+	<select id="getCafeIdbyIdx" resultType="_int">
+		select cafeid from cafe where idx=#{val}
+	</select>
 	<select id="viewCafe" parameterType="int" resultType="CafeVO">
 		select * from cafe where cafeid=#{val}
 	</select>
@@ -19,19 +30,16 @@
 		select * from cafe where idx=#{val}
 	</select>
 	
-	<update id="updateCafe" parameterType="CafeVO" >
-		update cafe set cafename=#{cafename}, cafename2=#{cafename2:VARCHAR}, inform=#{inform:VARCHAR}, notice=#{notice:VARCHAR},
-			sns_url=#{sns_url:VARCHAR}, call=#{call:VARCHAR}, postcode=#{postcode:VARCHAR}, loc1=#{loc1:VARCHAR}, loc2=#{loc2:VARCHAR}
-			, mapcode1=#{mapcode1:VARCHAR}, mapcode2=#{mapcode2:VARCHAR}
-			where cafeid=#{cafeid}
-	</update>
-	<select id="getOpenCafe" resultType="CafeVO">
-		select * from (select * from cafe_search_list order by cafeid desc) 
+	<!-- main view -->
+	<select id="getOpenCafe" resultType="ListVO">
+		select cafeid, cafename, img_name, round(score,1) score, fav_cnt from (select * from cafe_search_list order by cafeid desc) 
 		<![CDATA[
 			where rownum < 6
 		]]>
 	</select>
-	<select id="getSearchCafe"  parameterType="String" resultType="CafeVO">
+	
+	<!-- search -->
+	<select id="getSearchCafe"  parameterType="String" resultType="ListVO">
 		select * from cafe_search_list
 		where cafename like '%'||#{val}||'%' or cafename2 like '%'||#{val}||'%'
 	</select>
@@ -41,16 +49,42 @@
 	<select id="getCafebyTag" parameterType="String" resultType="CafeVO">
 		select * from cafe_search_list where cafeid in (select cafeid from cafe_tag where tag_name=#{val})
 	</select>
+	<select id="getFavCnt" parameterType="int" resultType="int">
+		select count(*) from fav_cafe where cafeid=#{cafeid}
+	</select>
 	 
+	
+	<!-- 이미지-->
+	<insert id="addImg" parameterType="CafeVO">
+		insert into cafe_img values(imgid_seq.nextval, #{cafeid}, #{img_type}, #{img_name}, #{img_name_origin})
+	</insert>
+	<select id="cafeImg" resultType="CafeVO">
+		select imgid, img_type, img_name, img_name_origin from cafe_img where cafeid=#{cafeid}
+	</select>
+	<select id="cafeImgbyId" resultType="CafeVO">
+		select imgid, img_type, img_name, img_name_origin from cafe_img where imgid=#{val}
+	</select>
+	<delete id="removeImg">
+		delete from cafe_img where imgid=#{val}
+	</delete>
+
+	<!-- 태그  -->
+	<select id="cafeTag" resultType="CafeVO">
+		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}
+	</select>
+	<insert id="addTag" parameterType="CafeVO">
+		insert into cafe_tag(cafeid, tag_type, tag_name) values(#{cafeid}, #{tag_type}, #{tag_name})
+	</insert>
+	<delete id="removeTag" parameterType="CafeVO">
+		delete from cafe_tag where cafeid=#{cafeid} and tag_type=#{tag_type} and tag_name=#{tag_name}
+	</delete>
+
 	<!-- eval -->
 	<insert id="evalCafe" parameterType="EvaluationVO">
-		insert into eval_cafe(rateid, cafeid, ordertime, idx, kindness, clean, mood, price, comfort, restroom)
+		insert into eval_cafe(rateid, cafeid, ordertime, idx, kindness, clean, mood, price, comfort)
 		values(rateid_seq.nextval, #{cafeid}, sysdate, #{idx}, #{kindness}, #{clean}, #{mood},
-		#{price}, #{comfort},#{restroom})
+		#{price}, #{comfort})
 	</insert>
-	<select id="getMySearchList" parameterType="int" resultType="CafeVO">
-		select * from cafe_list where cafeid=#{val}
-	</select>
 	 <select id="isEval" resultType="int">
         SELECT count(*) FROM eval_cafe where cafeid=#{val}       
     </select> 
@@ -60,9 +94,9 @@
 			from eval_cafe where cafeid=#{val} group by cafeid
 	</select>
 	<!-- 내 카페의 다섯가지 항목의 점수 -->
-	<select id="getMyEval" parameterType="int" resultType="CafeVO">
-	select cafeid, round(avg(kindness),1) kindScore, round(avg(clean),1) cleanScore, 
-    	round(avg(mood),1) moodScore, round(avg(price),1) priceScore, round(avg(comfort),1) comfortScore
+	<select id="getMyEval" parameterType="int" resultType="EvaluationVO">
+	select cafeid, round(avg(kindness),1) kindness, round(avg(clean),1) clean, 
+    	round(avg(mood),1) mood, round(avg(price),1) price, round(avg(comfort),1) comfort
 		from eval_cafe where cafeid=#{val} group by cafeid 
 	</select>	
 	<select id="getTopEval" resultType="CafeVO">
@@ -88,27 +122,4 @@
 	<select id="getAllMap" resultType="CafeVO">
 		select cafeid, cafename, loc1, mapcode1, mapcode2 from cafe where loc1 is not null
 	</select>
-	<!-- 태그  -->
-	<select id="cafeTag" resultType="CafeVO">
-		select tag_type, tag_name from cafe_tag where cafeid=#{cafeid}
-	</select>
-	<insert id="addTag" parameterType="CafeVO">
-		insert into cafe_tag(cafeid, tag_type, tag_name) values(#{cafeid}, #{tag_type}, #{tag_name})
-	</insert>
-	<delete id="removeTag" parameterType="CafeVO">
-		delete from cafe_tag where cafeid=#{cafeid} and tag_type=#{tag_type} and tag_name=#{tag_name}
-	</delete>
-	<!-- 이미지-->
-	<insert id="addImg" parameterType="CafeVO">
-		insert into cafe_img values(imgid_seq.nextval, #{cafeid}, #{img_type}, #{img_name}, #{img_name_origin})
-	</insert>
-	<select id="cafeImg" resultType="CafeVO">
-		select imgid, img_type, img_name, img_name_origin from cafe_img where cafeid=#{cafeid}
-	</select>
-	<select id="cafeImgbyId" resultType="CafeVO">
-		select imgid, img_type, img_name, img_name_origin from cafe_img where imgid=#{val}
-	</select>
-	<delete id="removeImg">
-		delete from cafe_img where imgid=#{val}
-	</delete>
 </mapper>

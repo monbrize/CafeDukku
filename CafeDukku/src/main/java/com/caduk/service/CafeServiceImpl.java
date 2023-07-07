@@ -1,13 +1,11 @@
 package com.caduk.service;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.caduk.domain.CafeVO;
 import com.caduk.domain.EvaluationVO;
+import com.caduk.domain.ListVO;
 import com.caduk.mapper.CafeMapper;
 
 @Service("CafeService")
@@ -34,6 +32,11 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
+	public int getCafeIdbyIdx(int idx) {
+		return this.cafeMapper.getCafeIdbyIdx(idx);
+	}
+	
+	@Override
 	public CafeVO viewCafe(int cafeid) {
 		return this.cafeMapper.viewCafe(cafeid);
 	}
@@ -58,8 +61,18 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public int updateOwner(int idx) {
-		return this.cafeMapper.updateOwner(idx);
+	public int getFavCnt(int cafeid) {
+		return this.cafeMapper.getFavCnt(cafeid);
+	}
+
+	@Override
+	public List<ListVO> getOpenCafe() {
+		return this.cafeMapper.getOpenCafe();
+	}
+	
+	@Override
+	public List<ListVO> getTopEval() {
+		return this.cafeMapper.getTopEval();
 	}
 
 	@Override
@@ -104,30 +117,23 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
-	public List<CafeVO> getOpenCafe() {
-		return this.cafeMapper.getOpenCafe();
-	}
-
-	@Override
 	public double getMyTotalEval(int cafeid) {
 		int cnt=this.cafeMapper.isEval(cafeid);
 		return (cnt==0)?0:this.cafeMapper.getMyTotalEval(cafeid);
 	}
 
 	@Override
-	public CafeVO getMyEval(int cafeid) {
+	public EvaluationVO getMyEval(int cafeid) {
 		return this.cafeMapper.getMyEval(cafeid);
-	}
-
-	@Override
-	public List<CafeVO> getTopEval() {
-		return this.cafeMapper.getTopEval();
 	}
 
 	@Override
 	public List<CafeVO> getAllMap() {
 		return this.cafeMapper.getAllMap();
 	}
+
+
+
 
 
 

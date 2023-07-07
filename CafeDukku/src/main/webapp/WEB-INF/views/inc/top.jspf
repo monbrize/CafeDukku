@@ -76,7 +76,7 @@ $(function(){
         <nav class="navbar navbar-expand-sm navbar-light" style="background-color:#ece0d1">
     <!-- Brand -->
     <div class="col-xs-2">
-        <a class="navbar-brand" href="/home"><img src="../../logo_img/logo_init.jpg" alt="logo" width="50px"></a>
+        <a class="navbar-brand" href="/"><img src="../../logo_img/logo_init.jpg" alt="logo" width="50px"></a>
 
     </div>
 
@@ -101,7 +101,7 @@ $(function(){
             class="nav-link dropdown-toggle" href="#" id="navbardrop2"
             data-toggle="dropdown">${loginUser.name} 님 로그인 중.. </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="${myctx}/myPage">MyPage</a>
+                <a class="dropdown-item" href="${myctx}/myPage?idx=${loginUser.idx}">MyPage</a>
             <c:if test="${loginUser.roll ne 'OWNER'}">
                 <a class="dropdown-item" href="${myctx}/newCafe">CreateCafe</a>
             </c:if>

@@ -26,15 +26,16 @@ public class CafeVO {
 	private double score;
 	private String scoreType;
 	
-	private double totalScore;
+	private double totalScore;	//카페의 별점 토탈 
+	//home
 	private double kindScore;
 	private double cleanScore;
 	private double moodScore;
 	private double priceScore;
 	private double comfortScore;
 	
-	private int favTotalCnt;
-	private boolean myFav;
+	private int favTotalCnt;	//카페의 하트 계 
+	private boolean myFav;		//회원 하트 여부 
 	
 	private String tag_type;
 	private String tag_name;

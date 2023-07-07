@@ -7,28 +7,29 @@
 		VALUES (IDX_SEQ.NEXTVAL, #{email}, #{pwd}, #{name:VARCHAR}, #{phone:VARCHAR}, 'O', 'GENERAL') 
 	</insert>
 	
-	<select id="getMember" parameterType="String" resultType="MemberVO">
+	<select id="getMember" resultType="MemberVO">
 		SELECT * FROM MEMBER WHERE EMAIL=#{VAL}
+	</select>
+	<select id="idCheck" resultType="int">
+		SELECT count(*) FROM MEMBER WHERE EMAIL=#{VAL}
 	</select>
 	
 	<insert id="addFav" parameterType="MemberVO">
-		insert into fav_cafe values(#{idx}, #{cafeid}, '')
+		insert into fav_cafe values(#{idx}, #{cafeid})
 	</insert>
 	
 	<delete id="cancelFav" parameterType="MemberVO">
 		delete from fav_cafe where idx=#{idx} and cafeid=#{cafeid}
 	</delete>
-	<select id="getFavCnt" parameterType="int" resultType="int">
-		select count(*) from fav_cafe where cafeid=#{cafeid}
-	</select>
+
 	<select id="myFav" parameterType="MemberVO" resultType="boolean">
 		select count(*) from fav_cafe where cafeid=#{cafeid} and idx=#{idx}
 	</select>
 	
-	<select id="getMyFavList" parameterType="int" resultType="CafeVO">
+	<select id="getMyFavList" parameterType="int" resultType="ListVO">
 		select * from cafe_search_list where cafeid in (select cafeid from fav_cafe where idx=#{val})
 	</select>
-	<select id="getMyEvalList" parameterType="int" resultType="CafeVO">
+	<select id="getMyEvalList" parameterType="int" resultType="ListVO">
 		select * from cafe_search_list where cafeid in (select cafeid from eval_cafe where idx=#{val})
 	</select>
 	
