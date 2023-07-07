@@ -143,21 +143,28 @@ public class CafeController {
 	}
 	@GetMapping("/viewCafe")
 	@ResponseBody
-	public ModelAndView viewCafe(HttpSession session, @RequestParam(defaultValue="0") int cafeid) {
+	public ModelAndView viewCafe(HttpSession session, @RequestParam(value="cafeid", required=false, defaultValue="0") int cafeid) {
 		ModelAndView mv=new ModelAndView();
 		CafeVO cafe=new CafeVO();
 		List<CafeVO> imgs = new ArrayList<>();
 		List<CafeVO> tags = new ArrayList<>();
-		if(cafeid==0) {	//카페 아이디가 없을 때 내 카페 
-			MemberVO member=(MemberVO) session.getAttribute("loginUser");	//로그인 한 유저 -멤버 정보만 갖고있음. 
-			cafe=cafeService.viewMyCafe(member.getIdx());	//로그인한 유저가 가진 내 카페 정보 -이카페가 내카페인지!!
-			cafeid=cafe.getCafeid();	//idx로 카페 아이디 알아냄.
-			member.setCafeid(cafeid);	//멤버의 카페 아이디 셋?
-			cafe.setMyFav(this.memberService.myFav(member));	//해당 유저가 즐겨찾기 했는지 -cafeid와 idx로 즐겨찾기 여부 반환 	
+		MemberVO member=(MemberVO) session.getAttribute("loginUser");	//로그인 한 유저 -멤버 정보만 갖고있음. 
+		if(member !=null) {	//로그인 했다면
+			System.out.println("login!");
+			int idx=member.getIdx();	//로그인한 유저의 idx
+			System.out.println("member:::::"+member.toString());
+			if(cafeid==0) {	//카페 아이디가 없을 때 내 카페 
+				cafe=cafeService.viewMyCafe(idx);	//로그인한 유저가 가진 내 카페 정보 -이카페가 내카페인지!!
+				cafeid=cafe.getCafeid();	//idx로 카페 아이디 알아냄.
+			}
+			cafe = cafeService.viewCafe(cafeid);
+			cafe.setMyFav(this.memberService.myFav(idx, cafeid));	//해당 유저가 즐겨찾기 했는지 -cafeid와 idx로 즐겨찾기 여부 반환 	
+			
+		}else {	//로그인 안했을때 파라미터로 가져오기 
+			cafe = cafeService.viewCafe(cafeid);
+			
 		}
-		cafe = cafeService.viewCafe(cafeid);
 		cafe.setFavTotalCnt(this.memberService.getFavCnt(cafeid));
-		cafe.setMyFav(false);
 		//해당 카페의 다섯가지 평가 항목의 평균스코어를 가져옴
 		CafeVO evals=this.cafeService.getMyEval(cafeid);
 		
@@ -189,9 +196,11 @@ public class CafeController {
 			text=key;
 		}else {	//key가 없다면 모든 카페 정보 가져오기 
 			arr=this.cafeService.getAllCafe();
+			text="All";
 		}
 		mv.addObject("cafe", arr);
 		mv.addObject("text", text);
+		mv.addObject("cnt", arr.size());
 		mv.setViewName("searchResult");
 		return mv;
 	}
@@ -205,7 +214,7 @@ public class CafeController {
 	public String evalCafe(@ModelAttribute EvaluationVO vo, Model m) {
 		int n=this.cafeService.evalCafe(vo);
 		String str=(n>0)?"평가 완료 ":"실패, 다시 시도해주세요.";
-		String loc=(n>0)?"/viewCafe":"javascript:history.back()";
+		String loc=(n>0)?"redirect:/viewCafe?cafeid="+vo.getCafeid():"javascript:history.back()";
 		m.addAttribute("msg", str);
 		m.addAttribute("loc", loc);
 		return "common/message";

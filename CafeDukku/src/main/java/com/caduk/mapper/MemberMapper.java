@@ -22,4 +22,5 @@ public interface MemberMapper {
 	boolean myFav(MemberVO vo);
 	
 	List<CafeVO> getMyFavList(int idx);
+	List<CafeVO> getMyEvalList(int idx);
 }

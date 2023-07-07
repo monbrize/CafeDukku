@@ -71,13 +71,21 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean myFav(MemberVO vo) {
+	public boolean myFav(int idx, int cafeid) {
+		MemberVO vo=new MemberVO();
+		vo.setIdx(idx);
+		vo.setCafeid(cafeid);
 		return this.memberMapper.myFav(vo);
 	}
 
 	@Override
 	public List<CafeVO> getMyFavList(int idx) {
 		return this.memberMapper.getMyFavList(idx);
+	}
+
+	@Override
+	public List<CafeVO> getMyEvalList(int idx) {
+		return this.memberMapper.getMyEvalList(idx);
 	}
 
 }

@@ -17,8 +17,9 @@ public interface MemberService {
 	int addFav(MemberVO vo);
 	int cancelFav(MemberVO vo);
 	int getFavCnt(int cafeid);
-	boolean myFav(MemberVO vo);
+	boolean myFav(int idx, int cafeid);
 	
 	List<CafeVO> getMyFavList(int idx);
+	List<CafeVO> getMyEvalList(int idx);
 	
 }

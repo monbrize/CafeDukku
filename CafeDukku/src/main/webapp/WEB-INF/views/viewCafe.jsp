@@ -44,6 +44,10 @@ $(function(){
     });
     
     $('#favEmpty').click(()=>{
+    	if(!idx){
+    		alert('로그인 후 이용 가능합니다.');
+    		return false;
+    	}
    		$.ajax({
     		type:'put',
     		url:'addfav',
@@ -61,6 +65,10 @@ $(function(){
     	});
     });
     $('#favFull').click(()=>{
+    	if(!idx){
+    		alert('로그인 후 이용 가능합니다.');
+    		return false;
+    	}
     	$.ajax({
     		type:'delete',
     		url:'cancelfav',
@@ -79,7 +87,7 @@ $(function(){
     });
     $('#openEval').click(()=>{
     	if(!idx){
-    		alert('로그인 후 평가할 수 있습니다.');
+    		alert('로그인 후 이용 가능합니다.');
     		return false;
     	}
     	$('#evalDiv').css('display','block');
@@ -116,7 +124,8 @@ $(function(){
 			</div>
 			<!-- 하트버튼 -->
 			<div id="fav" class="col-2 mt-3">
-			<c:if test="${cafe.myFav eq true}">
+			<c:if test="${(not empty loginUser and cafe.myFav eq true) or empty loginUser}">
+			<!-- 풀하트 : 로그인을 안했거나 로그인 한 내 fav 일때  -->
 				<span id="favEmpty" style="display:none;">
 					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
 				</span>
@@ -124,7 +133,8 @@ $(function(){
 					<i class="fa-solid fa-heart fa-2xl mt-4" style="color: #e32400;"></i>
 				</span>
 			</c:if>
-			<c:if test="${cafe.myFav eq false}">
+			<c:if test="${cafe.myFav eq false and not empty loginUser}">
+			<!-- 빈 하트 : 로그인을 한 상태이고 내 fav가 아닐 때-->
 				<span id="favEmpty">
 					<i class="fa-regular fa-heart fa-beat-fade fa-2xl mt-4" style="color: #ff8c82;"></i>
 				</span>

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <div class="container">
-	<h2>${text} 결과...</h2>
+	<h2><c:out value="${text}"/> Result... <c:out value="${cnt }"/>건</h2>
 
 	<div id="searchList" class="mb-3">
 		<ul class="list-group">
@@ -12,7 +12,7 @@
 				<img src="../../logo_img/<c:out value="${c.img_name }"/>" class="rounded-circle mr-2" alt="logo" width="50px"> 
 				<a href="/viewCafe?cafeid=${c.cafeid }"><c:out value="${c.cafename}"/>
 				<c:if test="${not empty c.cafename2 }">
-				<span style="font-size:0.9em;"><c:out value="${c.cafename2}"/></span>
+				&nbsp;<span style="font-size:0.9em;"><c:out value="${c.cafename2}"/></span>
 				</c:if>
 				</a>
 				<span class="badge"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i>

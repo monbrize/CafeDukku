@@ -28,4 +28,8 @@
 	<select id="getMyFavList" parameterType="int" resultType="CafeVO">
 		select * from cafe_search_list where cafeid in (select cafeid from fav_cafe where idx=#{val})
 	</select>
+	<select id="getMyEvalList" parameterType="int" resultType="CafeVO">
+		select * from cafe_search_list where cafeid in (select cafeid from eval_cafe where idx=#{val})
+	</select>
+	
 </mapper>

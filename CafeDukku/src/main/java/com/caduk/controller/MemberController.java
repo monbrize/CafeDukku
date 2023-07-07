@@ -74,7 +74,11 @@ public class MemberController {
 	public String goMyPage(HttpSession session, Model m) {
 		MemberVO vo=(MemberVO) session.getAttribute("loginUser");
 		List<CafeVO> favList=this.memberService.getMyFavList(vo.getIdx());
+		List<CafeVO> evalList=this.memberService.getMyEvalList(vo.getIdx());
 		m.addAttribute("fav", favList);
+		m.addAttribute("favCnt", favList.size());
+		m.addAttribute("eval", evalList);
+		m.addAttribute("evalCnt", evalList.size());
 		return "myPage";
 	}
 	
