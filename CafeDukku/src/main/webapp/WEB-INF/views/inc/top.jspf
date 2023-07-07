@@ -44,6 +44,10 @@ body{
 const goScan=function(){
     location.href="/eval";
 }
+const goMap=function(){
+	let key=$('#key').val();
+	location.href="searchbyMap?key="+encodeURIComponent(key);
+}
 $(function(){
 	const search=function(key){
 	$.ajax({
@@ -78,12 +82,15 @@ $(function(){
 
     <!-- Search -->
     <form class="form-inline" action="/searchCafe">
-        <input class="form-control mr-sm-2" type="text" name="key" placeholder="Search">
+        <input class="form-control mr-sm-2" type="text" id="key" name="key" placeholder="Search">
         <button class="btn btn-success" type="submit">Search</button>
     </form>
     <!-- Scan -->
     <div class="col-xs-3 ml-3">
         <button class="btn btn-warning" type="button" onclick="goScan()">Scan</button>
+    </div>
+    <div class="col-xs-3 ml-3">
+        <button class="btn btn-primary mr-3" type="button" onclick="goMap()">Map</button>
     </div>
     <!-- Links -->
     <ul class="navbar-nav">

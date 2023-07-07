@@ -110,7 +110,8 @@ public class CafeServiceImpl implements CafeService {
 
 	@Override
 	public double getMyTotalEval(int cafeid) {
-		return this.cafeMapper.getMyTotalEval(cafeid);
+		int cnt=this.cafeMapper.isEval(cafeid);
+		return (cnt==0)?0:this.cafeMapper.getMyTotalEval(cafeid);
 	}
 
 	@Override
@@ -121,6 +122,11 @@ public class CafeServiceImpl implements CafeService {
 	@Override
 	public List<CafeVO> getTopEval() {
 		return this.cafeMapper.getTopEval();
+	}
+
+	@Override
+	public List<CafeVO> getAllMap() {
+		return this.cafeMapper.getAllMap();
 	}
 
 

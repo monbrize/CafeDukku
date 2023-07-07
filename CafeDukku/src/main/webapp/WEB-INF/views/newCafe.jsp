@@ -61,7 +61,7 @@ const newCafe=function(){
 const inputmap=function(){
 	//주소 좌표 얻기
     let geocoder = new kakao.maps.services.Geocoder();
-	geocoder.addressSearch($('#loc').val(), function(result, status) {
+	geocoder.addressSearch($('#loc1').val(), function(result, status) {
 	    if (status === kakao.maps.services.Status.OK) {
 	    	$('input[name=mapcode1]').val(result[0].y);
 	    	$('input[name=mapcode2]').val(result[0].x);
@@ -127,7 +127,7 @@ const inputmap=function(){
                 <tr scope="row">
                     <td>
                        <label class="form-label"> 주소 1 </label></td><td>
-                       <input type="text" name="loc1" id="loc1" readonly class="form-control"> 
+                       <input type="text" name="loc1" id="loc1" value="" readonly class="form-control"> 
                     </td>
                 </tr>
                 <tr scope="row">

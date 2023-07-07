@@ -39,6 +39,7 @@ import com.caduk.domain.EvaluationVO;
 import com.caduk.domain.MemberVO;
 import com.caduk.service.CafeService;
 import com.caduk.service.MemberService;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -256,5 +257,15 @@ public class CafeController {
 		return (res>0)?new ResponseEntity<>("success", HttpStatus.OK):new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	@GetMapping(value="/searchbyMap")
+	public ModelAndView getMapbyKey(@RequestParam(value="key", required=false, defaultValue="") String key) {
+		
+		List<CafeVO> list=this.cafeService.getAllMap();
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("key", key);
+		mv.addObject("list", list);
+		mv.setViewName("searchMap");
+		return mv;
+	}
 	
 }

@@ -36,8 +36,11 @@ public interface CafeMapper {
 	//eval
 	int evalCafe(EvaluationVO vo);
 	double getMyTotalEval(int cafeid);
+	//평가리스트가 있는지 확인, 0이면 없음 
+	int isEval(int cafeid);
 	CafeVO getMyEval(int cafeid);
-	 List<CafeVO> getTopEval();
+	List<CafeVO> getTopEval();
 
-	
+	//map
+	List<CafeVO> getAllMap();
 }

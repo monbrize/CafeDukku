@@ -51,10 +51,13 @@
 	<select id="getMySearchList" parameterType="int" resultType="CafeVO">
 		select * from cafe_list where cafeid=#{val}
 	</select>
+	 <select id="isEval" resultType="int">
+        SELECT count(*) FROM eval_cafe where cafeid=#{val}       
+    </select> 
 	<!-- 내 카페의 종합점수 -->
 	<select id="getMyTotalEval" parameterType="int" resultType="double">
-		select round((sum(kindness+clean+mood+price+comfort)/(count(*)*5)),2) totalScore
-		from eval_cafe where cafeid=#{val} group by cafeid
+			select round((sum(kindness+clean+mood+price+comfort)/(count(*)*5)),2) totalScore
+			from eval_cafe where cafeid=#{val} group by cafeid
 	</select>
 	<!-- 내 카페의 다섯가지 항목의 점수 -->
 	<select id="getMyEval" parameterType="int" resultType="CafeVO">
@@ -79,6 +82,11 @@
 		select (select 'comfort' from dual) scoretype, a.* from (select cafeid, round(avg(comfort),1) score from eval_cafe group by cafeid order by 2 desc) a 
 		<![CDATA[ where rownum < 2 ]]>
 		) b on i.cafeid=b.cafeid
+	</select>
+	
+	<!-- map -->
+	<select id="getAllMap" resultType="CafeVO">
+		select cafeid, cafename, loc1, mapcode1, mapcode2 from cafe where loc1 is not null
 	</select>
 	<!-- 태그  -->
 	<select id="cafeTag" resultType="CafeVO">

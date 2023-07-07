@@ -7,7 +7,7 @@ $(document).ready(function () {
 	let container = document.getElementById('locMap'); //지도를 담을 영역의 DOM 레퍼런스
 		/* 카카오맵 출력 */
 		let options = { //지도를 생성할 때 필요한 기본 옵션
-			center: new kakao.maps.LatLng($('#mapcode1').val(), $('#mapcode2').val()),
+			center: new kakao.maps.LatLng(<c:out value="${cafe.mapcode1}"/>, <c:out value="${cafe.mapcode2}"/>),
 			level: 4 //지도의 레벨(확대, 축소 정도)
 		}; 
 		let marker = new kakao.maps.Marker({
@@ -18,8 +18,8 @@ $(document).ready(function () {
 	
 });
 $(function(){
-	let idx=$('#idx').val();
-	let cafeid=$('#cafeid').val();
+	let idx='<c:out value="${loginUser.idx }"/>';
+	let cafeid='<c:out value="${cafe.cafeid }"/>';
     $('#menuImg').hover(function(){
         $('.menu-btn').css('display','block');
     },function(){
@@ -99,11 +99,6 @@ $(function(){
 })
 </script>
 <div class="container">
-<input type="hidden" id="idx" value="${loginUser.idx }">
-<input type="hidden" id="cafeid" value="${cafe.cafeid }">
-<input type="hidden" id="mapcode1" value="${cafe.mapcode1 }">
-<input type="hidden" id="mapcode2" value="${cafe.mapcode2 }">
-
 	<div class="row mb-3">
 	<div id="topInfo" class="row col-12 mt-3 mb-3">
 		<!-- 로고/상호명/평균스코어 -->
@@ -180,6 +175,9 @@ $(function(){
 			<!-- <div class="tBtn col-2">MENU Rank</div> -->
 			<div class="tBtn col-7">TAGGING</div>
 			<div id="rankMenu" class="row col-4 ml-3 mt-3">
+			<c:if test="${empty evals }">
+				<span class="col-10">첫 평가를 해보세요!</span>
+			</c:if>
 			<c:if test="${not empty evals }">
 			<span class="col-6">
 				 😊KINDNESS

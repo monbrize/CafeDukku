@@ -34,4 +34,7 @@ public interface CafeService {
 	CafeVO getMyEval(int cafeid);	//mycafe
 	List<CafeVO> getTopEval();	//home
 	
+	//map
+	List<CafeVO> getAllMap();
+	
 }
