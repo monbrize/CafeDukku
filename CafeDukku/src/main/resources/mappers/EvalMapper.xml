@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caduk.mapper.EvalMapper">
+
+
+	<select id="cafeCheck" parameterType="String" resultType="int">
+		select count(*) from cafe where cafename =#{val} or cafename2 =#{val}
+	</select>
+	<select id="getCafeIdbyName" parameterType="String">
+		select cafeid from cafe where cafename =#{val} or cafename2 =#{val}
+	</select>
+	
+	<insert id="evalCafe" parameterType="EvaluationVO">
+		insert into eval_cafe(rateid, cafeid, ordertime, idx, heretogo, waiting, kindness, clean, mood, price, comfort)
+		values(rateid_seq.nextval, #{cafeid}, sysdate, #{idx}, #{heretogo:VARCHAR}, #{waiting:VARCHAR}, #{kindness}, #{clean}, #{mood},
+		#{price}, #{comfort})
+	</insert>
+	<insert id="evalMenu" parameterType="java.util.List">
+		insert all 
+        <foreach collection="list" item="item" >
+        into eval_menu values (#{item.cafeid}, #{item.menu}, #{item.rate}) 
+        </foreach>
+        select * from dual
+	</insert>
+</mapper>
