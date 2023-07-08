@@ -160,6 +160,8 @@ public class CafeController {
 		EvaluationVO evals=this.cafeService.getMyEval(cafeid);
 		//카페의 별점 
 		cafe.setTotalScore(this.cafeService.getMyTotalEval(cafeid));
+		//메뉴 랭킹
+		List<EvaluationVO> topMenu=this.cafeService.getTopMenu(cafeid);
 		
 		imgs = this.cafeService.cafeImg(cafeid);
 		tags = this.cafeService.cafeTag(cafeid);
@@ -167,6 +169,7 @@ public class CafeController {
 		mv.addObject("cafe", cafe);
 		mv.addObject("imgs", imgs);
 		mv.addObject("tags", tags);
+		mv.addObject("topMenu", topMenu);
 		mv.setViewName("viewCafe");
 		
 		return mv;

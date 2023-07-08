@@ -44,6 +44,8 @@ public interface CafeMapper {
 	int isEval(int cafeid);
 	double getMyTotalEval(int cafeid);	//카페의 총점
 	EvaluationVO getMyEval(int cafeid);		//카페의 항목별 점수
+	
+	List<EvaluationVO> getTopMenu(int cafeid);
 
 	//map
 	List<CafeVO> getAllMap();

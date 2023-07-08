@@ -128,9 +128,15 @@ public class CafeServiceImpl implements CafeService {
 	}
 
 	@Override
+	public List<EvaluationVO> getTopMenu(int cafeid) {
+		return this.cafeMapper.getTopMenu(cafeid);
+	}
+
+	@Override
 	public List<CafeVO> getAllMap() {
 		return this.cafeMapper.getAllMap();
 	}
+
 
 
 

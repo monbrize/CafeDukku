@@ -170,41 +170,41 @@ $(function(){
 			<div class="col-1"></div>
 		</div>
 		<!-- midInfo -->
-		<div id="midInfo2" class="row">
-			<div class="tBtn col-4">SHOP Rank <span id="openEval"><i class="fa-solid fa-plus fa-bounce fa-lg" style="color: #004d65;"></i></span></div>
-			<!-- <div class="tBtn col-2">MENU Rank</div> -->
-			<div class="tBtn col-7">TAGGING</div>
-			<div id="rankMenu" class="row col-4 ml-3 mt-3">
+		<div id="midInfo2" class="row col">
+			<div class="tBtn col-2">SHOP Rank </div>
+			<div class="tBtn col-3">MENU Rank</div>
+			<div class="tBtn col-6">TAGGING</div>
+			<div id="rankMenu" class="row col-2 mt-3">
 			<c:if test="${empty evals }">
 				<span class="col-10">첫 평가를 해보세요!</span>
 			</c:if>
 			<c:if test="${not empty evals }">
-			<span class="col-6">
-				 😊KINDNESS
+			<span class="col-8">
+				 😊친절함
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.kindness}"/>
 				</span>
-			<span class="col-6">
-				🪑COMFORTABLE
+			<span class="col-8">
+				🪑편안함
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.comfort}"/>
 				</span>
-			<span class="col-6">
-				💸PRICE
+			<span class="col-8">
+				💸가격
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.price}"/>
 				</span>
-			<span class="col-6">
-				🧹CLEAN
+			<span class="col-8">
+				🧹청결도
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.clean}"/>
 				</span>
-			<span class="col-6">
-				🧚‍♀️MOOD 
+			<span class="col-8">
+				🧚분위기
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.mood}"/>
@@ -212,14 +212,22 @@ $(function(){
 
 			</c:if>
 			</div>
-			<!-- div id="evalShop" class="col-2">
-				AMERICANO ⭐️5.0<br>ESSPRESSO ⭐️4.7<br>YUZU ADE ⭐️4.7<br>BAGEL
-				⭐️4.6<br>CHEESECAKE ⭐️4.0
-			</div> -->
+			<div id="evalShop" class="col-3 row mt-3 ml-2 mr-2">
+			<c:if test="${empty topMenu }">아직 별점이 없습니다..</c:if>
+			<c:if test="${not empty topMenu }">
+			<c:forEach var="m" items="${topMenu }" varStatus="s">
+				<span class="col-2"></span>
+				<span class="col-8"><c:out value="${s.count}"/>.&nbsp;<c:out value="${m.menu}"/></span>
+				<span class="badge col-2"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
+					<c:out value="${m.menu_rate_avg}"/>
+				</span>
+			</c:forEach>
+			</c:if>
+			</div>
 			<!-- cafeInfo -->
-			<div id="tagInfo" class="container-fluid col-7 pl-1">
+			<div id="tagInfo" class="row col-6 pl-1 ml-5	">
 
-				<div id="moodArea" class="row">
+				<div id="moodArea" class="row ">
 					<span class="tag_type">MOOD</span>
 					<!--  -->
 					<c:forEach var="t" items="${tags}">

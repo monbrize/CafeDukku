@@ -61,10 +61,10 @@ a{
 
 <div class="container">
 	<div id="homeInfo" class="row">
-		<div id="topInfo" class="row col-12 mb-3">
-			<div class="tBtn col-6">Top Ranking</div> 
-			<div class="tBtn col-5">NewOpen</div>
-			<div id="rankInfo" class="row col-6 ml-2 mt-3 pr-1">
+		<div id="topInfo" class="row col-12 mb-3" style="vertical-align:middle;">
+			<div class="tBtn row col-6">Top Ranking</div> 
+			<div class="tBtn row col-5">NewOpen</div>
+			<div id="rankInfo" class="row col-6 mt-3 ml-3">
 			<c:forEach var="t" items="${topRank}">
 				<div class="rankList row col-12 mb-2">
 					<span class="col-2">
@@ -84,10 +84,10 @@ a{
 				🧹<br>청결도
 				</c:if>
 				</span>
-							<span class="badge col-2">
-								<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
-							</span>
-						<img src="../../logo_img/<c:out value="${t.img_name }"/>" class="col-2" alt="logo">
+					<span class="badge col-2">
+						<i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i><c:out value="${t.score }"/>
+					</span>
+						<img src="../../logo_img/<c:out value="${t.img_name }" />" class="rounded-circle col-2" alt="logo">
 						<a href="/viewCafe?cafeid=${t.cafeid }" class="col-4" width="100%">
 							<c:out value="${t.cafename}"/></a>
 						<span class="badge col-2"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
@@ -97,10 +97,10 @@ a{
 			</c:forEach>
 			</div>
 
-			<div id="openShopInfo" class="row col-5 ml-3">
+			<div id="openShopInfo" class="row col-5 ml-4">
 				<c:forEach var="n" items="${newCafe}">
 				<div class="openList row mt-3">
-					<img src="../../logo_img/<c:out value="${n.img_name }"/>" class="col-2" alt="logo">
+					<img src="../../logo_img/<c:out value="${n.img_name }"/>" class="rounded-circle col-2" alt="logo">
 					<a href="/viewCafe?cafeid=${n.cafeid }" class="col-5">
 						<c:out value="${n.cafename}"/></a>
 						<span class="badge col-2">

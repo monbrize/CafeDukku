@@ -2,10 +2,13 @@
     pageEncoding="UTF-8"%>
 
 <div class="container">
-	<h2><c:out value="${text}"/> Result... <c:out value="${cnt }"/>건</h2>
 
 	<div id="searchList" class="mb-3">
-		<ul class="list-group">
+		<ul class="list-group list-group-flush">
+		<li class="list-group-item">
+		<h3>'<c:out value="${text}"/>' 검색 결과 ... <c:out value="${cnt }"/>건</h3> 
+		
+		</li>
 		<c:if test="${not empty cafe }">
 		<c:forEach var="c" items="${cafe}">
 			<li class="list-group-item">

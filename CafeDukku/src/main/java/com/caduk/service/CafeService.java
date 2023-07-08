@@ -38,6 +38,8 @@ public interface CafeService {
 	double getMyTotalEval(int cafeid);	//searchList
 	EvaluationVO getMyEval(int cafeid);	//mycafe
 	
+	List<EvaluationVO> getTopMenu(int cafeid);
+	
 	//map
 	List<CafeVO> getAllMap();
 	

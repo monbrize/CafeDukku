@@ -23,4 +23,5 @@ public class EvaluationVO {
 	private Date ordertime; 
 	private String menu;
 	private int rate;
+	private double menu_rate_avg;
 }

@@ -117,6 +117,14 @@
 		<![CDATA[ where rownum < 2 ]]>
 		) b on i.cafeid=b.cafeid
 	</select>
+	<select id="getTopMenu" resultType="EvaluationVO">
+		select menu, round(av,1) menu_rate_avg from
+			(select rownum as no, a.* 
+			from (select menu, avg(rate) av from eval_menu where cafeid=#{cafeid} group by menu order by av desc) a)
+			<![CDATA[ 
+				where rownum < 6 
+			]]>
+	</select>
 	
 	<!-- map -->
 	<select id="getAllMap" resultType="CafeVO">

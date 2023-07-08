@@ -18,9 +18,12 @@
 		</tr>
 	</table>
 	</div>
-	<h2>Favorites ...<c:out value="${favCnt }"/>건 </h2>
 	<div id="favList" class="mb-3">
-		<ul class="list-group">
+		<ul class="list-group list-group-flush">
+		<li class="list-group-item">
+		<h3>나의 즐겨찾기 카페 목록 ...<c:out value="${favCnt }"/>건 </h3>
+		
+		</li>
 		<c:if test="${not empty fav }">
 		<c:forEach var="f" items="${fav}">
 			<li class="list-group-item">
