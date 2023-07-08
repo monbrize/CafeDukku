@@ -51,6 +51,10 @@ public class HomeController {
 	public String goNewCafe() {
 		return "newCafe";
 	}
+	@GetMapping("/eval")
+	public String goEval() {
+		return "eval";
+	}
 
 
 }

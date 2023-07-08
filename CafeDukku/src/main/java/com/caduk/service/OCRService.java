@@ -13,12 +13,17 @@ import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OCRService {
-	static String apiURL = "https://7qilrqd9un.apigw.ntruss.com/custom/v1/23444/ede4e38f159657df585c0930cb651542867e4836806574138335e98f0a4eac14/general";
-	static String secretKey = "bGtpVGRFcGdjSnZHamZhZERxRExraWlYak94dmFkc2g=";
+	
+	static String apiURL = "https://yyqnct9n25.apigw.ntruss.com/custom/v1/23587/28c9f063b51303334314143c87864304e804e4771ef28382f53715e4e0dbe55d/document/receipt";
+	static String secretKey = "cVBkSWhFWmFlSndVV2xsTWtWUlR3d3hla2dBZHp1em8=";
 	static String imageFile = "/Users/youreru/test_receipt/cafe_01.jpeg";
-	public void executeOCR(){
+	
+
+	public String executeOCR(String imgUrl){
 
 		try {
 			URL url = new URL(apiURL);
@@ -65,10 +70,11 @@ public class OCRService {
 			}
 			br.close();
 
-			System.out.println(response);
+			return response.toString();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return null;
 	}
 
 	private static void writeMultiPart(OutputStream out, String jsonMessage, File file, String boundary) throws
