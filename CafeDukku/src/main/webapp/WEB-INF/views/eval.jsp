@@ -82,7 +82,9 @@ table tr td:first-child{
 }
 </style>
 <div class="container">
-<h2>Evaluations ...</h2>
+<div class="setTitle">
+	<h2>Evaluations ...</h2>
+</div>
 <div id="inputArea">
     <span class="row mb-4 ml-4">
         <span class="col-11">영수증을 업로드해주세요!!</span>

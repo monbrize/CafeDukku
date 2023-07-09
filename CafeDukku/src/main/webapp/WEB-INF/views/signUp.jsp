@@ -24,10 +24,13 @@ function isEmail(input){
 </script>
 
 <div class="container">
-	<h2>회원 가입 </h2>
+<div class="setTitle mb-3">
+	<h3>회원 가입 </h3>
+</div>
+
 	<form name="mf" action="join" method="post" >
 	<table class="table">
-	<tr><td width="30%"></td><td width="70%"></td></tr>
+	<tr style="display:none;"><td width="30%"></td><td width="70%"></td></tr>
 		<tr><td>이메일(ID)*
 		</td>
 		<td><input type="text" class="form-control" name="email" id="email" placeholder="abc@ca.duk" required="required"></td>

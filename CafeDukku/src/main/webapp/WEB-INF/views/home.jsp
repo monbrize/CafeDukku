@@ -57,10 +57,79 @@ a{
 	font-size:0.9em;
 }
 </style>
-<h1>Hello Caduk!</h1>
+<script>
+$(function(){
+/* 	#slideBox = .rolling-list
+	ul = .slideWrap */
 
-<div class="container">
-	<div id="homeInfo" class="row">
+let slider = document.querySelector('.slideBox');
+slider.id = 'slider1'; // 아이디 부여
+
+let clone = slider.cloneNode(true);
+// cloneNode : 노드 복제. 기본값은 false. 자식 노드까지 복제를 원하면 true 사용
+clone.id = 'slider2';
+document.querySelector('#wrap').appendChild(clone); // wrap 하위 자식으로 부착
+
+document.querySelector('#slider1').style.left = '0px';
+document.querySelector('#slider2').style.left = '100px';//document.querySelector('#slideBox .slideWrap').offsetWidth + 'px';
+// offsetWidth : 요소의 크기 확인(margin을 제외한 padding값, border값까지 계산한 값)
+
+slider.classList.add('original');
+clone.classList.add('clone');
+})
+</script>
+<style>
+#wrap { 
+	display: flex;
+}
+#wrap .slideBox { 
+width:1000px;
+}
+#wrap .slideBox .slideWrap{ 
+    float:left; 
+    padding:10px; 
+    width:150px;
+}
+#wrap .slideBox .slideWrap a{
+	
+    over-flow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+}
+.slideBox .original {
+	animation: rollingleft1 33s linear infinite;
+}
+.slideBox .clone {
+	animation: rollingleft2 33s linear infinite;
+}
+
+@keyframes rollingleft1 {
+	0% { transform: translateX(0); }
+	50% { transform: translateX(-100%); }
+	50.01% { transform: translateX(100%); }
+	100% { transform: translateX(0); }
+}
+
+@keyframes rollingleft2 {
+	0% { transition: translateX(0); }
+	100% { transform: translateX(-200%); }
+}
+</style>
+<%-- <div id="wrap" style="width:80%">
+	<div class="slideBox" >
+	<c:forEach var="n" items="${newCafe}">
+			<div class="slideWrap">
+			<span><img src="../../logo_img/<c:out value="${n.img_name }"/>" width="50px;" class="rounded-circle" alt="logo">
+						<a href="/viewCafe?cafeid=${n.cafeid }" class="">
+							<c:out value="${n.cafename}"/></a></span>
+			</div>
+	</c:forEach>
+	</div>
+	</div> --%>
+<div class="container col-12">
+	<div class="setTitle mb-3 col-11">
+		<h2>Hello Caduk!</h2>
+		</div>
 		<div id="topInfo" class="row col-12 mb-3" style="vertical-align:middle;">
 			<div class="tBtn row col-6">Top Ranking</div> 
 			<div class="tBtn row col-5">NewOpen</div>
@@ -180,6 +249,5 @@ a{
 				</div>
 			</div>
 		</div>
-	</div>
 </div>
 <!-- container  -->

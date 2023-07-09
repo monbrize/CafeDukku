@@ -69,8 +69,11 @@ const inputmap=function(){
 	});
 }
 </script>
-        <h1>매장 등록</h1>
+
         <div class="container col-10">
+		<div class="setTitle mb-3">
+			<h2> 카페 신청서 </h2>
+		</div>
         <form name="initForm" action="createCafe" method="post" enctype="multipart/form-data">
         <input type="hidden" name="idx" value="${loginUser.idx}">
         <input type="hidden" name="mapcode1" value="">

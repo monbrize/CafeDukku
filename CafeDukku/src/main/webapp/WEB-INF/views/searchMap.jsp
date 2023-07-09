@@ -63,8 +63,10 @@ $(function(){
 const searchMap=function(){
 }
 </script>
+<div class="setTitle">
+	<h4>${key } 검색 결과...</h4>
+</div>
 
-<h4>${key } 검색 결과...</h4>
 <div class="container">
 <div id="map"></div>
 

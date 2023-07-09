@@ -139,8 +139,11 @@ const delImg=function(e, imgid, img_type){
 }
 
 </script>
-<h1>카페 정보 업데이트</h1>
+
 <div class="container col-10">
+<div class="setTitle mb-3">
+<h2>카페 정보 수정 페이지</h2>
+</div>
 	<form name="updateForm" action="updateCafe" method="post"
 		enctype="multipart/form-data">
 		<input type="hidden" name="cafeid" value="${cafe.cafeid}">

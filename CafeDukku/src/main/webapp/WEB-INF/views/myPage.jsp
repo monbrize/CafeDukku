@@ -21,12 +21,17 @@ const viewForm=function(){
 }
 </script>
 <div class="container">
+<div class="setTitle">
 	<h2>My Page</h2>
+</div>
 	<div id="myInfo">
 	<form id="f" action="updateMember" method="post">
 	<input type="hidden" name="idx" value="<c:out value="${loginUser.idx }"/>">
 	<table class="table">
-	<tr><td width="30%"></td><td width="70%"></td></tr>
+	<tr style="display:none;"><td width="30%"></td><td width="70%"></td></tr>
+		<tr>
+			<td colspan="2"><h4>내 정보</h4> </td>
+		</tr>
 		<tr>
 			<td>이메일(ID) </td>
 			<td><input type="text" class="form-control" name="email" id="email" value="${loginUser.email }" readonly ></td>
@@ -52,10 +57,14 @@ const viewForm=function(){
 	</table>
 	</form>
 	</div>
+	<br><br>
+	<hr color="chocolate">
+	<br><br>
 	<div id="favList" class="mb-3">
 		<ul class="list-group list-group-flush">
 		<li class="list-group-item">
-		<h3>나의 즐겨찾기 카페 목록 ...<c:out value="${favCnt }"/>건 </h3>
+			<h2>내가 즐겨찾기 한 카페 목록 ...<span class="badge"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
+					<c:out value="${favCnt }"/></span></h2>
 		
 		</li>
 		<c:if test="${not empty fav }">
@@ -81,9 +90,14 @@ const viewForm=function(){
 		</c:if>
 		</ul>
 	</div>
-	<h2>EVALUATION ... <c:out value="${evalCnt }"/>건 </h2>
+		<br><br>
+	<hr color="chocolate">
+		<br><br>
+		<h2>내가 평가한 카페 목록 ...
+				<span class="badge"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i>
+					<c:out value="${evalCnt }"/>건</span></h2>
 	<div id="evalList" class="mb-3">
-		<ul class="list-group">
+		<ul class="list-group list-group-flush">
 		<c:if test="${not empty eval }">
 		<c:forEach var="e" items="${eval}">
 			<li class="list-group-item">

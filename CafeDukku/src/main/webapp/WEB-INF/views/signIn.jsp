@@ -24,10 +24,13 @@ function isEmail(input){
 	</c:if>
 </c:forEach>
 <div class="container">
-	<h2>로그인 </h2>
+<div class="setTitle mb-3">
+	<h3>로그인 하세요! </h3>
+</div>
+
 	<form name="mf" action="login" method="post" >
 	<table class="table">
-	<tr><td width="30%"></td><td width="70%"></td></tr>
+	<tr style="display:none;"><td width="30%"></td><td width="70%"></td></tr>
 		<tr><td>이메일(ID)
 		</td>
 		<td><input type="text" class="form-control" name="email" id="email" value="${uid}"  placeholder="아이디를 입력하세요" required></td>

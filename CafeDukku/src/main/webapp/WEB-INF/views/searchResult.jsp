@@ -6,7 +6,10 @@
 	<div id="searchList" class="mb-3">
 		<ul class="list-group list-group-flush">
 		<li class="list-group-item">
-		<h3>'<c:out value="${text}"/>' 검색 결과 ... <c:out value="${cnt }"/>건</h3> 
+		<div class="setTitle">
+		
+			<h4>'<c:out value="${text}"/>' 검색 결과 ... <c:out value="${cnt }"/>건</h4> 
+	</div>
 		
 		</li>
 		<c:if test="${not empty cafe }">
