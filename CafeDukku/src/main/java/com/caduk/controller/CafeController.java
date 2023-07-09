@@ -57,9 +57,7 @@ public class CafeController {
 
 	
 	@GetMapping("/editCafe")
-	@ResponseBody
-	public ModelAndView goEditCafe(HttpSession session) {
-		ModelAndView mv=new ModelAndView();
+	public String goEditCafe(Model m, HttpSession session) {
 		CafeVO cafe=new CafeVO();
 		MemberVO member=(MemberVO) session.getAttribute("loginUser");
 		int idx=member.getIdx();
@@ -67,11 +65,10 @@ public class CafeController {
 		List<CafeVO> imgs=this.cafeService.cafeImg(cafe.getCafeid());
 		List<CafeVO> tags=this.cafeService.cafeTag(cafe.getCafeid());
 		
-		mv.addObject("imgs", imgs);
-		mv.addObject("tags", tags);
-		mv.addObject("cafe", cafe);
-		mv.setViewName("updateCafe");
-		return mv;
+		m.addAttribute("imgs", imgs);
+		m.addAttribute("tags", tags);
+		m.addAttribute("cafe", cafe);
+		return "updateCafe";
 	}
 	
 	//파일 업로드 메소드 
@@ -176,9 +173,7 @@ public class CafeController {
 	}
 	
 	@GetMapping("/searchCafe")
-	@ResponseBody
-	public ModelAndView cafeList(@RequestParam(defaultValue="") String key, @RequestParam(defaultValue="") String tag){
-		ModelAndView mv=new ModelAndView();
+	public String cafeList(Model m, @RequestParam(defaultValue="") String key, @RequestParam(defaultValue="") String tag){
 		List<CafeVO> arr=null;
 		String text="";
 		if(!tag.isEmpty()) {	//태그로 가져오기
@@ -191,14 +186,13 @@ public class CafeController {
 			arr=this.cafeService.getAllCafe();
 			text="All";
 		}
-		mv.addObject("cafe", arr);
-		mv.addObject("text", text);
-		mv.addObject("cnt", arr.size());
-		mv.setViewName("searchResult");
-		return mv;
+		m.addAttribute("cafe", arr);
+		m.addAttribute("text", text);
+		m.addAttribute("cnt", arr.size());
+		return "searchResult";
 	}
 	@PostMapping("/evalCafe")
-	public String evalCafe(@ModelAttribute EvaluationVO vo, Model m) {
+	public String evalCafe(Model m, @ModelAttribute EvaluationVO vo) {
 		int n=this.cafeService.evalCafe(vo);
 		String str=(n>0)?"평가 완료 ":"실패, 다시 시도해주세요.";
 		String loc=(n>0)?"/viewCafe?cafeid="+vo.getCafeid():"javascript:history.back()";

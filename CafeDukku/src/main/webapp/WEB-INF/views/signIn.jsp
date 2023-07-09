@@ -28,7 +28,7 @@ function isEmail(input){
 	<form name="mf" action="login" method="post" >
 	<table class="table">
 	<tr><td width="30%"></td><td width="70%"></td></tr>
-		<tr><td>이메일(ID)*
+		<tr><td>이메일(ID)
 		</td>
 		<td><input type="text" class="form-control" name="email" id="email" value="${uid}"  placeholder="아이디를 입력하세요" required></td>
 		</tr>
@@ -36,10 +36,10 @@ function isEmail(input){
 		<td><input type="password" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요" required></td>
 		</tr>
 		<tr>
-		<td colspan="2"><input type="checkbox" name="saveId"<c:if test="${uid ne null and not empty uid}">checked</c:if>>아이디 저장 </td>
+		<td colspan="2" class="text-center"><input type="checkbox" name="saveId"<c:if test="${uid ne null and not empty uid}">checked</c:if>>아이디 저장 </td>
 		</tr>
 		<tr>
-		<td colspan="2" style="text-align:center">
+		<td colspan="2" class="text-center">
 			<button type="button" class="btn btn-info" onclick="memberChk()">로그인</button>
 			<button type="reset" class="btn btn-outline-primary">다시쓰기</button>
 		</td>

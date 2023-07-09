@@ -32,7 +32,7 @@ public class EvalController {
 	
 	@PostMapping(value="/sendReceipt", produces="application/json; charset=utf-8")
 	@ResponseBody
-	public String sendReceipt(@RequestParam("imgReceipt") MultipartFile mf, HttpServletRequest req) {
+	public String sendReceipt(@RequestParam("imgReceipt") MultipartFile mf) {
 		String dir="/Users/youreru/git/repository/CafeDukku/src/main/webapp/receipt_img";
 		String filename="";
 		if(!mf.isEmpty()) {

@@ -10,6 +10,9 @@
 	<select id="getMember" resultType="MemberVO">
 		SELECT * FROM MEMBER WHERE EMAIL=#{VAL}
 	</select>
+	<update id="updateMember" parameterType="MemberVO">
+		update member set pwd=#{pwd}, name=#{name:VARCHAR}, phone=#{phone:VARCHAR} where idx=#{idx}
+	</update>
 	<select id="idCheck" resultType="int">
 		SELECT count(*) FROM MEMBER WHERE EMAIL=#{VAL}
 	</select>

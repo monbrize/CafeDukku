@@ -45,7 +45,7 @@ function isEmail(input){
 		<td><input type="text" class="form-control" name="phone" placeholder="전화번호를 입력하세요(선택)"></td>
 		</tr>
 		<tr>
-		<td colspan="2" style="text-align:center">
+		<td colspan="2" class="text-center">
 			<button type="button" class="btn btn-info" onclick="memberChk()">완료</button>
 			<button type="reset" class="btn btn-outline-primary">다시쓰기</button>
 		</td>

@@ -22,13 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.caduk.domain.ListVO;
 import com.caduk.domain.MemberVO;
-import com.caduk.service.MemberServiceImpl;
+import com.caduk.service.MemberService;
 
 @Controller
 public class MemberController {
 
 	@Autowired
-	private MemberServiceImpl memberService;
+	private MemberService memberService;
 	
 	
 	@PostMapping("/join")
@@ -77,18 +77,28 @@ public class MemberController {
 	}
 	
 	@GetMapping("/myPage")
-	@ResponseBody
-	public ModelAndView goMyPage(HttpSession session, @RequestParam("idx") int idx) {
-		ModelAndView mv=new ModelAndView();
+	public String goMyPage(Model m, HttpSession session, @RequestParam("idx") int idx) {
 		List<ListVO> favList=this.memberService.getMyFavList(idx);
 		List<ListVO> evalList=this.memberService.getMyEvalList(idx);
 		
-		mv.addObject("fav", favList);
-		mv.addObject("favCnt", favList.size());   
-		mv.addObject("eval", evalList);           
-		mv.addObject("evalCnt", evalList.size()); 
-		mv.setViewName("myPage");
-		return mv;
+		m.addAttribute("fav", favList);
+		m.addAttribute("favCnt", favList.size());   
+		m.addAttribute("eval", evalList);           
+		m.addAttribute("evalCnt", evalList.size()); 
+		return "myPage";
+	}
+	
+	@PostMapping("/updateMember")
+	public String updateMember(Model m, @ModelAttribute MemberVO vo) {
+		int n=this.memberService.updateMember(vo);
+		System.out.println("n값 : " +n);
+		String str=(n>0)?"회원정보 수정이 완료되었습니다. 다시 로그인해주세요.":"회원정보 수정이 실패하였습니다.";
+		String loc=(n>0)?"/signOutIn":"javascript:history.back()";
+		m.addAttribute("msg", str);
+		m.addAttribute("loc", loc);
+		
+		return "common/message";
+		
 	}
 	
 	@PutMapping("/addfav")

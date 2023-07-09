@@ -10,6 +10,7 @@ public interface MemberMapper {
 
 	int newMember(MemberVO vo);
 	MemberVO getMember(String email);
+	int updateMember(MemberVO vo);
 	int idCheck(String email);
 	
 	int addFav(MemberVO vo);

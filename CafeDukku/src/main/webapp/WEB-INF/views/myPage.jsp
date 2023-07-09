@@ -1,22 +1,56 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<script>
+const updateMember=function(){
+	if(f.pwd.value!=f.repwd.value){
+		alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요!');
+		f.repwd.select();
+		return;
+	}
+	f.submit();
+}
+const viewForm=function(){
+		$('.pwdDiv').css('display','');
+		//$('#repwdTr').css('display','');
+		$('input[name=name]').removeAttr('readonly').removeAttr('placeholder');
+		$('input[name=phone]').removeAttr('readonly').removeAttr('placeholder');
+		$('#updateMemBtn').css('display','none');
+		$('#updateBtn').css('display','');
+	
+}
+</script>
 <div class="container">
 	<h2>My Page</h2>
 	<div id="myInfo">
+	<form id="f" action="updateMember" method="post">
+	<input type="hidden" name="idx" value="<c:out value="${loginUser.idx }"/>">
 	<table class="table">
 	<tr><td width="30%"></td><td width="70%"></td></tr>
-		<tr><td>이메일(ID
-		</td>
-		<td><input type="text" class="form-control" name="email" id="email" value="${loginUser.email }" readonly ></td>
+		<tr>
+			<td>이메일(ID) </td>
+			<td><input type="text" class="form-control" name="email" id="email" value="${loginUser.email }" readonly ></td>
+		</tr>
+		<tr class="pwdDiv" style="display:none;"><td>비밀번호*</td>
+			<td><input type="password" class="form-control" name="pwd" placeholder="비밀번호를 입력하세요" required="required"></td>
+		</tr>
+		<tr class="pwdDiv" style="display:none;"><td>비밀번호 확인*</td>
+			<td><input type="password" class="form-control" name="repwd" placeholder="비밀번호를 다시 입력해주세요" required="required"></td>
 		</tr>
 		<tr><td>이름</td>
-		<td><input type="text" class="form-control" name="name" value="${loginUser.name }" readonly ></td>
+			<td><input type="text" class="form-control" name="name" value="${loginUser.name }" placeholder="이름을 등록하지 않았습니다" readonly= ></td>
 		</tr>
 		<tr><td>전화번호</td>
-		<td><input type="text" class="form-control" name="phone" value="${loginUser.phone }" readonly ></td>
+			<td><input type="text" class="form-control" name="phone" value="${loginUser.phone }" placeholder="전화번호를 등록하지 않았습니다" readonly></td>
+		</tr>
+		<tr id="updateMemBtn" class="text-center">
+			<td colspan="2"><input type="button" class="btn btn-primary" value="수정하기" onclick="viewForm()"></td>
+		</tr>
+		<tr id="updateBtn" style="display:none;" class="text-center">
+			<td colspan="2"><input type="button" class="btn btn-danger" value="수정완료" onclick="updateMember()"></td>
 		</tr>
 	</table>
+	</form>
 	</div>
 	<div id="favList" class="mb-3">
 		<ul class="list-group list-group-flush">

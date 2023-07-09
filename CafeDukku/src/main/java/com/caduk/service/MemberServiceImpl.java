@@ -33,8 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	@Override
 	public int updateMember(MemberVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
+		return this.memberMapper.updateMember(vo);
 	}
 
 
