@@ -90,15 +90,15 @@ $(function(){
     <!-- Search -->
     <form class="form-inline" action="/searchCafe">
         <input class="form-control mr-sm-2" type="text" id="key" name="key" placeholder="Search">
-        <button class="btn btn-success" type="submit">Search</button>
+        <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <!-- Scan -->
     <div class="col-xs-3 ml-3">
-        <button class="btn btn-warning" type="button" onclick="goScan()">Scan</button>
+        <button class="btn btn-dark mr-2" type="button" onclick="goScan()">Scan My receipt</button>
     </div>
-    <div class="col-xs-3 ml-3">
+<!--     <div class="col-xs-3 ml-3" style="display:none;">
         <button class="btn btn-primary mr-3" type="button" onclick="goMap()">Map</button>
-    </div>
+    </div> -->
     <!-- Links -->
     <ul class="navbar-nav">
         <!-- Dropdown -->

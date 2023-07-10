@@ -153,7 +153,7 @@ $(function(){
 			</div>
 		</div>
 	</div><!-- topInfo -->
-		<div id="midInfo" class="row mt-2 mb-2 ml-1">
+		<div id="midInfo" class="row col-12 mt-2 mb-2 ml-1">
 			<!-- 지도, 공지, 정보, 소개 -->
 			<div class="col-4">
 				<div class="alert alert-light">

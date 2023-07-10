@@ -2,9 +2,9 @@ package com.caduk.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,24 +46,33 @@ public class EvalController {
 			}
 		}
 		String response = this.jService.executeOCR(filename);
-		//String response = "{\"images\": [{\"receipt\": {\"result\": {\"storeInfo\": {\"name\": {\"text\": \"시그니쳐로스터스\"},\"bizNum\": {\"text\": \"1381325631\"}},\"tel\": [{\"text\": \"07077838904\",\"formatted\": {\"value\": \"07077838904\"}}]},\"subResults\": [{\"items\": [{\"name\": {\"text\": \"I.바닐라라떼\",\"formatted\": {\"value\": \"I.바닐라라떼\"}}},{\"name\": {\"text\": \"콜롬비아 레드게\",\"formatted\": {\"value\": \"콜롬비아 레드게\"}}}]}]}}]}";
+		//json 객체 key 값으로 오려내기  
 		JSONObject jsonObject=new JSONObject(response);
-		JSONObject squareBarcket=jsonObject.getJSONArray("images").getJSONObject(0);//square barcket [ ]
+		//square barcket[ ]
+		JSONObject squareBarcket=jsonObject.getJSONArray("images").getJSONObject(0);
+		//카페 등록 여부 체크 - 카페명 얻기
 		JSONObject receipt=squareBarcket.getJSONObject("receipt").getJSONObject("result").getJSONObject("storeInfo").getJSONObject("name");	//curly bracket { }
-		
 		String cafename=receipt.getString("text");
 		int cafechk=this.eService.cafeCheck(cafename);
 		if(cafechk==0) {
 			return null;
 		}
+		//반환할 결과 오려내기
+		JSONObject result=squareBarcket.getJSONObject("receipt").getJSONObject("result");
 		
-		return response;
+		
+		return result.toString();
 	}
 	
 	@PostMapping("/evalReceipt")
 	public String evalReceipt(Model model, @ModelAttribute EvaluationVO vo, @RequestParam("menu") List<String> menu, @RequestParam("rate") List<String> rate ) {
 		int cafeid=this.eService.getCafeIdbyName(vo.getCafename());
 		vo.setCafeid(cafeid);
+		//날짜가 없는 경우 
+		if(vo.getOrdertime()==null) {
+			vo.setOrdertime(new Date());
+		}
+		
 		List<EvaluationVO> list = new ArrayList<>();
 		if(!menu.isEmpty()||menu!=null||!rate.isEmpty()||rate!=null) {
 			for(int i=0; i<menu.size(); i++) {
@@ -77,9 +86,9 @@ public class EvalController {
 		}
 		int n=this.eService.evalMenu(list);
 		int m=this.eService.evalCafe(vo);
-		String str=(n>0&&m>0)?"평가가 완료되었습니다.":"평가에 실패하였습니다. 다시 시도해주세요.";
+		String msg=(n>0&&m>0)?"평가가 완료되었습니다.":"평가에 실패하였습니다. 다시 시도해주세요.";
 		String loc=(n>0&&m>0)?"/viewCafe?cafeid="+cafeid:"javascript:history.back()";
-		model.addAttribute("str", str);
+		model.addAttribute("msg", msg);
 		model.addAttribute("loc", loc);
 		return "common/message";
 		

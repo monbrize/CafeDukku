@@ -5,15 +5,15 @@
 
 
 	<select id="cafeCheck" parameterType="String" resultType="int">
-		select count(*) from cafe where cafename =#{val} or cafename2 =#{val}
+		select count(*) from cafe where cafename like #{val}||'%' or cafename2 like #{val}||'%'
 	</select>
 	<select id="getCafeIdbyName" parameterType="String">
-		select cafeid from cafe where cafename =#{val} or cafename2 =#{val}
+		select cafeid from cafe where cafename like #{val}||'%' or cafename2 like #{val}||'%'
 	</select>
 	
 	<insert id="evalCafe" parameterType="EvaluationVO">
 		insert into eval_cafe(rateid, cafeid, ordertime, idx, heretogo, waiting, kindness, clean, mood, price, comfort)
-		values(rateid_seq.nextval, #{cafeid}, sysdate, #{idx}, #{heretogo:VARCHAR}, #{waiting:VARCHAR}, #{kindness}, #{clean}, #{mood},
+		values(rateid_seq.nextval, #{cafeid}, #{ordertime}, #{idx}, #{heretogo:VARCHAR}, #{waiting:VARCHAR}, #{kindness}, #{clean}, #{mood},
 		#{price}, #{comfort})
 	</insert>
 	<insert id="evalMenu" parameterType="java.util.List">

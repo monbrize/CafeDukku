@@ -28,7 +28,7 @@ const submitReceipt=function(){
 	let user=$('input[name=idx]').val();
 	if(user==0000){
 		let con=confirm('로그인하지 않은 경우에는 기록되지 않습니다..');
-		return con;
+		if(!con) return ;
 	}
 	//let imgUrl=$('#evalReceipt').val().split('/').pop().split('\\').pop();
    	let form=new FormData();
@@ -41,15 +41,25 @@ const submitReceipt=function(){
 		processData:false,
 		contentType:false
 	}).done((res)=>{
-		if(res===null){
-			alert('등록이 되지 않은 카페입니다.');
+		if(res===''){
+			alert('등록이 되지 않은 카페입니다. 다음에 다시 시도해주세요..🥲');
 		}else{
 			console.log('!!!success!!!');
-			let store = res.images[0].receipt.result.storeInfo;
-		    let cafename=store.name.text;
-		    let sub = res.images[0].receipt.result.subResults[0];
-		    
-		    $('#cafeInfo').html('<h3>'+store.name.text+'</h3><input type="hidden" name="cafename" value="'+store.name.text+'">');
+			let storeInfo = res.storeInfo;
+		    let cafename=storeInfo.name.text;
+		    let subname=storeInfo.subName.text;
+		    let sub = res.subResults[0];
+		    let headStr='<h2>'+cafename+'&nbsp;'+subname+'</h2>';
+		    if(res.paymentInfo!=null){	//날짜가 있을 때 
+			    let dateformat=res.paymentInfo.date.text.substr(0,10);
+			    let timeformat=res.paymentInfo.time.formatted;
+			    let setTime=timeformat.hour+':'+timeformat.minute+':'+timeformat.second;
+			    let date = new Date(dateformat+' '+setTime);
+			    console.log(date);
+		    	headStr+=' 주문일자 : '+date.toLocaleString()
+		   				+'<input type="hidden" name="ordertime" value="'+date+'">';
+		    }
+		    headStr+='<input type="hidden" name="cafename" value="'+cafename+'">';
 		    let str='';
 		    $.each(sub.items, function(i, menu){
 		        str+='<tr><td>'
@@ -66,10 +76,10 @@ const submitReceipt=function(){
 				   +'</span>'
 				   +'</td></tr>';
 		    })
-		    $('#receiptResult').html(str);
-	    	$('#inputArea').css('display','hide');
+		    $('#cafeInfo').html(headStr);
+		    $('#menuArea').append(str);
+	    	$('#inputArea').css('display','none');
 	    	$('#evalDiv').css('display','block');
-		//console.log(JSON.stringify(res));
 		}
 	}).fail((err)=>{
 		alert(err.status);
@@ -82,7 +92,7 @@ table tr td:first-child{
 }
 </style>
 <div class="container">
-<div class="setTitle">
+<div class="setTitle mb-4">
 	<h2>Evaluations ...</h2>
 </div>
 <div id="inputArea">
@@ -94,7 +104,7 @@ table tr td:first-child{
 </div>
 <div id="evalDiv" style="display:none;">
 <form id="evalF" action="/evalReceipt" method="post">
-	<div id="cafeInfo"></div>
+	<div id="cafeInfo" class="ml-5 mb-3"></div>
 	<c:if test = "${ empty loginUser}">
 		<input type="hidden" name="idx" value="0000">
 	</c:if>
@@ -107,14 +117,15 @@ table tr td:first-child{
 	<input type="hidden" name="price" value="1"> 
 	<input type="hidden" name="comfort" value="1"> 
 	<table class="table col-10">
-		<tr>
+		<tr style="display:none;">
 			<td width="30%"></td>
 			<td width="70%"></td>
 		</tr>
+		<tbody id="menuArea">
 		<tr>
 			<td colspan="2"><h2>Menu☕️🍵🍹🍰🍩</h2></td>
 		</tr>
-		<div id="receiptResult"></div>
+		</tbody>
 		<tr>
 			<td colspan="2"><h2>Additionally➕🧐</h2></td>
 		</tr>
@@ -216,40 +227,6 @@ table tr td:first-child{
                 </span>
 			</td>
 		</tr>
-
-		<tr>
-			<td>
-				<span class="menuName col-3">아메리카노</span>
-			</td>
-			<td>
-			    <span class="menuStar col-6">
-			    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <input type="hidden" name="menu" value="아메리카노">
-			    <input type="hidden" name="rate" value="1">
-			    </span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<span class="menuName col-3">카페라떼</span>
-			</td>
-			<td>
-			    <span class="menuStar col-6">
-			    <span class="star" value="1"><i class="fa-solid fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="2"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="3"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="4"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <span class="star" value="5"><i class="fa-regular fa-star fa-lg mt-2 mr-2" style="color: #fff76b;"></i></span>
-			    <input type="hidden" name="menu" value="카페라떼">
-			    <input type="hidden" name="rate" value="1">
-			    </span>
-			</td>
-		</tr>
-         	
         <tr>
         <td colspan="2" class="text-center">
 			<button type="submit" class="btn btn-primary" value="">done</button>
