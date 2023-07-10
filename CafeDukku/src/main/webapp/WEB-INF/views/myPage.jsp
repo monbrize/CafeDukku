@@ -64,7 +64,7 @@ const viewForm=function(){
 		<ul class="list-group list-group-flush">
 		<li class="list-group-item">
 			<h2>내가 즐겨찾기 한 카페 목록 ...<span class="badge"><i class="fa-solid fa-heart fa-2xl mt-2 mr-2" style="color: #e32400;"></i>
-					<c:out value="${favCnt }"/></span></h2>
+					<c:out value="${favCnt }"/>건</span></h2>
 		
 		</li>
 		<c:if test="${not empty fav }">
@@ -93,11 +93,13 @@ const viewForm=function(){
 		<br><br>
 	<hr color="chocolate">
 		<br><br>
+	<div id="evalList" class="mb-3">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
 		<h2>내가 평가한 카페 목록 ...
 				<span class="badge"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i>
 					<c:out value="${evalCnt }"/>건</span></h2>
-	<div id="evalList" class="mb-3">
-		<ul class="list-group list-group-flush">
+					</li>
 		<c:if test="${not empty eval }">
 		<c:forEach var="e" items="${eval}">
 			<li class="list-group-item">

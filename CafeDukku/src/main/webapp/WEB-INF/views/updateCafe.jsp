@@ -255,7 +255,7 @@ const delImg=function(e, imgid, img_type){
 								<img class="img img-thumbnail" src="../../cafe_img/<c:out value="${i.img_name}"/>" style="height:30px">
 								<c:out value="${i.img_name_origin}" />
 								<input type="button" onclick="delImg(this, <c:out value='${i.imgid}'/>, '<c:out value="${i.img_type}"/>')" 
-								class="btn btn-outline-info btn-sm ml-1" value="x">
+								class="btn btn-outline-info btn-sm ml-1" value="삭제">
 							</span>
 						</c:if>
 					</c:forEach>

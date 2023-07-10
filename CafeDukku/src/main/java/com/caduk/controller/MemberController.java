@@ -89,7 +89,6 @@ public class MemberController {
 	@PostMapping("/updateMember")
 	public String updateMember(Model m, @ModelAttribute MemberVO vo) {
 		int n=this.memberService.updateMember(vo);
-		System.out.println("n값 : " +n);
 		String str=(n>0)?"회원정보 수정이 완료되었습니다. 다시 로그인해주세요.":"회원정보 수정이 실패하였습니다.";
 		String loc=(n>0)?"/signOutIn":"javascript:history.back()";
 		m.addAttribute("msg", str);

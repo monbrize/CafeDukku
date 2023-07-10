@@ -179,31 +179,31 @@ $(function(){
 				<span class="col-10">첫 평가를 해보세요!</span>
 			</c:if>
 			<c:if test="${not empty evals }">
-			<span class="col-8">
+			<span class="col-sx-8">
 				 😊친절함
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.kindness}"/>
 				</span>
-			<span class="col-8">
+			<span class="col-sx-8">
 				🪑편안함
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.comfort}"/>
 				</span>
-			<span class="col-8">
+			<span class="col-sx-8">
 				💸가격
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.price}"/>
 				</span>
-			<span class="col-8">
+			<span class="col-sx-8">
 				🧹청결도
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 				<c:out value="${evals.clean}"/>
 				</span>
-			<span class="col-8">
+			<span class="col-sx-8">
 				🧚분위기
 			</span>
 				<span class="badge col-4"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
@@ -216,7 +216,7 @@ $(function(){
 			<c:if test="${empty topMenu }">아직 별점이 없습니다..</c:if>
 			<c:if test="${not empty topMenu }">
 			<c:forEach var="m" items="${topMenu }" varStatus="s">
-				<span class="col-2"></span>
+				<span class="col-1"></span>
 				<span class="col-8"><c:out value="${s.count}"/>.&nbsp;<c:out value="${m.menu}"/></span>
 				<span class="badge col-2"><i class="fa-solid fa-star fa-2xl mt-2 mr-2" style="color: #fff76b;"></i> 
 					<c:out value="${m.menu_rate_avg}"/>
