@@ -1,6 +1,6 @@
 # 카페덕후(CafeDukku)-Spring boot Project
 
-## Discription
+
 >2023.06.12 ~ 2023.07.10 (약 4주)
 ### 📌 Content
 개인 카페 정보 검색 & 영수증 기반 리뷰 서비스 웹
@@ -17,18 +17,17 @@
 + DBMS : Oracle Database 11g Express
 + WAS : Apache Tomcat 9.0
 ### ✨ Language
-`java 11`
+![Java](https://img.shields.io/badge/-Java11-007396?style=badge&logo=Java&logoColor=ffffff)
 `JSP`
 `jstl`
-`JavaScript`
-`jQuery 3.6.4`
+![JavaScript](https://img.shields.io/badge/-javascript-F7DF1E?style=flat-badge&logo=JavaScript&logoColor=black)
+![jquery](https://img.shields.io/badge/-jquery3.6.4-0769AD?style=flat-badge&logo=jquery&logoColor=white)
 `ajax`
-`CSS3`
-
-
+![CSS3](https://img.shields.io/badge/-CSS3-1572B6?style=flat-badge&logo=css3&logoColor=white)
+<br><br>
 ### 📑 Web Page
-|기능|화면|
-|:---|:---:|
-|메인|![]()|
-|조회|![]()|
-|평가|![]()|
+|&nbsp;기&nbsp;능&nbsp;|화&nbsp;면|
+|:---:|:---:|
+|메인|![main](https://github.com/monbrize/CafeDukku/blob/master/main.jpg)|
+|조회|![view](https://github.com/monbrize/CafeDukku/blob/master/view.jpg)|
+|평가|![eval](https://github.com/monbrize/CafeDukku/blob/master/evalAll.jpg)|
